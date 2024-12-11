@@ -2,6 +2,9 @@ import { Text, View, StyleSheet } from "react-native";
 import { Tile } from "./Tile";
 import { useState } from "react";
 
+import { Direction } from "../constants/enums";
+
+
 export const Gameboard = () => {
     const [board, setBoard] = useState([
         [1, 2, 3, 4],
@@ -9,21 +12,19 @@ export const Gameboard = () => {
         [9, 10, 11, 12],
         [13, 14, 15, 0]
     ]);
-    const checkSlidable : boolean = (x: number, y: number) => {
-        if (x > 0 && board[x - 1][y] === 0) return true;
-        if (x < 3 && board[x + 1][y] === 0) return true;
-        if (y > 0 && board[x][y - 1] === 0) return true;
-        if (y < 3 && board[x][y + 1] === 0) return true;
-        return false;
+    function checkSlidable (x: number, y: number) : Direction {
+        if (x > 0 && board[x - 1][y] === 0) return Direction.LEFT;
+        if (x < 3 && board[x + 1][y] === 0) return Direction.RIGHT;
+        if (y > 0 && board[x][y - 1] === 0) return Direction.DOWN;
+        if (y < 3 && board[x][y + 1] === 0) return Direction.UP;
+        return Direction.FALSE;
     }
 
     return (
         <View style={styles.mainBoard}>
             {board.map((row, i) => (
                 row.map((cell, j) => (
-                    <Tile key={i + j} value={cell} position={{x: i, y: j}} slidable={() => {
-                        return checkSlidable(i, j);
-                    }} />
+                    <Tile key={i + j} value={cell} position={{x: i, y: j}} slidable={checkSlidable(i, j)} />
                 ))
             ))}
         </View>

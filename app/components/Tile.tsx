@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Direction } from '../constants/enums';
 
-export const Tile = (props : {value : number, position : {y : number, x: number}, slidable : boolean}) => {
+export const Tile = (props : {value : number, position : {y : number, x: number}, slidable : Direction}) => {
     console.log(props);
     return (
         <View>
