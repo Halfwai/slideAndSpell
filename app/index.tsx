@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { Gameboard } from "./components/Gameboard";
+import Gameboard from "./components/Gameboard";
 
 
 export default function Index() {
