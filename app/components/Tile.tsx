@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, Animated, PanResponder } from 'react-native';
 import { Direction } from '../constants/enums';
 import { useEffect, useRef, useState } from 'react';
+import React from 'react';
 
 export default function Tile(props : {value : number, position : {y : number, x: number}, slidable : Direction, switch : Function}) {
     // console.log(props);
@@ -12,6 +13,11 @@ export default function Tile(props : {value : number, position : {y : number, x:
     useEffect(() => {
         slidableRef.current = props.slidable;
     }, [props.slidable]);
+
+    const colourRef = useRef(colour);
+    useEffect(() => {
+        colourRef.current = colour;
+    }, [colour]);
 
 
     const panResponder = useRef(
@@ -109,7 +115,7 @@ export default function Tile(props : {value : number, position : {y : number, x:
                         styles.tile,
                         {
                             transform: [{ translateX: tilePosition.x }, { translateY: tilePosition.y }],
-                            backgroundColor: colour,
+                            backgroundColor: colourRef.current,
                         }
                     ]}
                     {...panResponder.panHandlers}
@@ -117,7 +123,6 @@ export default function Tile(props : {value : number, position : {y : number, x:
                     <Text style={styles.text}>{props.value}</Text>
                 </Animated.View>
             }
-
         </>
     );
 }

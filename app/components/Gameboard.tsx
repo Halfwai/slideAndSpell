@@ -12,6 +12,9 @@ export default function Gameboard() {
         [9, 10, 11, 12],
         [13, 14, 15, 0]
     ]);
+
+    const [isSliding, setIsSliding] = useState(false);
+
     function checkSlidable (x: number, y: number) : Direction {
         if (x > 0 && board[x - 1][y] === 0) return Direction.UP;
         if (x < 3 && board[x + 1][y] === 0) return Direction.DOWN;
@@ -42,9 +45,15 @@ export default function Gameboard() {
         <View style={styles.mainBoard}>
             {board.map((row, i) => (
                 row.map((cell, j) => (
-                    <Tile key={i + j} value={cell} position={{x: j, y: i}} slidable={checkSlidable(i, j)} switch={(x : number, y : number) => {
-                        switchZero(x, y);
-                    }} />
+                    <Tile 
+                        key={i + j} 
+                        value={cell} 
+                        position={{x: j, y: i}} 
+                        slidable={checkSlidable(i, j)} 
+                        switch={(x : number, y : number) => {
+                            switchZero(x, y);
+                        }}
+                    />
                 ))
             ))}
         </View>
