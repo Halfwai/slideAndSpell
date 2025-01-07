@@ -12,7 +12,7 @@ export default function Gameboard() {
     // Define test board state
 
     const [board, setBoard] = useState([
-        ["A", "B", "C", "D", "J"],
+        ["A", "B", "C", "D"],
         ["E", "F", "G", "H"],
         ["I", "J", "K", "L"],
         ["M", "N", "O", 0]
