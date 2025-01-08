@@ -3,6 +3,8 @@ import { View, StyleSheet } from "react-native";
 import Tile from "./Tile";
 import { useState } from "react";
 
+// randome words dictionary
+
 // Import the Direction enum
 import { Direction } from "@/constants/enums";
 
