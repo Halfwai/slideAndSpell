@@ -11,8 +11,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Gameboard />
-      
+      <Gameboard />      
     </View>
   );
 }

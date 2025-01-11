@@ -1,5 +1,5 @@
 // Import necessary libraries
-import { Text, StyleSheet, Animated, PanResponder } from 'react-native';
+import { Text, StyleSheet, Animated, PanResponder, ImageSize } from 'react-native';
 import { useEffect, useRef } from 'react';
 import React from 'react';
 import * as Haptics from 'expo-haptics';
@@ -8,12 +8,15 @@ import * as Haptics from 'expo-haptics';
 import { Direction } from '@/constants/enums';
 
 // Define the Tile component
-export default function Tile(props: { value: string | number, position: { y: number, x: number }, slidable: Direction, switch: Function }) {
-
+export default function Tile(props: { value: string | number, position: { y: number, x: number }, spaceSize : number, tileSize : number, slidable: Direction, switch: Function, resetBoard: Function, valid: boolean }) {
     // Define the tilePosition, slidableRef, and colour variables
-    const tilePosition = useRef(new Animated.ValueXY({ x: props.position.x * 75, y: props.position.y * 75 })).current;
+    const tilePosition = useRef(new Animated.ValueXY({ x: props.position.x * (props.spaceSize), y: props.position.y * (props.spaceSize) })).current;
     const slidableRef = useRef(props.slidable);
-    const colour = useRef(new Animated.Value(0)).current;
+    const colour = useRef(props.valid ? new Animated.Value(4) : new Animated.Value(0)).current;
+
+    useEffect(() => {
+        changeColour(props.valid ? 4 : 0);
+    }, [props.valid]);
 
     // Update the slidableRef when props.slidable changes
     useEffect(() => {
@@ -22,7 +25,7 @@ export default function Tile(props: { value: string | number, position: { y: num
 
     // Define the panResponder
     const panResponder = useRef(
-        PanResponder.create({
+        PanResponder.create({       
             onMoveShouldSetPanResponder: () => true,
             // Haptic feedback when the user touches the tile
             onPanResponderGrant: () => {
@@ -39,17 +42,17 @@ export default function Tile(props: { value: string | number, position: { y: num
                 changeColour(1);
                 // Move the tile in the direction the user is moving it. Tile position is locked to the empty space.
                 if (slidableRef.current === Direction.RIGHT) {
-                    const gestureX = Math.max(Math.min(gestureState.dx, 75), 0);
-                    tilePosition.x.setValue(props.position.x * 75 + gestureX);
+                    const gestureX = Math.max(Math.min(gestureState.dx, props.spaceSize), 0);
+                    tilePosition.x.setValue(props.position.x * (props.spaceSize) + gestureX);
                 } else if (slidableRef.current === Direction.LEFT) {
-                    const gestureX = Math.min(Math.max(gestureState.dx, -75), 0);
-                    tilePosition.x.setValue(props.position.x * 75 + gestureX);
+                    const gestureX = Math.min(Math.max(gestureState.dx, - props.spaceSize), 0);
+                    tilePosition.x.setValue(props.position.x * (props.spaceSize) + gestureX);
                 } else if (slidableRef.current === Direction.UP) {
-                    const gestureY = Math.min(Math.max(gestureState.dy, -75), 0);
-                    tilePosition.y.setValue(props.position.y * 75 + gestureY);
+                    const gestureY = Math.max(Math.min(gestureState.dy, 0), - props.spaceSize);
+                    tilePosition.y.setValue(props.position.y * (props.spaceSize) + gestureY);
                 } else if (slidableRef.current === Direction.DOWN) {
-                    const gestureY = Math.max(Math.min(gestureState.dy, 75), 0);
-                    tilePosition.y.setValue(props.position.y * 75 + gestureY);
+                    const gestureY = Math.min(Math.max(gestureState.dy, 0), props.spaceSize);
+                    tilePosition.y.setValue(props.position.y * (props.spaceSize) + gestureY);;
                 }
             },
             // Move the tile to the empty space when the user releases it
@@ -57,16 +60,16 @@ export default function Tile(props: { value: string | number, position: { y: num
                 changeColour(0);
                 if (slidableRef.current === Direction.RIGHT) {
                     if (gestureState.dx <= 0) return;
-                    moveTile({ x: props.position.x * 75 + 75, y: props.position.y * 75 });
+                    moveTile({ x: props.position.x *  props.spaceSize +  props.spaceSize, y: props.position.y *  props.spaceSize });
                 } else if (slidableRef.current === Direction.LEFT) {
                     if (gestureState.dx >= 0) return;
-                    moveTile({ x: props.position.x * 75 - 75, y: props.position.y * 75 });
+                    moveTile({ x: props.position.x *  props.spaceSize -  props.spaceSize, y: props.position.y *  props.spaceSize });
                 } else if (slidableRef.current === Direction.UP) {
                     if (gestureState.dy >= 0) return;
-                    moveTile({ x: props.position.x * 75, y: props.position.y * 75 - 75 });
+                    moveTile({ x: props.position.x *  props.spaceSize, y: props.position.y *  props.spaceSize -  props.spaceSize });
                 } else if (slidableRef.current === Direction.DOWN) {
                     if (gestureState.dy <= 0) return;
-                    moveTile({ x: props.position.x * 75, y: props.position.y * 75 + 75 });
+                    moveTile({ x: props.position.x *  props.spaceSize, y: props.position.y *  props.spaceSize +  props.spaceSize });
                 }
             },
         })
@@ -74,8 +77,8 @@ export default function Tile(props: { value: string | number, position: { y: num
 
     // interpolateColour is used to change the colour of the tile based on the value of the animated colour variable
     const interpolateColour = colour.interpolate({
-        inputRange: [0, 1, 2],
-        outputRange: ['#AAA', '#CBE6F7', "#CB4C4E"]
+        inputRange: [0, 1, 2, 3],
+        outputRange: ['#AAA', '#CBE6F7', "#CB4C4E", "#8bf0bc"]
     });
 
     // changeColour is used to change the colour of the tile
@@ -89,7 +92,7 @@ export default function Tile(props: { value: string | number, position: { y: num
 
     // useEffect to update the tilePosition when props.position changes
     useEffect(() => {
-        tilePosition.setValue({ x: props.position.x * 75, y: props.position.y * 75 });
+        tilePosition.setValue({ x: props.position.x * (props.spaceSize), y: props.position.y * (props.spaceSize) });
     }, [props.position]);
 
     
@@ -105,16 +108,18 @@ export default function Tile(props: { value: string | number, position: { y: num
         }).start(({ finished }) => {
             if (!finished) return;
             // switch the tile with the empty space in the board when the animation is finished
-            props.switch(props.position.y, props.position.x);
+            const newBoard = props.switch(props.position.y, props.position.x);
+            if (newBoard === undefined) return;
+            props.resetBoard(newBoard);
         });
     }
 
     return (
         <>
-            {props.value === 0 ? null :
+            {props.value === "0" ? null :
                 <Animated.View
                     style={[
-                        styles.tile,
+                        styles(props.tileSize).tile,
                         {
                             transform: [{ translateX: tilePosition.x }, { translateY: tilePosition.y }],
                             backgroundColor: interpolateColour,
@@ -122,7 +127,7 @@ export default function Tile(props: { value: string | number, position: { y: num
                     ]}
                     {...panResponder.panHandlers}
                 >
-                    <Text style={styles.text}>{props.value}</Text>
+                    <Text style={styles().text}>{props.value}</Text>
                 </Animated.View>
             }
         </>
@@ -130,10 +135,10 @@ export default function Tile(props: { value: string | number, position: { y: num
 }
 
 // Define the styles for the Tile component
-const styles = StyleSheet.create({
+const styles = (props : number | undefined) => StyleSheet.create({
     tile: {
-        width: 71,
-        height: 71,
+        width: props,
+        height: props,
         margin: 1,
         position: 'absolute',
         justifyContent: 'center',
