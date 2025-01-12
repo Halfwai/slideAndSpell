@@ -4,7 +4,7 @@ import Tile from "./Tile";
 import { useState, useEffect } from "react";
 
 // random words dictionary
-import { generate } from 'random-words';
+import { generate, wordsList } from 'random-words';
 
 // spellcheck dictionary
 import axios from 'axios';
@@ -12,9 +12,15 @@ import axios from 'axios';
 // Import the Direction enum
 import { Direction } from "@/constants/enums";
 
+import { wordListOne, wordListTwo } from "@/assets/wordList/words_dictionary";
+
 
 // Define the Gameboard component
 export default function Gameboard() {
+    // if ("z" in wordListOne) {
+    //     console.log("here");
+    // }
+
 
     const isWordValid = async (word : string) => {
         try {
@@ -101,26 +107,19 @@ export default function Gameboard() {
 
     // function to check if words are found on the board
     async function checkWords (board: string[][]) {
-        setValidFalse();
+        let newValidArray = [...validRow];
         for (let i = 0; i < size; i++) {
             let word = board[i].join('');
-            if (await isWordValid(word)) {
-                let newValidArray = [...validRow];
+            if ((wordListOne[word] || wordListTwo[word]) && word.length === size) {
+                console.log(`Is valid: ${word}`);
                 newValidArray[i] = true;
-                setValidRow(newValidArray);
+                
             } else {
-                let newValidArray = [...validRow];
+                console.log(`Is not valid: ${word}`);
                 newValidArray[i] = false;
-                setValidRow(newValidArray);
             }
         }
-    }
-
-    function setValidFalse() {
-        for (let i = 0; i < size; i++) {
-            setValidRow(Array(size).fill(false));
-            validRow[i] = false;
-        }
+        setValidRow(newValidArray);
     }
 
     // Define test board state

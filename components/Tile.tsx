@@ -37,9 +37,10 @@ export default function Tile(props: { value: string | number, position: { y: num
                 // Change the colour of the tile when the user moves it. If the tile can be moved it will be blue, otherwise it will be red.
                 if (slidableRef.current === Direction.FALSE) {
                     changeColour(2);
-                    return;
+                } else {
+                    changeColour(1);
                 }
-                changeColour(1);
+                
                 // Move the tile in the direction the user is moving it. Tile position is locked to the empty space.
                 if (slidableRef.current === Direction.RIGHT) {
                     const gestureX = Math.max(Math.min(gestureState.dx, props.spaceSize), 0);
@@ -57,7 +58,8 @@ export default function Tile(props: { value: string | number, position: { y: num
             },
             // Move the tile to the empty space when the user releases it
             onPanResponderRelease: (e, gestureState) => {
-                changeColour(0);
+                console.log(props.valid);
+                props.valid ? changeColour(4) : changeColour(0)
                 if (slidableRef.current === Direction.RIGHT) {
                     if (gestureState.dx <= 0) return;
                     moveTile({ x: props.position.x *  props.spaceSize +  props.spaceSize, y: props.position.y *  props.spaceSize });
