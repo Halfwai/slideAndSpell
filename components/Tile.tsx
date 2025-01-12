@@ -12,10 +12,12 @@ export default function Tile(props: { value: string | number, position: { y: num
     // Define the tilePosition, slidableRef, and colour variables
     const tilePosition = useRef(new Animated.ValueXY({ x: props.position.x * (props.spaceSize), y: props.position.y * (props.spaceSize) })).current;
     const slidableRef = useRef(props.slidable);
-    const colour = useRef(props.valid ? new Animated.Value(4) : new Animated.Value(0)).current;
+    const colour = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
-        changeColour(props.valid ? 4 : 0);
+        let newColour = props.valid ? 3 : 0;
+        changeColour(newColour);
+
     }, [props.valid]);
 
     // Update the slidableRef when props.slidable changes
@@ -58,8 +60,6 @@ export default function Tile(props: { value: string | number, position: { y: num
             },
             // Move the tile to the empty space when the user releases it
             onPanResponderRelease: (e, gestureState) => {
-                console.log(props.valid);
-                props.valid ? changeColour(4) : changeColour(0)
                 if (slidableRef.current === Direction.RIGHT) {
                     if (gestureState.dx <= 0) return;
                     moveTile({ x: props.position.x *  props.spaceSize +  props.spaceSize, y: props.position.y *  props.spaceSize });
