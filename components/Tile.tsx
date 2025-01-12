@@ -1,6 +1,6 @@
 // Import necessary libraries
 import { Text, StyleSheet, Animated, PanResponder, ImageSize } from 'react-native';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import React from 'react';
 import * as Haptics from 'expo-haptics';
 
@@ -14,11 +14,11 @@ export default function Tile(props: { value: string | number, position: { y: num
     const slidableRef = useRef(props.slidable);
     const colour = useRef(new Animated.Value(0)).current;
 
-    useEffect(() => {
-        let newColour = props.valid ? 3 : 0;
-        changeColour(newColour);
+    const [resetColour, setResetColour] = useState(0);
 
-    }, [props.valid]);
+    useEffect(() => {
+        changeColour(props.valid ? 3 : 0);
+    }, [props.valid, resetColour]);
 
     // Update the slidableRef when props.slidable changes
     useEffect(() => {
@@ -60,6 +60,7 @@ export default function Tile(props: { value: string | number, position: { y: num
             },
             // Move the tile to the empty space when the user releases it
             onPanResponderRelease: (e, gestureState) => {
+                setResetColour(prevResetColour => prevResetColour + 1);
                 if (slidableRef.current === Direction.RIGHT) {
                     if (gestureState.dx <= 0) return;
                     moveTile({ x: props.position.x *  props.spaceSize +  props.spaceSize, y: props.position.y *  props.spaceSize });
