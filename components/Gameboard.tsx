@@ -12,16 +12,14 @@ import axios from 'axios';
 // Import the Direction enum
 import { Direction } from "@/constants/enums";
 
-import { wordListOne, wordListTwo } from "@/assets/wordList/words_dictionary";
+// import { wordListOne, wordListTwo } from "@/assets/wordList/words_dictionary";
+
+import { wordList } from "@/assets/wordList/words";
+// import * as definitions from "@/assets/wordList/dictionary_compact";
 
 
 // Define the Gameboard component
 export default function Gameboard() {
-    // if ("z" in wordListOne) {
-    //     console.log("here");
-    // }
-
-
     const isWordValid = async (word : string) => {
         try {
             const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
@@ -110,8 +108,9 @@ export default function Gameboard() {
         let newValidArray = [...validRow];
         for (let i = 0; i < size; i++) {
             let word = board[i].join('');
-            if ((wordListOne[word] || wordListTwo[word]) && word.length === size) {
+            if (wordList[word] && word.length === size) {
                 console.log(`Is valid: ${word}`);
+                // console.log(definitions[word]);
                 newValidArray[i] = true;
                 
             } else {
