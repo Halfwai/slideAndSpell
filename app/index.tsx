@@ -1,8 +1,20 @@
 import { Text, View, Image } from "react-native";
 import MenuButton from "@/components/MenuButton";
+import React, {useState} from "react";
+
+import { useRouter } from 'expo-router';
 
 
 export default function Index() {
+    const [exitMenu, setExitMenu] = useState(false);
+
+    const router = useRouter();
+
+    const switchRoute = () => {
+        setTimeout(() => {
+            router.push('/endlessGame');
+        }, 700);        
+    }
     return (
         <View
             style={{
@@ -17,8 +29,60 @@ export default function Index() {
                 style={{ width: 300, height: 300 }}
                 resizeMode="contain"
             />
-            <MenuButton />
-
+            <View style={{
+                flex: 1,
+                flexDirection: 'column',
+                justifyContent: 'space-around',
+                width: 300,
+                paddingBottom: 40,
+            }}>
+                <MenuButton 
+                    text="Puzzle of the Day"
+                    onPress={() => (
+                        console.log("Puzzle of the Day"),
+                        setExitMenu(true)
+                    )}
+                    delay={0}
+                    exitMenu={exitMenu}
+                />
+                <MenuButton 
+                    text="Endless Mode"
+                    onPress={() => (
+                        console.log("Endless Mode"),
+                        setExitMenu(true),
+                        switchRoute()
+                    )}
+                    delay={100}
+                    exitMenu={exitMenu}
+                />
+                <MenuButton 
+                    text="Stats"
+                    onPress={() => (
+                        console.log("Stats"),
+                        setExitMenu(true)
+                    )}
+                    delay={200}
+                    exitMenu={exitMenu}
+                />
+                <MenuButton 
+                    text="Leaderboards"
+                    onPress={() => (
+                        console.log("Leaderboards"),
+                        setExitMenu(true)
+                    )}
+                    delay={300}
+                    exitMenu={exitMenu}
+                />
+                <MenuButton 
+                    text="Settings"
+                    onPress={() => (
+                        console.log("Settings"),
+                        setExitMenu(true)
+                    )}
+                    delay={400}
+                    exitMenu={exitMenu}
+                />
+            </View>
         </View>
     );
 }
