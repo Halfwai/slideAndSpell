@@ -48,22 +48,48 @@ export class GameBoardFunctions {
         return {x: -1, y: -1};
     }
 
-    static checkWords (board: string[][]) {
-        const size = board.length;
-        let validArray = [];
+    static checkWords (gameBoard: string[][]) {
+        const size = gameBoard.length;
+        let newValidArray = [];
+        let correctWords = [];
         for (let i = 0; i < size; i++) {
-            let word = board[i].join('');
+            let word = gameBoard[i].join('');
             if (wordList[word as keyof typeof wordList] && word.length === size) {
                 console.log(`Is valid: ${word}`);
                 // console.log(definitions[word]);
-                validArray[i] = true;
+                correctWords.push(word);
+                newValidArray[i] = true;
                 
             } else {
                 console.log(`Is not valid: ${word}`);
-                validArray[i] = false;
+                newValidArray[i] = false;
             }
         }
-        return validArray;
+        return {correctWords, newValidArray};
+    }
+
+    static checkWord(word: string): boolean {
+        return wordList[word as keyof typeof wordList] !== undefined;
+    }
+
+    static checkLetterInsertion(gameBoard: string[][], extraLetter: string): boolean {
+        const zeroPos = GameBoardFunctions.findZero(gameBoard);
+        const wordArray = [...gameBoard[zeroPos.y]];
+        for(let i = 0; i < wordArray.length; i++) {
+            if(wordArray[i] === '0') {
+                wordArray[i] = extraLetter;
+                break;
+            }
+        }
+        let word = wordArray.join('');
+        return GameBoardFunctions.checkWord(word);
+    }
+
+    static removeZero(gameBoard: string[][], extraLetter: string): string[][] {
+        const zeroPos = GameBoardFunctions.findZero(gameBoard);
+        const tempBoard = [...gameBoard];
+        tempBoard[zeroPos.y][zeroPos.x] = extraLetter;
+        return tempBoard;
     }
 
     private static convolveBoard(gameBoard: string[][]): string[][] {

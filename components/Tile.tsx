@@ -1,6 +1,6 @@
 // Import necessary libraries
 import { Text, StyleSheet, Animated, PanResponder } from 'react-native';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import React from 'react';
 import * as Haptics from 'expo-haptics';
 
@@ -12,16 +12,23 @@ export default function Tile(props: { value: string | number, position: { y: num
     // Define the tilePosition, slidableRef, and colour variables
     const tilePosition = useRef(new Animated.ValueXY({ x: props.position.x, y: props.position.y })).current;
     const slidableRef = useRef(props.slidable);
-    const colour = useRef(props.valid ? new Animated.Value(4) : new Animated.Value(0)).current;
+    const colour = useRef(props.valid ? new Animated.Value(3) : new Animated.Value(0)).current;
+    
+
+    const [resetColour, setResetColour] = useState(0);
 
     useEffect(() => {
-        changeColour(props.valid ? 4 : 0);
+        changeColour(props.valid ? 3 : 0);
     }, [props.valid]);
 
     // Update the slidableRef when props.slidable changes
     useEffect(() => {
         slidableRef.current = props.slidable;
     }, [props.slidable]);
+
+    useEffect(() => {
+        changeColour(props.valid ? 3 : 0);
+    }, [resetColour]);
 
     // Define the panResponder
     const panResponder = useRef(
@@ -58,7 +65,7 @@ export default function Tile(props: { value: string | number, position: { y: num
             },
             // Move the tile to the empty space when the user releases it
             onPanResponderRelease: (e, gestureState) => {
-                props.valid ? changeColour(4) : changeColour(0)
+                setResetColour(current => current + 1);
                 if (slidableRef.current === Direction.RIGHT) {
                     if (gestureState.dx <= 0) return;
                     moveTile({ x: props.position.x +  props.spaceSize, y: props.position.y });
@@ -128,7 +135,7 @@ export default function Tile(props: { value: string | number, position: { y: num
                     ]}
                     {...panResponder.panHandlers}
                 >
-                    <Text style={styles().text}>{props.value}</Text>
+                    <Text style={styles(props.tileSize).text}>{props.value}</Text>
                 </Animated.View>
             }
         </>
