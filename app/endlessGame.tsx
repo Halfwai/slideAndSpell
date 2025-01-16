@@ -2,7 +2,7 @@ import { Text, View, StyleSheet } from "react-native";
 import GameBoard from "../components/Gameboard";
 import React, { useState } from "react";
 import MenuButton from "@/components/MenuButton";
-import ExtraTile from "@/components/ExtraTile";
+
 
 import { GameBoardFunctions } from "@/utils/gameBoardFunctions";
 

@@ -31,20 +31,21 @@ export class GameBoardFunctions {
         const tempBoard = [...gameBoard];
         const temp = tempBoard[x][y];
         tempBoard[x][y] = "0";
-        tempBoard[zero.x][zero.y] = temp;
+        tempBoard[zero.y][zero.x] = temp;
         return tempBoard;
     }
 
     // findZero function finds the position of the zero tile
-    static findZero (gameBoard : string[][]) : {x: number, y: number} | undefined {
+    static findZero (gameBoard : string[][]) : {x: number, y: number} {
         const size = gameBoard.length;
         for (let i = 0; i < size; i++) {
             for (let j = 0; j < size; j++) {
                 if (gameBoard[i][j] === "0") {
-                    return {x: i, y: j};
+                    return {x: j, y: i};
                 }
             }
         }
+        return {x: -1, y: -1};
     }
 
     static checkWords (board: string[][]) {

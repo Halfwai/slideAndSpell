@@ -1,6 +1,6 @@
 // Import necessary libraries
-import { Text, StyleSheet, Animated, PanResponder, ImageSize } from 'react-native';
-import { useEffect, useRef, useState } from 'react';
+import { Text, StyleSheet, Animated, PanResponder } from 'react-native';
+import { useEffect, useRef } from 'react';
 import React from 'react';
 import * as Haptics from 'expo-haptics';
 
@@ -10,15 +10,13 @@ import { Direction } from '@/constants/enums';
 // Define the Tile component
 export default function Tile(props: { value: string | number, position: { y: number, x: number }, spaceSize : number, tileSize : number, slidable: Direction, switch: Function, resetBoard: Function, valid: boolean }) {
     // Define the tilePosition, slidableRef, and colour variables
-    const tilePosition = useRef(new Animated.ValueXY({ x: props.position.x * (props.spaceSize), y: props.position.y * (props.spaceSize) })).current;
+    const tilePosition = useRef(new Animated.ValueXY({ x: props.position.x, y: props.position.y })).current;
     const slidableRef = useRef(props.slidable);
-    const colour = useRef(new Animated.Value(0)).current;
-
-    const [resetColour, setResetColour] = useState(0);
+    const colour = useRef(props.valid ? new Animated.Value(4) : new Animated.Value(0)).current;
 
     useEffect(() => {
-        changeColour(props.valid ? 3 : 0);
-    }, [props.valid, resetColour]);
+        changeColour(props.valid ? 4 : 0);
+    }, [props.valid]);
 
     // Update the slidableRef when props.slidable changes
     useEffect(() => {
@@ -46,33 +44,33 @@ export default function Tile(props: { value: string | number, position: { y: num
                 // Move the tile in the direction the user is moving it. Tile position is locked to the empty space.
                 if (slidableRef.current === Direction.RIGHT) {
                     const gestureX = Math.max(Math.min(gestureState.dx, props.spaceSize), 0);
-                    tilePosition.x.setValue(props.position.x * (props.spaceSize) + gestureX);
+                    tilePosition.x.setValue(props.position.x + gestureX);
                 } else if (slidableRef.current === Direction.LEFT) {
                     const gestureX = Math.min(Math.max(gestureState.dx, - props.spaceSize), 0);
-                    tilePosition.x.setValue(props.position.x * (props.spaceSize) + gestureX);
+                    tilePosition.x.setValue(props.position.x + gestureX);
                 } else if (slidableRef.current === Direction.UP) {
                     const gestureY = Math.max(Math.min(gestureState.dy, 0), - props.spaceSize);
-                    tilePosition.y.setValue(props.position.y * (props.spaceSize) + gestureY);
+                    tilePosition.y.setValue(props.position.y + gestureY);
                 } else if (slidableRef.current === Direction.DOWN) {
                     const gestureY = Math.min(Math.max(gestureState.dy, 0), props.spaceSize);
-                    tilePosition.y.setValue(props.position.y * (props.spaceSize) + gestureY);;
+                    tilePosition.y.setValue(props.position.y + gestureY);;
                 }
             },
             // Move the tile to the empty space when the user releases it
             onPanResponderRelease: (e, gestureState) => {
-                setResetColour(prevResetColour => prevResetColour + 1);
+                props.valid ? changeColour(4) : changeColour(0)
                 if (slidableRef.current === Direction.RIGHT) {
                     if (gestureState.dx <= 0) return;
-                    moveTile({ x: props.position.x *  props.spaceSize +  props.spaceSize, y: props.position.y *  props.spaceSize });
+                    moveTile({ x: props.position.x +  props.spaceSize, y: props.position.y });
                 } else if (slidableRef.current === Direction.LEFT) {
                     if (gestureState.dx >= 0) return;
-                    moveTile({ x: props.position.x *  props.spaceSize -  props.spaceSize, y: props.position.y *  props.spaceSize });
+                    moveTile({ x: props.position.x -  props.spaceSize, y: props.position.y });
                 } else if (slidableRef.current === Direction.UP) {
                     if (gestureState.dy >= 0) return;
-                    moveTile({ x: props.position.x *  props.spaceSize, y: props.position.y *  props.spaceSize -  props.spaceSize });
+                    moveTile({ x: props.position.x, y: props.position.y -  props.spaceSize });
                 } else if (slidableRef.current === Direction.DOWN) {
                     if (gestureState.dy <= 0) return;
-                    moveTile({ x: props.position.x *  props.spaceSize, y: props.position.y *  props.spaceSize +  props.spaceSize });
+                    moveTile({ x: props.position.x, y: props.position.y +  props.spaceSize });
                 }
             },
         })
@@ -95,7 +93,7 @@ export default function Tile(props: { value: string | number, position: { y: num
 
     // useEffect to update the tilePosition when props.position changes
     useEffect(() => {
-        tilePosition.setValue({ x: props.position.x * (props.spaceSize), y: props.position.y * (props.spaceSize) });
+        tilePosition.setValue({ x: props.position.x, y: props.position.y });
     }, [props.position]);
 
     

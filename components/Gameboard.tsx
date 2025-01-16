@@ -3,26 +3,19 @@ import { View, StyleSheet, Dimensions, Animated } from "react-native";
 import Tile from "./Tile";
 import { useState, useEffect, useRef } from "react";
 
-// random words dictionary
-import { generate, wordsList } from 'random-words';
-
 // spellcheck dictionary
 import axios from 'axios';
-
-// Import the Direction enum
-import { Direction } from "@/constants/enums";
-
-// import { wordListOne, wordListTwo } from "@/assets/wordList/words_dictionary";
 
 import { wordList } from "@/assets/wordList/words";
 // import * as definitions from "@/assets/wordList/dictionary_compact";
 
 import { GameBoardFunctions } from "@/utils/gameBoardFunctions";
 
+import ExtraTile from "@/components/ExtraTile";
 
 
 // Define the Gameboard component
-export default function GameBoard(props: {gameBoard: string[][]}, extraLetter: string) {
+export default function GameBoard(props: {gameBoard: string[][], extraLetter: string}) {
     // const isWordValid = async (word : string) => {
     //     try {
     //         const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
@@ -50,28 +43,38 @@ export default function GameBoard(props: {gameBoard: string[][]}, extraLetter: s
   
     const [board, setBoard] = useState(props.gameBoard);
     const [validArray, setValidArray] = useState(Array(size).fill(false));
+    
+    const [zeroPos, setZeroPos] = useState(returnZeroPos());
+
+    function returnZeroPos() {
+        const currentZeroPos = GameBoardFunctions.findZero(board);
+        return {x: currentZeroPos.x * spaceSize, y: currentZeroPos.y * spaceSize};
+    }
 
     useEffect(() => {
+        setZeroPos(returnZeroPos());
         const newValidArray = GameBoardFunctions.checkWords(board);
         if(validArray !== newValidArray) {
             setValidArray(newValidArray);
         }
     }, [board]);
 
+
     return (
         <Animated.View style={[styles().mainBoard, {transform: [{translateY: boardPosition}]}]}>
             {/* Map the board state to Tile components */}
+            
             {board.map((row, i) => (
                 row.map((cell, j) => (
                     <Tile 
                         key={i + j} 
                         value={cell} 
-                        position={{x: j, y: i}}
+                        position={{x: j * spaceSize, y: i * spaceSize}}
                         spaceSize = {spaceSize}
                         tileSize = {tileSize} 
                         slidable={GameBoardFunctions.checkSlidable(i, j, board)} 
-                        switch={(x : number, y : number) => {
-                            return GameBoardFunctions.switchZero(x, y, board);
+                        switch={() => {
+                            return GameBoardFunctions.switchZero(i, j, board);
                         }}
                         resetBoard={(newBoard: string[][]) => {
                             setBoard(newBoard);
@@ -80,6 +83,7 @@ export default function GameBoard(props: {gameBoard: string[][]}, extraLetter: s
                     />
                 ))
             ))}
+            <ExtraTile letter={props.extraLetter} tileSize={tileSize} zeroPos={zeroPos} />
         </Animated.View>
     );
 }
