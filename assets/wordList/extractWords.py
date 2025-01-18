@@ -3,13 +3,22 @@ import json
 def extract_keys_from_json(json_file):
     with open(json_file, 'r') as f:
         data = json.load(f)
-    return data.keys()
+    words = {}
+    for key in data['synset']:
+        for word in data['synset'][key]['word']:
+            words[word] = data['synset'][key]['gloss']
+            # words.append({word: data['synset'][key]['gloss']})
+    return words
+    # return data['synset'].keys()
 
-def save_keys_to_file(keys, file_name):
-    with open(file_name, 'w') as f:
-        for key in keys:
-            f.write(f'"{key}": 1,' + '\n')
+def save_dict_to_file(d, filename):
+    with open (filename, 'w') as f:
+        f.write(json.dumps(d))
 
-keys = extract_keys_from_json('dictionary_compact.json')
 
-save_keys_to_file(keys, 'words.txt')
+
+
+
+words = extract_keys_from_json('wordnet.json')
+
+save_dict_to_file(words, 'words.txt')

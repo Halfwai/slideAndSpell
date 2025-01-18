@@ -2,7 +2,7 @@ import { generate } from 'random-words';
 import { Direction } from "@/constants/enums";
 import { wordList } from "@/assets/wordList/words";
 
-import * as definitions from "@/assets/wordList/dictionary.json";
+import * as definitions from "@/assets/wordList/words.json";
 
 export class GameBoardFunctions {
     static generateGameBoard(size: number): { extraLetter: string, gameBoard: string[][] } {
