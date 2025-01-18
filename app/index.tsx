@@ -13,6 +13,7 @@ export default function Index() {
     const switchRoute = () => {
         setTimeout(() => {
             router.push('/endlessGame');
+            setExitMenu(false);
         }, 700);        
     }
     return (

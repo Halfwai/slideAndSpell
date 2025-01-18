@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import { Text, View, Dimensions, Animated, TouchableOpacity, StyleSheet } from 'react-native';
 
+import { useFocusEffect } from 'expo-router';
+
 import { RFPercentage } from "react-native-responsive-fontsize";
 
 export default function MenuButton(props: { text: string, onPress: Function, delay: number, exitMenu: boolean }) {
@@ -24,10 +26,12 @@ export default function MenuButton(props: { text: string, onPress: Function, del
         });}, props.delay);
     }
 
+    useFocusEffect(() => {
+        setTimeout(() => {
+            slideIn();
+        }, props.delay);
+    });
 
-    setTimeout(() => {
-        slideIn();
-    }, props.delay);
 
     useEffect(() => {
         if (props.exitMenu) {
