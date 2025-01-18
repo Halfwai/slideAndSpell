@@ -10,26 +10,29 @@ export default function MenuButton(props: { text: string, onPress: Function, del
     function slideIn() {
         Animated.timing(buttonPosition, {
             toValue: 0,
-            duration: 1000,
+            duration: 500,
             useNativeDriver: true
         }).start();
     }
 
     function slideOut() {
         setTimeout(() => {
-        Animated.timing(buttonPosition, {
-            toValue: -Dimensions.get('window').width,
-            duration: 1000,
-            useNativeDriver: true
-        }).start(({ finished }) => {
-            if (!finished) return;
-        });}, props.delay);
+            Animated.timing(buttonPosition, {
+                toValue: -Dimensions.get('window').width,
+                duration: 500,
+                useNativeDriver: true
+            }).start(({ finished }) => {
+                if (!finished) return;
+            });
+        }, props.delay);
     }
 
     useFocusEffect(() => {
-        setTimeout(() => {
-            slideIn();
-        }, props.delay);
+        if(!props.exitMenu) {
+            setTimeout(() => {
+                slideIn();
+            }, props.delay);
+        }
     });
 
 
@@ -52,7 +55,6 @@ export default function MenuButton(props: { text: string, onPress: Function, del
                 style={styles.touchable}            
                 onPress={() => {
                     props.onPress();
-                    slideOut();
                 }}
             >
                 <Text style={styles.text}>{props.text}</Text>

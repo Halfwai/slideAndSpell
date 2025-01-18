@@ -7,8 +7,8 @@ import EmptySquare from "@/components/EmptySquare";
 // spellcheck dictionary
 import axios from 'axios';
 
-import { wordList } from "@/assets/wordList/words";
-// import * as definitions from "@/assets/wordList/dictionary_compact";
+// import { wordList } from "@/assets/wordList/words";
+import * as definitions from "@/assets/wordList/dictionary.json";
 
 import { GameBoardFunctions } from "@/utils/gameBoardFunctions";
 

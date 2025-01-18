@@ -2,6 +2,8 @@ import { generate } from 'random-words';
 import { Direction } from "@/constants/enums";
 import { wordList } from "@/assets/wordList/words";
 
+import * as definitions from "@/assets/wordList/dictionary.json";
+
 export class GameBoardFunctions {
     static generateGameBoard(size: number): { extraLetter: string, gameBoard: string[][] } {
         const words = generate({exactly: size, minLength: size, maxLength: size});
@@ -53,23 +55,22 @@ export class GameBoardFunctions {
         let newValidArray = [];
         let correctWords = [];
         for (let i = 0; i < size; i++) {
-            let word = gameBoard[i].join('');
-            if (wordList[word as keyof typeof wordList] && word.length === size) {
-                console.log(`Is valid: ${word}`);
+            const word = gameBoard[i].join('');
+            const valid = GameBoardFunctions.checkWord(word);
+            if (valid && word.length === size) {
+                console.log(valid);
                 // console.log(definitions[word]);
                 correctWords.push(word);
                 newValidArray[i] = true;
                 
             } else {
-                console.log(`Is not valid: ${word}`);
                 newValidArray[i] = false;
-            }
-        }
+            }        }
         return {correctWords, newValidArray};
     }
 
     static checkWord(word: string): boolean {
-        return wordList[word as keyof typeof wordList] !== undefined;
+        return definitions[word];
     }
 
     static checkLetterInsertion(gameBoard: string[][], extraLetter: string): boolean {

@@ -11,6 +11,7 @@ export default function Index() {
     const router = useRouter();
 
     const switchRoute = () => {
+        setExitMenu(true),
         setTimeout(() => {
             router.push('/endlessGame');
             setExitMenu(false);
@@ -40,8 +41,7 @@ export default function Index() {
                 <MenuButton 
                     text="Puzzle of the Day"
                     onPress={() => (
-                        console.log("Puzzle of the Day"),
-                        setExitMenu(true)
+                        console.log("Puzzle of the Day")
                     )}
                     delay={0}
                     exitMenu={exitMenu}
@@ -50,7 +50,6 @@ export default function Index() {
                     text="Endless Mode"
                     onPress={() => (
                         console.log("Endless Mode"),
-                        setExitMenu(true),
                         switchRoute()
                     )}
                     delay={100}
@@ -59,8 +58,7 @@ export default function Index() {
                 <MenuButton 
                     text="Stats"
                     onPress={() => (
-                        console.log("Stats"),
-                        setExitMenu(true)
+                        console.log("Stats")
                     )}
                     delay={200}
                     exitMenu={exitMenu}
@@ -68,8 +66,7 @@ export default function Index() {
                 <MenuButton 
                     text="Leaderboards"
                     onPress={() => (
-                        console.log("Leaderboards"),
-                        setExitMenu(true)
+                        console.log("Leaderboards")
                     )}
                     delay={300}
                     exitMenu={exitMenu}
@@ -77,8 +74,7 @@ export default function Index() {
                 <MenuButton 
                     text="Settings"
                     onPress={() => (
-                        console.log("Settings"),
-                        setExitMenu(true)
+                        console.log("Settings")
                     )}
                     delay={400}
                     exitMenu={exitMenu}
