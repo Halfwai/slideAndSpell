@@ -3,6 +3,9 @@ import { Direction } from "@/constants/enums";
 import { wordList } from "@/assets/wordList/words";
 
 import * as definitions from "@/assets/wordList/words.json";
+type Definitions = {
+    [key: string]: string;
+};
 
 export class GameBoardFunctions {
     static generateGameBoard(size: number): { extraLetter: string, gameBoard: string[][] } {
@@ -50,7 +53,7 @@ export class GameBoardFunctions {
         return {x: -1, y: -1};
     }
 
-    static checkWords (gameBoard: string[][]) {
+    static checkWords (gameBoard: string[][]): {correctWords: string[], newValidArray: boolean[]} {
         const size = gameBoard.length;
         let newValidArray = [];
         let correctWords = [];
@@ -68,9 +71,9 @@ export class GameBoardFunctions {
             }        }
         return {correctWords, newValidArray};
     }
-
-    static checkWord(word: string): boolean {
-        return definitions[word];
+        
+    static checkWord(word: string): string {
+        return (definitions as Definitions)[word];
     }
 
     static checkLetterInsertion(gameBoard: string[][], extraLetter: string): boolean {
