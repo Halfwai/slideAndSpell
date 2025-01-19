@@ -44,6 +44,14 @@ export default function GameBoard(props: {gameBoard: string[][], extraLetter: st
             useNativeDriver: true
         }).start();
     }, []);
+
+    function slideBoardOut() {
+        Animated.timing(boardPosition, {
+            toValue: Dimensions.get('window').height,
+            duration: 1000,
+            useNativeDriver: true
+        }).start();
+    }
   
     const [board, setBoard] = useState(props.gameBoard);
     const [validArray, setValidArray] = useState(Array(size).fill(false));
@@ -112,6 +120,10 @@ export default function GameBoard(props: {gameBoard: string[][], extraLetter: st
                 removeZero={() => {
                     setBoard(GameBoardFunctions.removeZero(board, props.extraLetter));
                     setGameOver(true);
+                    setTimeout(() => {
+                        slideBoardOut();
+                    }, 1000);
+                    
                 }}
             />}
         </Animated.View>
