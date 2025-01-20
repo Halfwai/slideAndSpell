@@ -69,8 +69,9 @@ export class GameBoardFunctions {
         for (let i = 0; i < size; i++) {
             const word = gameBoard[i].join('');
             const definition = GameBoardFunctions.checkWord(word);
+            console.log(word, definition);
             if (definition && word.length === size) {
-                console.log(definition);
+                // console.log(definition);
                 correctWords.push({word: word, definition: definition});
                 newValidArray[i] = true;
                 

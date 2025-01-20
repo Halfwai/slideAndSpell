@@ -7,7 +7,7 @@ interface DefinitionProps {
 
 
 export default function Definition(props: DefinitionProps) {
-    console.log(props.word);
+    console.log(props.word, props.definition);
     return (
         <View style={styles.container}>
             <Text>{props.word}</Text>
