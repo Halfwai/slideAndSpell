@@ -1,9 +1,15 @@
 import React, {useRef, useEffect, useState} from 'react';
 import { View, Text, StyleSheet, Animated, Dimensions, DeviceEventEmitter } from 'react-native';
+import Definition from '@/components/Definition';
 
-export default function Definitions(props: { slideIn: boolean, validWords: {word: string, definition: string}[] }) {
+interface DefinitionsProps {
+    slideIn: boolean, 
+    validWords: {word: string, 
+    definition: string}[]
+}
+
+export default function Definitions(props: DefinitionsProps) {
     const definitionsPositionY = useRef(new Animated.Value(Dimensions.get('window').height)).current;
-    const definitionsHeight = useRef(new Animated.Value(0)).current;
     
     const wordList = useRef(props.validWords);
 
@@ -13,27 +19,19 @@ export default function Definitions(props: { slideIn: boolean, validWords: {word
 
     useEffect(() => {
         if (props.slideIn) {
-            Animated.timing(definitionsHeight, {
-                toValue: Dimensions.get('window').height,
-                duration: 1000,
-                useNativeDriver: false
-            }).start();
             Animated.timing(definitionsPositionY, {
                 toValue: 0,
-                duration: 1000,
+                duration: 500,
                 useNativeDriver: false
             }).start();
         }
     }, [props.slideIn]);
 
     return (
-        <Animated.View style={[{ transform: [{ translateX: 0 }, { translateY: definitionsPositionY }], height: definitionsHeight }]}>
+        <Animated.View style={[{ transform: [{ translateX: 0 }, { translateY: definitionsPositionY }]}]}>
             {wordList.current.map((word, index) => {
                 return (
-                    <View key={index}>
-                        <Text>{word.word}</Text>
-                        <Text>{word.definition}</Text>
-                    </View>
+                        <Definition key={index} word={word.word} definition={word.definition}/>
                 )
             })}
         </Animated.View>

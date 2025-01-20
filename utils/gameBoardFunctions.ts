@@ -2,7 +2,11 @@ import { generate } from 'random-words';
 import { Direction } from "@/constants/enums";
 import { wordList } from "@/assets/wordList/words";
 
-import * as definitions from "@/assets/wordList/words.json";
+
+// https://github.com/nightblade9/simple-english-dictionary
+// https://github.com/matthewreagan/WebstersEnglishDictionary
+
+import * as definitions from "@/assets/wordList/mergedwords.json";
 type Definitions = {
     [key: string]: string;
 };

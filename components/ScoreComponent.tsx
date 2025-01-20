@@ -7,17 +7,25 @@ interface ScoreComponentProps {
     incrementTime: boolean;
     gameOver: boolean;
     returnTime: Function;
+    slideUp: boolean;
 }
 
 export default function ScoreComponents(props: ScoreComponentProps) {
     const timeXPos = useRef(new Animated.Value(-Dimensions.get('window').width)).current;
     const slidesXPos = useRef(new Animated.Value(Dimensions.get('window').width)).current;
+    const slideYPos = useRef(new Animated.Value(200)).current;
 
     const incrementTimeRef = useRef(props.incrementTime);
 
     useEffect(() => {
         incrementTimeRef.current = props.incrementTime;
     }, [props.incrementTime]);
+
+    useEffect(() => {
+        if (props.slideUp) {
+            animateSlideUp();
+        }
+    }, [props.slideUp]);
 
     useEffect(() => {
         if(props.gameOver) {
@@ -60,16 +68,24 @@ export default function ScoreComponents(props: ScoreComponentProps) {
         }).start();
     }, []);
 
+    function animateSlideUp() {
+        Animated.timing(slideYPos, {
+            toValue: -200,
+            duration: 200,
+            useNativeDriver: true
+        }).start();
+    }
+
 
     return (
         <View style={styles.container}>
-            <Animated.View style={[styles.itemBox, { transform: [{ translateX: timeXPos }, { translateY: 0 }] }]}>
+            <Animated.View style={[styles.itemBox, { transform: [{ translateX: timeXPos }, { translateY: slideYPos }] }]}>
 
                     <Text style={styles.itemText}>Time</Text>
                     <Text style={styles.itemText}>{returnTimeString()}</Text>
 
             </Animated.View>
-            <Animated.View style={[styles.itemBox, { transform: [{ translateX: slidesXPos }, { translateY: 0 }] }]}>
+            <Animated.View style={[styles.itemBox, { transform: [{ translateX: slidesXPos }, { translateY: slideYPos }] }]}>
 
                     <Text style={styles.itemText}>Slides</Text>
                     <Text style={styles.itemText}>{props.slides}</Text>
@@ -85,6 +101,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 20,
         zIndex: 0,
+        position: 'absolute',
     },
     itemBox: {
         flexDirection: 'column', 

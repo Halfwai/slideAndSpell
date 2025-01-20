@@ -22,6 +22,7 @@ export default function GameBoard(props: { gameBoard: string[][], extraLetter: s
     const [incrementTime, setIncrementTime] = useState(false);
     const [totalTime, setTotalTime] = useState(0);
     const [validWords, setValidWords] = useState<{ word: string, definition: string }[]>([]);
+    const [activateSlideUp, setActivateSlideUp] = useState(false);
 
     useEffect(() => {
         Animated.timing(boardPosition, {
@@ -35,10 +36,12 @@ export default function GameBoard(props: { gameBoard: string[][], extraLetter: s
 
     function slideBoardOut() {
         Animated.timing(boardPosition, {
-            toValue: Dimensions.get('window').height * 2,
-            duration: 1000,
+            toValue: Dimensions.get('window').height,
+            duration: 500,
             useNativeDriver: true
-        }).start();
+        }).start(({ finished }: { finished: boolean }) => {
+            if (finished) setActivateSlideUp(true);
+        });
     }
 
     const [board, setBoard] = useState(props.gameBoard);
@@ -128,10 +131,11 @@ export default function GameBoard(props: { gameBoard: string[][], extraLetter: s
                 returnTime={(time : number) => {
                     setTotalTime(time);
                 }}
+                slideUp={activateSlideUp}
             />
             {gameOver && 
                 <Definitions 
-                    slideIn={gameOver}
+                    slideIn={activateSlideUp}
                     validWords={validWords}
                 />
             }               
@@ -149,5 +153,6 @@ const styles = () => StyleSheet.create({
         borderRadius: 10,
         backgroundColor: '#FFFFFF',
         zIndex: 1,
+        position: 'absolute',
     }
 });
