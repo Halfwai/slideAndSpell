@@ -53,8 +53,7 @@ export default function ExtraTile(props: ExtraTileProps) {
             onPanResponderRelease: (e, gestureState) => {
                 props.setEmptySquareColour(0); 
                 if(props.canInsert && returnDistanceToZero(gestureState.dx + xOffset, gestureState.dy - props.spaceSize) < props.tileSize) {
-
-                    moveTile(props.zeroPos.x + xOffset, props.zeroPos.y - props.spaceSize);
+                    moveTile(-xOffset + props.zeroPos.x, props.spaceSize + props.zeroPos.y);
                     props.removeZero();
                     return;
                 }
@@ -65,18 +64,13 @@ export default function ExtraTile(props: ExtraTileProps) {
     );
 
     const moveTile = (x: number, y: number) => {
-        console.log(tilePosition);
-        console.log(xOffset, yOffset);
-        console.log(x, y);
-        console.log(props.spaceSize);
         Animated.spring(tilePosition, {
             toValue: {x: x, y: y},
             // bounciness set to 0 to prevent the tile from bouncing into other tiles
             bounciness: 0,
-            // speed set to 1000 to make the animation feel more responsive
-            speed: 500,
+            speed: 1000,
             useNativeDriver: true
-        }).start();
+        }).start()
     };
     
 
