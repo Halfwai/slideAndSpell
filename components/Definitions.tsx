@@ -22,7 +22,7 @@ export default function Definitions(props: DefinitionsProps) {
             Animated.timing(definitionsPositionY, {
                 toValue: 0,
                 duration: 500,
-                useNativeDriver: false
+                useNativeDriver: true
             }).start();
         }
     }, [props.slideIn]);

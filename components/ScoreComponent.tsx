@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center', 
         alignItems: 'center',
         width: Dimensions.get('window').width / 2,
-        backgroundColor: COLOURS.blue,
+        backgroundColor: COLOURS.green,
         paddingVertical: 10,
         borderTopWidth: 5,
         borderBottomWidth: 5,

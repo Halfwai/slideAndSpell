@@ -1,12 +1,26 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { View, Text, StyleSheet, Animated, PanResponder } from 'react-native';
 import * as Haptics from 'expo-haptics';
+import { ColorSpace } from 'react-native-reanimated';
 
-export default function ExtraTile(props: { letter: string, tileSize: number, zeroPos: { x: number, y: number }, canInsert: boolean, setEmptySquareColour: Function, removeZero: Function }) {
-    const tilePosition = useRef(new Animated.ValueXY({ x: -props.tileSize, y: -props.tileSize * 1.5 })).current;
+interface ExtraTileProps {
+    letter: string;
+    tileSize: number;
+    spaceSize: number;
+    boardSize: number;
+    zeroPos: { x: number, y: number };
+    canInsert: boolean;
+    setEmptySquareColour: Function;
+    removeZero: Function;
+}
+
+export default function ExtraTile(props: ExtraTileProps) {
+    const tilePosition = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
+    const yOffset = props.spaceSize * ((props.boardSize / 2) + 1);
+    const xOffset = props.spaceSize * ((props.boardSize - 1) / 2);
 
     function returnDistanceToZero(x : number, y: number) {
-        return Math.abs(x - props.zeroPos.x) + Math.abs(y - props.zeroPos.y);
+        return Math.sqrt(Math.pow(x - props.zeroPos.x, 2) + Math.pow(y - props.zeroPos.y, 2));
     }
    
     // Define the panResponder
@@ -20,11 +34,10 @@ export default function ExtraTile(props: { letter: string, tileSize: number, zer
                 })();
             },
             onPanResponderMove: (e, gestureState) => {
-                tilePosition.x.setValue(gestureState.dx - props.tileSize);
-                tilePosition.y.setValue(gestureState.dy - props.tileSize * 1.5);
-
-                const distance = returnDistanceToZero(gestureState.dx + props.tileSize, gestureState.dy - props.tileSize * 1.5);
-                if (distance < props.tileSize * 1.5) {
+                tilePosition.x.setValue(gestureState.dx);
+                tilePosition.y.setValue(gestureState.dy);                
+                const distance = returnDistanceToZero(gestureState.dx + xOffset, gestureState.dy - props.spaceSize);
+                if (distance < props.tileSize) {
                     if (props.canInsert) {
                         props.setEmptySquareColour(1);
                     } else {
@@ -39,55 +52,63 @@ export default function ExtraTile(props: { letter: string, tileSize: number, zer
             // Move the tile to the empty space when the user releases it
             onPanResponderRelease: (e, gestureState) => {
                 props.setEmptySquareColour(0); 
-                if(props.canInsert && returnDistanceToZero(gestureState.dx + props.tileSize, gestureState.dy - props.tileSize * 1.5) < props.tileSize * 1.5) {
-                    moveTile(props.zeroPos.x - (props.tileSize * 2 + 4), props.zeroPos.y);
+                if(props.canInsert && returnDistanceToZero(gestureState.dx + xOffset, gestureState.dy - props.spaceSize) < props.tileSize) {
+
+                    moveTile(props.zeroPos.x + xOffset, props.zeroPos.y - props.spaceSize);
                     props.removeZero();
                     return;
                 }
-                moveTile(-props.tileSize, -props.tileSize * 1.5);
+                moveTile(0, 0);
             },
         }),
         [props.zeroPos, props.canInsert]
     );
 
     const moveTile = (x: number, y: number) => {
+        console.log(tilePosition);
+        console.log(xOffset, yOffset);
+        console.log(x, y);
+        console.log(props.spaceSize);
         Animated.spring(tilePosition, {
             toValue: {x: x, y: y},
             // bounciness set to 0 to prevent the tile from bouncing into other tiles
             bounciness: 0,
             // speed set to 1000 to make the animation feel more responsive
-            speed: 1000,
+            speed: 500,
             useNativeDriver: true
         }).start();
     };
-
+    
 
     return (
-        <View style={styles(props.tileSize).container}>
+        <View style={styles({tileSize: props.tileSize, yOffset: yOffset}).container}>
             <Animated.View
                 style={[
-                    styles(props.tileSize).tile,
+                    styles({tileSize: props.tileSize, yOffset: yOffset}).tile,
                     {
                         transform: [{ translateX: tilePosition.x }, { translateY: tilePosition.y }],
                     }
                 ]}
                 {...panResponder.panHandlers}
             >
-                <Text style={styles(props.tileSize).text}>{props.letter}</Text>
+                <Text style={ styles({tileSize: props.tileSize, yOffset: yOffset}).text}>{props.letter}</Text>
             </Animated.View>
         </View>
 
     );
 }
 
-const styles = (props : number) => StyleSheet.create({
+const styles = (props : {tileSize : number, yOffset : number}) => StyleSheet.create({
     container: {
         width: "100%",
         alignItems: 'center',
+        zIndex: 1,
+        position: 'absolute',
+        top: -props.yOffset,
     },
     tile: {
-        width: props,
-        height: props,
+        width: props.tileSize,
+        height: props.tileSize,
         margin: 1,
         justifyContent: 'center',
         alignItems: 'center',

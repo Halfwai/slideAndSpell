@@ -106,9 +106,13 @@ export default function GameBoard(props: { gameBoard: string[][], extraLetter: s
                         </React.Fragment>
                     ))
                 ))}
-                {!gameOver && <ExtraTile
+
+            </Animated.View>
+            {!gameOver && <ExtraTile
                     letter={props.extraLetter}
                     tileSize={tileSize}
+                    spaceSize={spaceSize}
+                    boardSize={size}
                     zeroPos={zeroPos}
                     canInsert={canInsertLetter}
                     setEmptySquareColour={(colour: number) => {
@@ -123,7 +127,6 @@ export default function GameBoard(props: { gameBoard: string[][], extraLetter: s
                         }, 1000);
                     }}
                 />}
-            </Animated.View>
             <ScoreComponent
                 incrementTime={incrementTime}
                 slides={slides}

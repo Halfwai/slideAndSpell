@@ -6,7 +6,7 @@ import { wordList } from "@/assets/wordList/words";
 // https://github.com/nightblade9/simple-english-dictionary
 // https://github.com/matthewreagan/WebstersEnglishDictionary
 
-import * as definitions from "@/assets/wordList/mergedwords.json";
+import * as definitions from "@/assets/wordList/simple_dictionary_with_online_definitions.json";
 type Definitions = {
     [key: string]: string;
 };
