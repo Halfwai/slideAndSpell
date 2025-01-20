@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import React from 'react';
 import * as Haptics from 'expo-haptics';
 
+import { COLOURS } from '@/constants/colours';
+
 // Import the Direction enum
 import { Direction } from '@/constants/enums';
 
@@ -86,7 +88,7 @@ export default function Tile(props: { value: string | number, position: { y: num
     // interpolateColour is used to change the colour of the tile based on the value of the animated colour variable
     const interpolateColour = colour.interpolate({
         inputRange: [0, 1, 2, 3],
-        outputRange: ['#AAA', '#CBE6F7', "#CB4C4E", "#8bf0bc"]
+        outputRange: [COLOURS.grey, COLOURS.red, COLOURS.blue, COLOURS.green]
     });
 
     // changeColour is used to change the colour of the tile

@@ -24,7 +24,7 @@ export default function ExtraTile(props: { letter: string, tileSize: number, zer
                 tilePosition.y.setValue(gestureState.dy - props.tileSize * 1.5);
 
                 const distance = returnDistanceToZero(gestureState.dx + props.tileSize, gestureState.dy - props.tileSize * 1.5);
-                if (distance < props.tileSize){
+                if (distance < props.tileSize * 1.5) {
                     if (props.canInsert) {
                         props.setEmptySquareColour(1);
                     } else {
@@ -39,7 +39,7 @@ export default function ExtraTile(props: { letter: string, tileSize: number, zer
             // Move the tile to the empty space when the user releases it
             onPanResponderRelease: (e, gestureState) => {
                 props.setEmptySquareColour(0); 
-                if(props.canInsert){
+                if(props.canInsert && returnDistanceToZero(gestureState.dx + props.tileSize, gestureState.dy - props.tileSize * 1.5) < props.tileSize * 1.5) {
                     moveTile(props.zeroPos.x - (props.tileSize * 2 + 4), props.zeroPos.y);
                     props.removeZero();
                     return;

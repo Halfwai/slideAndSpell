@@ -53,17 +53,21 @@ export class GameBoardFunctions {
         return {x: -1, y: -1};
     }
 
-    static checkWords (gameBoard: string[][]): {correctWords: string[], newValidArray: boolean[]} {
+    static returnZeroPos(gameBoard: string[][], spaceSize: number) {
+        const currentZeroPos = GameBoardFunctions.findZero(gameBoard);
+        return { x: currentZeroPos.x * spaceSize, y: currentZeroPos.y * spaceSize };
+    }
+
+    static checkWords (gameBoard: string[][]): {correctWords: {word: string, definition: string}[], newValidArray: boolean[]} {
         const size = gameBoard.length;
         let newValidArray = [];
         let correctWords = [];
         for (let i = 0; i < size; i++) {
             const word = gameBoard[i].join('');
-            const valid = GameBoardFunctions.checkWord(word);
-            if (valid && word.length === size) {
-                console.log(valid);
-                // console.log(definitions[word]);
-                correctWords.push(word);
+            const definition = GameBoardFunctions.checkWord(word);
+            if (definition && word.length === size) {
+                console.log(definition);
+                correctWords.push({word: word, definition: definition});
                 newValidArray[i] = true;
                 
             } else {
@@ -76,7 +80,7 @@ export class GameBoardFunctions {
         return (definitions as Definitions)[word];
     }
 
-    static checkLetterInsertion(gameBoard: string[][], extraLetter: string): boolean {
+    static getFinalWord(gameBoard: string[][], extraLetter : string): string {
         const zeroPos = GameBoardFunctions.findZero(gameBoard);
         const wordArray = [...gameBoard[zeroPos.y]];
         for(let i = 0; i < wordArray.length; i++) {
@@ -86,7 +90,7 @@ export class GameBoardFunctions {
             }
         }
         let word = wordArray.join('');
-        return GameBoardFunctions.checkWord(word);
+        return word;
     }
 
     static removeZero(gameBoard: string[][], extraLetter: string): string[][] {
@@ -98,7 +102,7 @@ export class GameBoardFunctions {
 
     private static convolveBoard(gameBoard: string[][]): string[][] {
         const size = gameBoard.length;
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 1; i++) {
             let x = Math.floor(Math.random() * size);
             let y = Math.floor(Math.random() * size);
             while(GameBoardFunctions.checkSlidable(x, y, gameBoard) === Direction.FALSE){
@@ -118,4 +122,13 @@ export class GameBoardFunctions {
 
 
 
-
+// const isWordValid = async (word : string) => {
+//     try {
+//         const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+//         console.log(`${word}: ${response.data[0].meanings[0].definitions[0].definition}`);
+//         return true;
+//     //   return response.status === 200; // Word exists if response is successful
+//     } catch (error) {
+//         return false;
+//     }
+// };
