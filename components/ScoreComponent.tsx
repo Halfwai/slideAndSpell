@@ -70,7 +70,7 @@ export default function ScoreComponents(props: ScoreComponentProps) {
 
     function animateSlideUp() {
         Animated.timing(slideYPos, {
-            toValue: -200,
+            toValue: -300,
             duration: 200,
             useNativeDriver: true
         }).start();

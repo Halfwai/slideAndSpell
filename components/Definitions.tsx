@@ -28,7 +28,7 @@ export default function Definitions(props: DefinitionsProps) {
     }, [props.slideIn]);
 
     return (
-        <Animated.View style={[{ transform: [{ translateX: 0 }, { translateY: definitionsPositionY }]}]}>
+        <Animated.View style={[styles.container, { transform: [{ translateX: 0 }, { translateY: definitionsPositionY }]}]}>
             {wordList.current.map((word, index) => {
                 return (
                         <Definition key={index} word={word.word} definition={word.definition}/>
@@ -37,3 +37,9 @@ export default function Definitions(props: DefinitionsProps) {
         </Animated.View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        height: "80%"
+    }
+});

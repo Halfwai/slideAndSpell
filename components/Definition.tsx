@@ -7,10 +7,11 @@ interface DefinitionProps {
 
 
 export default function Definition(props: DefinitionProps) {
-    // console.log(props.word, props.definition);
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>{props.word}: {props.definition}</Text>
+            <Text>
+                <Text style={styles.nameText}>{props.word}: </Text><Text style={styles.defText}>{props.definition}</Text>
+            </Text>            
         </View>
     )
 } 
@@ -18,13 +19,17 @@ export default function Definition(props: DefinitionProps) {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
-        // alignItems: 'center',
         width: Dimensions.get('window').width,
         paddingHorizontal: 20,
         marginVertical: 10,
+        flexDirection: 'row',
     },
-    text: {
-        fontSize: 20,
-        textTransform: 'capitalize'
+    nameText: {
+        fontSize: 18,
+        textTransform: 'capitalize',
+        fontStyle: 'italic',
+    },
+    defText: {
+        fontSize: 18,
     }
 });

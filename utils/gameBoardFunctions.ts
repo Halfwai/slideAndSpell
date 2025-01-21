@@ -6,20 +6,22 @@ import { wordList } from "@/assets/wordList/words";
 // https://github.com/nightblade9/simple-english-dictionary
 // https://github.com/matthewreagan/WebstersEnglishDictionary
 
-import * as definitions from "@/assets/wordList/simple_dictionary_with_online_definitions.json";
+import * as definitions from "@/assets/wordList/combined.json";
 type Definitions = {
     [key: string]: string;
 };
 
 export class GameBoardFunctions {
     static generateGameBoard(size: number): { extraLetter: string, gameBoard: string[][] } {
-        const words = generate({exactly: size, minLength: size, maxLength: size});
+        const words = GameBoardFunctions.returnValidWords(size);
         let gameBoard = [];
         for (let i = 0; i < size; i++) {
             gameBoard.push(words[i].split(''));
         }
-        let extraLetter = gameBoard[size - 1][size - 1];
-        gameBoard[size - 1][size - 1] = "0";
+        const randomIndexX = Math.floor(Math.random() * wordList.length);
+        const randomIndexY = Math.floor(Math.random() * wordList.length);
+        let extraLetter = gameBoard[randomIndexY][randomIndexX];
+        gameBoard[randomIndexX][randomIndexY] = "0";
         gameBoard = GameBoardFunctions.convolveBoard(gameBoard);
         return {extraLetter, gameBoard};
     }
@@ -120,6 +122,19 @@ export class GameBoardFunctions {
             }
         }
         return gameBoard;
+    }
+
+    static returnValidWords(wordLength : number) {
+        const keys : string[] = Object.keys(definitions) as string[];
+        let validWords : string[] = [];
+        for (let i = 0; i < wordLength; i++) {
+            let randomIndex = Math.floor(Math.random() * keys.length);
+            while (keys[randomIndex].length !== wordLength) {
+                randomIndex = Math.floor(Math.random() * keys.length);
+            }
+            validWords.push(keys[randomIndex]);
+        }
+        return validWords;
     }
 }
 
