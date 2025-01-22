@@ -29,7 +29,7 @@ export default function Auth() {
             password: password,
             options: {
                 data: {
-                    full_name: 'username'
+                    display_name: 'username'
                 }
             }
         })
