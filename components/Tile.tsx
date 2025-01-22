@@ -159,5 +159,6 @@ const styles = (props : number | undefined) => StyleSheet.create({
     text: {
         textAlign: 'center',
         fontSize: 24,
+        fontFamily: 'Postino_std',
     }
 });

@@ -4,6 +4,9 @@ import { supabase } from '@/lib/supabase'
 import Auth from '@/components/Auth'
 import { View, Text } from 'react-native'
 import { Session } from '@supabase/supabase-js'
+import Menu from '@/components/Menu'
+
+import { COLOURS } from '@/constants/colours'
 
 export default function App() {
     const [session, setSession] = useState<Session | null>(null)
@@ -19,9 +22,11 @@ export default function App() {
     }, [])
 
     return (
-        <View>
+        <View style={{flex: 1, backgroundColor: COLOURS.blue}}>            
+            {session && session.user ? <Menu />
+                : 
             <Auth />
-            {session && session.user && <Text>{session.user.id}</Text>}
+            }
         </View>
     )
 }
