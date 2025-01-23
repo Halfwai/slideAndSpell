@@ -5,8 +5,13 @@ import { useFocusEffect } from 'expo-router';
 
 import { RFPercentage } from "react-native-responsive-fontsize";
 
+import MyAppText from '@/components/MyAppText';
+
+import { COLOURS } from '@/constants/colours';
+
 export default function MenuButton(props: { text: string, onPress: Function, delay: number, exitMenu: boolean }) {
     const buttonPosition = useRef(new Animated.Value(Dimensions.get('window').width)).current;
+    const [colour, setColour] = React.useState("white");
     function slideIn() {
         Animated.timing(buttonPosition, {
             toValue: 0,
@@ -23,12 +28,13 @@ export default function MenuButton(props: { text: string, onPress: Function, del
                 useNativeDriver: true
             }).start(({ finished }) => {
                 if (!finished) return;
+                setColour("white");
             });
         }, props.delay);
     }
 
     useFocusEffect(() => {
-        if(!props.exitMenu) {
+        if (!props.exitMenu) {
             setTimeout(() => {
                 slideIn();
             }, props.delay);
@@ -45,21 +51,21 @@ export default function MenuButton(props: { text: string, onPress: Function, del
 
 
     return (
-        <View style={styles.container}> 
+        <View style={styles(colour).container}>
             <Animated.View
-                style={[styles.button, {
+                style={[styles(colour).button, {
                     transform: [{ translateX: buttonPosition }],
-                }]}                
+                }]}
             >
-            <TouchableOpacity
-                style={styles.touchable}            
-                onPress={() => {
-                    props.onPress();
-                }}
-            >
-                <Text style={styles.text}>{props.text}</Text>
-            </TouchableOpacity>
-            
+                <TouchableOpacity
+                    style={styles(colour).touchable}
+                    onPress={() => {
+                        props.onPress();
+                        setColour(COLOURS.green);
+                    }}
+                >
+                    <MyAppText style={styles(colour).text}>{props.text}</MyAppText>
+                </TouchableOpacity>
             </Animated.View>
         </View>
     );
@@ -67,27 +73,24 @@ export default function MenuButton(props: { text: string, onPress: Function, del
 
 
 // Define the styles for the MenuButton component
-const styles = StyleSheet.create({
+const styles = (colour: string) => StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
+        marginVertical: 5,
     },
     touchable: {
-        width: "100%",
-        height: "100%",
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    button: {
-        position: 'absolute',
-        color: 'black', 
-        backgroundColor: '#AAA',
+        backgroundColor: colour,
+        borderColor: COLOURS.green,
         borderRadius: 10,
         borderWidth: 1,
         padding: 10,
-        width: "70%",
-        justifyContent: 'center',
-        alignItems: 'center',
+    },
+    button: {
+        width: "80%",
+        
     },
     text: {
         color: 'black',

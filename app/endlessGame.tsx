@@ -1,7 +1,11 @@
 import { Text, View, StyleSheet } from "react-native";
 import GameBoard from "../components/Gameboard";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import MenuButton from "@/components/MenuButton";
+
+import { SessionContext } from "@/utils/context";
+
+import { supabase } from '@/lib/supabase'
 
 
 import { GameBoardFunctions } from "@/utils/gameBoardFunctions";
@@ -10,6 +14,32 @@ export default function Index() {
     const [exitMenu, setExitMenu] = useState(false);
     const [gameBoard, setGameBoard] = useState<string[][] | null>(null);
     const [extraLetter, setExtraLetter] = useState<string | null>(null);
+    const [levelPicked, setLevelPicked] = useState<number | null>(null);
+
+    const session = useContext(SessionContext);
+
+    async function updateUserStats(time: number, slides: number) {
+        console.log(levelPicked);
+        if (!session) return;
+        let { data, error } = await supabase
+        .rpc('update_user_stats', {
+            input_user_id: session.user.id,
+            input_game_type: levelPicked,             
+            input_swipes: slides,
+            input_time: time
+        })
+        if (error) console.error(error)
+        else console.log(data)
+
+        // setLoading(true)
+        // const { error } = await supabase.auth.signInWithPassword({
+        //     email: email,
+        //     password: password,
+        // })
+
+        // if (error) Alert.alert(error.message)
+        // setLoading(false)
+    }
 
     return (
         <View
@@ -26,7 +56,13 @@ export default function Index() {
                     justifyContent: "center",
                     alignItems: "center",
                 }}>
-                    <GameBoard gameBoard={gameBoard} extraLetter={extraLetter} />
+                    <GameBoard 
+                        gameBoard={gameBoard} 
+                        extraLetter={extraLetter} 
+                        onGameEnd={(time : number, slides: number) => {
+                            updateUserStats(time, slides);
+                        }}
+                    />
                 </View>
                 :
                 <View style={styles.container}>
@@ -37,7 +73,9 @@ export default function Index() {
                             onPress={() => (
                                 setExitMenu(true),
                                 setTimeout(() => {
-                                    const {extraLetter, gameBoard} = GameBoardFunctions.generateGameBoard(i + 3);
+                                    const level = i + 3;
+                                    setLevelPicked(level);
+                                    const {extraLetter, gameBoard} = GameBoardFunctions.generateGameBoard(level);
                                     setExtraLetter(extraLetter);
                                     setGameBoard(gameBoard);
                                 }, 700)

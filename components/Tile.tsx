@@ -88,7 +88,7 @@ export default function Tile(props: { value: string | number, position: { y: num
     // interpolateColour is used to change the colour of the tile based on the value of the animated colour variable
     const interpolateColour = colour.interpolate({
         inputRange: [0, 1, 2, 3],
-        outputRange: [COLOURS.grey, COLOURS.red, COLOURS.blue, COLOURS.green]
+        outputRange: [COLOURS.grey, COLOURS.blue, COLOURS.red, COLOURS.green]
     });
 
     // changeColour is used to change the colour of the tile

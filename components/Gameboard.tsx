@@ -8,8 +8,14 @@ import ExtraTile from "@/components/ExtraTile";
 import ScoreComponent from "@/components/ScoreComponent";
 import Definitions from "@/components/Definitions";
 
+interface GameBoardProps {
+    gameBoard: string[][],
+    extraLetter: string,
+    onGameEnd: Function
+}
+
 // Define the Gameboard component
-export default function GameBoard(props: { gameBoard: string[][], extraLetter: string }) {
+export default function GameBoard(props: GameBoardProps) {
     const size = props.gameBoard.length;
     const spaceSize = (300 - 2) / size;
     const tileSize = spaceSize - 4;
@@ -20,7 +26,6 @@ export default function GameBoard(props: { gameBoard: string[][], extraLetter: s
 
     const [slides, setSlides] = useState(0);
     const [incrementTime, setIncrementTime] = useState(false);
-    const [totalTime, setTotalTime] = useState(0);
     const [validWords, setValidWords] = useState<{ word: string, definition: string }[]>([]);
     const [activateSlideUp, setActivateSlideUp] = useState(false);
 
@@ -60,10 +65,10 @@ export default function GameBoard(props: { gameBoard: string[][], extraLetter: s
             setValidArray(newValidArray);
         }
         if (correctWords.length === size - 1 && !gameOver) {
-            const word = GameBoardFunctions.getFinalWord(board, props.extraLetter);
+            const {word, zeroY} = GameBoardFunctions.getFinalWord(board, props.extraLetter);
             const definition = GameBoardFunctions.checkWord(word);
             if (definition) {
-                correctWords.push({ word: word, definition: definition });
+                correctWords.splice(zeroY, 0, {word: word, definition: definition});
                 setValidWords(correctWords);
                 setCanInsertLetter(true);
             } else {
@@ -132,7 +137,7 @@ export default function GameBoard(props: { gameBoard: string[][], extraLetter: s
                 slides={slides}
                 gameOver={gameOver}
                 returnTime={(time : number) => {
-                    setTotalTime(time);
+                    props.onGameEnd(time, slides, board);
                 }}
                 slideUp={activateSlideUp}
             />

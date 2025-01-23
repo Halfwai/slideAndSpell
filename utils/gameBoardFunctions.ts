@@ -71,7 +71,7 @@ export class GameBoardFunctions {
         for (let i = 0; i < size; i++) {
             const word = gameBoard[i].join('');
             const definition = GameBoardFunctions.checkWord(word);
-            console.log(word, definition);
+        
             if (definition && word.length === size) {
                 // console.log(definition);
                 correctWords.push({word: word, definition: definition});
@@ -87,7 +87,7 @@ export class GameBoardFunctions {
         return (definitions as Definitions)[word];
     }
 
-    static getFinalWord(gameBoard: string[][], extraLetter : string): string {
+    static getFinalWord(gameBoard: string[][], extraLetter : string): {word: string, zeroY: number} {
         const zeroPos = GameBoardFunctions.findZero(gameBoard);
         const wordArray = [...gameBoard[zeroPos.y]];
         for(let i = 0; i < wordArray.length; i++) {
@@ -97,7 +97,7 @@ export class GameBoardFunctions {
             }
         }
         let word = wordArray.join('');
-        return word;
+        return {word, zeroY: zeroPos.y};
     }
 
     static removeZero(gameBoard: string[][], extraLetter: string): string[][] {

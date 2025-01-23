@@ -26,7 +26,7 @@ def extract_words_from_json(json_file):
     words = {}
     for key in data:
         if len(key) > 2 and len(key) < 7:
-            if "[Obs.]" not in data[key]:
+            if "[Obs.]" not in data[key] and "-" not in data[key] and "." not in data[key]:
                 definition = data[key]
                 if "See" in definition:
                     try:
