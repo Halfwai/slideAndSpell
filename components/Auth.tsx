@@ -7,6 +7,7 @@ import { useFonts } from 'expo-font';
 
 import { COLOURS } from '@/constants/colours'
 
+import AuthComponentContainer from '@/components/AuthComponentContainer'
 import Welcome from '@/components/Welcome'
 import SignIn from '@/components/SignIn';
 import SignUp from '@/components/SignUp';
@@ -38,37 +39,6 @@ export default function Auth() {
         }
     }, [currentMenu])
 
-    // async function signInWithEmail() {
-    //     setLoading(true)
-    //     const { error } = await supabase.auth.signInWithPassword({
-    //         email: email,
-    //         password: password,
-    //     })
-
-    //     if (error) Alert.alert(error.message)
-    //     setLoading(false)
-    // }
-
-    // async function signUpWithEmail() {
-    //     setLoading(true)
-    //     const {
-    //         data: { session },
-    //         error,
-    //     } = await supabase.auth.signUp({
-    //         email: email,
-    //         password: password,
-    //         options: {
-    //             data: {
-    //                 display_name: 'username'
-    //             }
-    //         }
-    //     })
-
-    //     if (error) Alert.alert(error.message)
-    //     if (!session) Alert.alert('Please check your inbox for email verification!')
-    //     setLoading(false)
-    // }
-
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -80,19 +50,30 @@ export default function Auth() {
             </View>
 
             <View style={{flex: 1, width: '100%'}}>
-                <Welcome 
+                <AuthComponentContainer
                     position={welcomePos}
-                    setMenu={(state : string) => setCurrentMenu(state)}
                     setSlideIn={(state : boolean) => setSlideIn(state)}
-                />
-                <SignIn 
+                >
+                    <Welcome 
+                        setMenu={(state : string) => setCurrentMenu(state)}
+                    />
+                </AuthComponentContainer>
+                <AuthComponentContainer
                     position={signInPos}
-                    setMenu={(state : string) => setCurrentMenu(state)}
-                />
-                <SignUp 
+                    setSlideIn={(state : boolean) => setSlideIn(state)}                
+                >
+                    <SignIn 
+                        setMenu={(state : string) => setCurrentMenu(state)}
+                    />
+                </AuthComponentContainer>
+                <AuthComponentContainer
                     position={signUpPos}
-                    setMenu={(state : string) => setCurrentMenu(state)}
-                />
+                    setSlideIn={(state : boolean) => setSlideIn(state)}
+                >
+                    <SignUp 
+                        setMenu={(state : string) => setCurrentMenu(state)}
+                    />
+                </AuthComponentContainer>
             </View>
 
 

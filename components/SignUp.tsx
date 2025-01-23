@@ -1,4 +1,4 @@
-import { Animated, TouchableOpacity, StyleSheet, View, TextInput, Alert } from "react-native"
+import { Animated, TouchableOpacity, StyleSheet, View, TextInput, Alert, KeyboardAvoidingView } from "react-native"
 import MyAppText from "@/components/MyAppText"
 import { useEffect, useRef, useState } from "react"
 
@@ -8,36 +8,16 @@ import { supabase } from '@/lib/supabase'
 
 import { COLOURS } from '@/constants/colours'
 interface SignUpProps {
-    position: { x: number, y: number },
     setMenu: Function,
 }
 
 export default function SignUp(props: SignUpProps) {
-    const position = useRef(new Animated.ValueXY({ x: props.position.x, y: props.position.y })).current;
-
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
     const [displayName, setDisplayName] = useState('')
     const [loading, setLoading] = useState(false)
 
-    useEffect(() => {
-        if(props.position.x === 0) {
-            setTimeout(() => {
-                slide()
-            }, 300)
-            return;
-        }
-        slide();   
-    }, [props.position]);
-
-    function slide(){
-        Animated.timing(position, {
-            toValue: { x: props.position.x, y: props.position.y },
-            duration: 500,
-            useNativeDriver: true,
-        }).start();
-    }
 
     async function signUpWithEmail() {
         if(email === ''){ 
@@ -76,12 +56,12 @@ export default function SignUp(props: SignUpProps) {
     }
 
     return (
-        <Animated.View style={styles(position).container}>
-            <MyAppText style={styles(position).title}>Sign Up</MyAppText> 
-            <View style={styles(position).inputContainer}>
+        <View style={styles.container}>   
+            <MyAppText style={styles.title}>Sign Up</MyAppText> 
+            <View style={styles.inputContainer}>
                 <TextInput
                     placeholder="Email"
-                    style={styles(position).input}
+                    style={styles.input}
                     value={email}
                     onChangeText={setEmail}
                     autoComplete="email"
@@ -90,14 +70,14 @@ export default function SignUp(props: SignUpProps) {
                 />
                 <TextInput
                     placeholder="Display Name"
-                    style={styles(position).input}
+                    style={styles.input}
                     value={displayName}
                     onChangeText={setDisplayName}
                     autoCorrect={false}
                 /> 
                 <TextInput
                     placeholder="Password"
-                    style={styles(position).input}
+                    style={styles.input}
                     value={password}
                     onChangeText={setPassword}
                     autoCorrect={false}
@@ -105,7 +85,7 @@ export default function SignUp(props: SignUpProps) {
                 />
                 <TextInput
                     placeholder="Confirm Password"
-                    style={styles(position).input}
+                    style={styles.input}
                     value={passwordConfirm}
                     onChangeText={setPasswordConfirm}
                     autoCorrect={false}
@@ -115,16 +95,15 @@ export default function SignUp(props: SignUpProps) {
 
             <AuthButton text="Sign Up" onPress={signUpWithEmail} style={{ backgroundColor: COLOURS.green }} /> 
             <AuthButton text="Back" onPress={() => { props.setMenu("welcome") }} style={{ backgroundColor: "white", borderColor: COLOURS.green }} />         
-        </Animated.View>
+        </View>
     )
 }
 
-const styles = (position : Animated.ValueXY) => StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
-        position: 'absolute',
-        transform: [{ translateX: position.x }, { translateY: position.y }],
-        width: '100%',
         alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
     },
     inputContainer: {
         marginBottom: 20,

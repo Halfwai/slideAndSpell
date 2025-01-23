@@ -3,40 +3,18 @@ import { COLOURS } from '@/constants/colours'
 import MyAppText from '@/components/MyAppText'
 import AuthButton from '@/components/AuthButton'
 
-import { useRef, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 
 import { useRouter } from 'expo-router';
 
 interface WelcomeProps {
-    position: {x: number, y: number},
-    setMenu: Function,
+    setMenu: Function
 }
 
 export default function Welcome(props: WelcomeProps) {
-    const position = useRef(new Animated.ValueXY({x: 0, y: 0})).current;
     const router = useRouter();
-
-
-    useEffect(() => {
-        if(props.position.y === 0) {
-            setTimeout(() => {
-                slide()
-            }, 300)
-            return;
-        }
-        slide();   
-    }, [props.position]);
-
-    function slide(){
-        Animated.timing(position, {
-            toValue: { x: props.position.x, y: props.position.y },
-            duration: 500,
-            useNativeDriver: true,
-        }).start();
-    }
-
     return(
-        <Animated.View style={{ transform: [{ translateX: position.x }, { translateY: position.y }], position: "absolute", width: '100%', alignItems: 'center' }}>
+        <>
             <View style={styles.welcomeContainer}>
                 <MyAppText style={styles.title}>Hi</MyAppText>
                 <MyAppText style={styles.welcomeText}>Welcome to Slide and Spell, please sign in for stats and leaderboards, or hit endless mode to play without stats or tracking.</MyAppText>
@@ -48,8 +26,8 @@ export default function Welcome(props: WelcomeProps) {
             <View style={styles.endlessContainer}>
                 <AuthButton text="Endless Mode" onPress={() => router.push('/endlessGame')} style={{ backgroundColor: "white", borderColor: COLOURS.green}} />            
             </View>
+        </>
 
-        </Animated.View>
 
     )
 }
