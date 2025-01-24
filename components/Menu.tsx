@@ -52,7 +52,8 @@ export default function Menu(){
                 <MenuButton 
                     text="Stats"
                     onPress={() => (
-                        console.log("Stats")
+                        console.log("Stats"),
+                        switchRoute('/stats' as RelativePathString)
                     )}
                     delay={200}
                     exitMenu={exitMenu}
