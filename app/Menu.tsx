@@ -1,4 +1,4 @@
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet, Dimensions } from "react-native";
 import MenuButton from "@/components/MenuButton";
 import React, {useState} from "react";
 import { supabase } from '@/lib/supabase'
@@ -23,7 +23,7 @@ export default function Menu(){
         >
             <Image 
                 source={require("@/assets/images/logo.png")}
-                style={{ flex: 1, width: "90%" }}
+                style={{ height: Dimensions.get('window').height * 0.3, width: "90%" }}
                 resizeMode="contain"
             />
             <View style={{

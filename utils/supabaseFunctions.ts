@@ -1,8 +1,8 @@
 import { supabase } from '@/lib/supabase'
 import { Alert } from 'react-native'
 
-class Supabase {
-    signUpWithEmail = async (email: string, password: string, passwordConfirm: string, displayName: string, setLoading : Function) => {
+export class Supabase {
+    static signUpWithEmail = async (email: string, password: string, passwordConfirm: string, displayName: string, setLoading : Function) => {
         if(email === ''){ 
             Alert.alert('Please enter an email'); 
             return; 
@@ -38,12 +38,15 @@ class Supabase {
         setLoading(false)
     }
 
-    getStats = async (userId : string) => {
+    static getStats = async (userId : string) => {
         let { data, error } = await supabase
             .from('stats')
             .select('*')
             .eq('user_id', userId)
-        if (error) console.error(error)
-        else console.log(data)
+        if (error) {
+            console.error(error)
+        } else if (data) {
+            return data[0];
+        }
     };
 }

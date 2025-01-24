@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, StyleSheet, Animated, Keyboard } from 'react-native'
+import { View, TouchableOpacity, StyleSheet, Animated, Keyboard, Dimensions } from 'react-native'
 import { COLOURS } from '@/constants/colours'
 import MyAppText from '@/components/MyAppText'
 import AuthButton from '@/components/AuthButton'
@@ -15,6 +15,8 @@ export default function Welcome(props: AuthComponentContainerProps) {
     const position = useRef(new Animated.ValueXY({x: props.position.x, y: props.position.y})).current;
     const [zIndex, setZIndex] = useState(0);
 
+    const logoHeight = Dimensions.get('window').height * 0.3;
+
     useEffect(() => {
         if(props.position.y === 0 && props.position.x === 0) {
             setZIndex(0);
@@ -25,13 +27,12 @@ export default function Welcome(props: AuthComponentContainerProps) {
             return;
         }
         if(Keyboard.isVisible()) {
-            slide(props.position.x, props.position.y - 240); 
+            slide(props.position.x, props.position.y -  logoHeight); 
         } else {
             slide(props.position.x, props.position.y);
-        }
-        
-          
+        }        
     }, [props.position]);
+
 
     function slide(x: number, y: number) {
         Animated.timing(position, {
@@ -44,7 +45,7 @@ export default function Welcome(props: AuthComponentContainerProps) {
     useEffect(() => {
         const withKeyBoard = Keyboard.addListener('keyboardDidShow', () => {
             setZIndex(1);
-            slide(props.position.x, props.position.y -240);
+            slide(props.position.x, props.position.y - logoHeight);
         })
         const withoutKeyboard = Keyboard.addListener('keyboardDidHide', () => {
             slide(props.position.x, props.position.y);

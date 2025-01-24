@@ -60,7 +60,11 @@ export default function SignIn(props: SignInProps) {
                 />
             </View>
 
-            <AuthButton text="Sign In" onPress={signInWithEmail} style={{ backgroundColor: COLOURS.green }} /> 
+            <AuthButton 
+                text="Sign In" 
+                onPress={signInWithEmail} 
+                style={{ backgroundColor: COLOURS.green }} 
+            /> 
             <AuthButton text="Back" onPress={() => { props.setMenu("welcome") }} style={{ backgroundColor: "white", borderColor: COLOURS.green }} /> 
         </View>
     )

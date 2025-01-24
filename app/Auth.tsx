@@ -13,8 +13,6 @@ import SignIn from '@/components/SignIn';
 import SignUp from '@/components/SignUp';
 
 export default function Auth() {
-
-
     const [currentMenu, setCurrentMenu] = useState('welcome')
     const [slideIn, setSlideIn] = useState(false);
     const [welcomePos, setWelcomePos] = useState({x: 0, y: 0})
@@ -44,7 +42,7 @@ export default function Auth() {
             <View style={styles.imageContainer}>
                 <Image 
                     source={require("@/assets/images/logo.png")}
-                    style={{ width: 300, height: 180, zIndex: 1 }}
+                    style={{ width: "90%", height: "100%", zIndex: 1 }}
                     resizeMode="contain"
                 />
             </View>
@@ -91,9 +89,10 @@ const styles = StyleSheet.create({
     imageContainer: {
         width: '100%',
         alignItems: 'center',
-        paddingTop: 60,
+        // paddingTop: 20,
         zIndex: 1,
         backgroundColor: COLOURS.blue,
+        height: Dimensions.get('window').height * 0.3
     },
 })
 
