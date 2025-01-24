@@ -47,6 +47,7 @@ export default function RootLayout() {
                         screenOptions={{
                             // Hide the header for all other routes.
                             headerShown: false,
+                            animation: 'slide_from_right',
                         }}
                     />
                 </View>

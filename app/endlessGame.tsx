@@ -30,15 +30,6 @@ export default function Index() {
         })
         if (error) console.error(error)
         else console.log(data)
-
-        // setLoading(true)
-        // const { error } = await supabase.auth.signInWithPassword({
-        //     email: email,
-        //     password: password,
-        // })
-
-        // if (error) Alert.alert(error.message)
-        // setLoading(false)
     }
 
     return (
@@ -47,7 +38,8 @@ export default function Index() {
                 flex: 1,
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#CBE6F7"
+                backgroundColor: "#CBE6F7",
+                width: "100%",
             }}
         >
             {gameBoard && extraLetter ?
@@ -95,9 +87,8 @@ export default function Index() {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        height: '50%',
         flexDirection: 'column',
-        justifyContent: 'space-around',
+        width: '100%',
     },
 });
 

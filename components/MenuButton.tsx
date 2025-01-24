@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Text, View, Dimensions, Animated, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, Dimensions, Animated, TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
 
 import { useFocusEffect } from 'expo-router';
 
@@ -9,7 +9,15 @@ import MyAppText from '@/components/MyAppText';
 
 import { COLOURS } from '@/constants/colours';
 
-export default function MenuButton(props: { text: string, onPress: Function, delay: number, exitMenu: boolean }) {
+interface MenuButtonProps {
+    text: string,
+    onPress: Function,
+    delay: number,
+    exitMenu: boolean,
+    style?: {height: number | string | undefined},
+}
+
+export default function MenuButton(props: MenuButtonProps) {
     const buttonPosition = useRef(new Animated.Value(Dimensions.get('window').width)).current;
     const [colour, setColour] = React.useState("white");
     function slideIn() {
@@ -58,7 +66,7 @@ export default function MenuButton(props: { text: string, onPress: Function, del
                 }]}
             >
                 <TouchableOpacity
-                    style={styles(colour).touchable}
+                    style={[styles(colour).touchable, props.style as ViewStyle]}
                     onPress={() => {
                         props.onPress();
                         setColour(COLOURS.green);
@@ -78,6 +86,7 @@ const styles = (colour: string) => StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 5,
+        width: '100%',
     },
     touchable: {
         justifyContent: 'center',

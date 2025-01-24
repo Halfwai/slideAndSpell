@@ -1,6 +1,7 @@
 import { Text, View, Image, StyleSheet } from "react-native";
 import MenuButton from "@/components/MenuButton";
 import React, {useState} from "react";
+import { supabase } from '@/lib/supabase'
 
 import { useRouter, RelativePathString } from 'expo-router';
 
@@ -73,17 +74,18 @@ export default function Menu(){
                     exitMenu={exitMenu}
                 />
                 <View style={{ flexDirection: 'row', flex: 1, width: "100%", justifyContent: "space-evenly", alignItems: "center" }}>
-                <View style={{ width: "40%", height: "100%" }} >
+                <View style={{ width: "40%", height: "100%" , paddingBottom: "10%"}} >
                     <MenuButton 
                         text="Log Out"
-                        onPress={() => (
-                            console.log("LogOut")
-                        )}
+                        onPress={ async () => {
+                            const { error } = await supabase.auth.signOut();
+                        }}
                         delay={500}
                         exitMenu={exitMenu}
+                        style={{ height: "100%" }}
                     />
                 </View>
-                <View style={{ width: "40%", height: "100%" }} >
+                <View style={{ width: "40%", height: "100%", paddingBottom: "10%" }} >
                     <MenuButton 
                         text="Exit"
                         onPress={() => (
@@ -91,6 +93,7 @@ export default function Menu(){
                         )}
                         delay={500}
                         exitMenu={exitMenu}
+                        style={{ height: "100%" }}
                     />
                 </View>               
             </View>

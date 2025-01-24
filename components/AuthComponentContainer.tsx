@@ -21,7 +21,7 @@ export default function Welcome(props: AuthComponentContainerProps) {
             setTimeout(() => {
                 Keyboard.dismiss();
                 slide(props.position.x, props.position.y)
-            }, 300)
+            }, 500)
             return;
         }
         if(Keyboard.isVisible()) {
