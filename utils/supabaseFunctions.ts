@@ -1,0 +1,49 @@
+import { supabase } from '@/lib/supabase'
+import { Alert } from 'react-native'
+
+class Supabase {
+    signUpWithEmail = async (email: string, password: string, passwordConfirm: string, displayName: string, setLoading : Function) => {
+        if(email === ''){ 
+            Alert.alert('Please enter an email'); 
+            return; 
+        };
+        if(password === ''){
+            Alert.alert('Please enter a password');
+            return;
+        }
+        if(password !== passwordConfirm){
+            Alert.alert('Passwords do not match');
+            return;
+        }
+        if(displayName === ''){
+            Alert.alert('Please enter a display name');
+            return;
+        }
+        setLoading(true)
+        const {
+            data: { session },
+            error,
+        } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    display_name: 'username'
+                }
+            }
+        })
+
+        if (error) Alert.alert(error.message)
+        if (!session) Alert.alert("Sign up error, please try again")
+        setLoading(false)
+    }
+
+    getStats = async (userId : string) => {
+        let { data, error } = await supabase
+            .from('stats')
+            .select('*')
+            .eq('user_id', userId)
+        if (error) console.error(error)
+        else console.log(data)
+    };
+}
