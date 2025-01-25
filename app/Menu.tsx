@@ -61,7 +61,8 @@ export default function Menu(){
                 <MenuButton 
                     text="Leaderboards"
                     onPress={() => (
-                        console.log("Leaderboards")
+                        console.log("Leaderboards"),
+                        switchRoute('/leaderboard' as RelativePathString)
                     )}
                     delay={300}
                     exitMenu={exitMenu}

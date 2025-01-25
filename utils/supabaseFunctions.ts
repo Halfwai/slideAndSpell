@@ -49,4 +49,17 @@ export class Supabase {
             return data[0];
         }
     };
+
+    static getLeaderboard = async (date: string) => {
+        console.log(date);
+        let { data, error } = await supabase
+            .rpc('get_leaderboard', {
+                input_date: date
+            })
+        if (error) {
+            console.error(error)
+            return
+        }
+        return data;
+    };
 }
