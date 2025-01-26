@@ -1,6 +1,6 @@
 // Import necessary libraries
 import { StyleSheet, Dimensions, Animated } from "react-native";
-import Tile from "./Tile";
+import GameBoardTile from "./GameBoardTile";
 import React, { useState, useEffect, useRef } from "react";
 import EmptySquare from "@/components/EmptySquare";
 import { GameBoardFunctions } from "@/utils/gameBoardFunctions";
@@ -10,8 +10,8 @@ import Definitions from "@/components/Definitions";
 
 interface GameBoardProps {
     gameBoard: string[][],
-    extraLetter: string,
-    onGameEnd: Function
+    extraLetter?: string,
+    onGameEnd?: Function
 }
 
 // Define the Gameboard component
@@ -92,7 +92,7 @@ export default function GameBoard(props: GameBoardProps) {
                                     position={{ x: j * spaceSize, y: i * spaceSize }}
                                     colour={squareColour}
                                 /> :
-                                <Tile
+                                <GameBoardTile
                                     value={cell}
                                     position={{ x: j * spaceSize, y: i * spaceSize }}
                                     spaceSize={spaceSize}
@@ -113,7 +113,7 @@ export default function GameBoard(props: GameBoardProps) {
                 ))}
 
             </Animated.View>
-            {!gameOver && <ExtraTile
+            {!gameOver && props.extraLetter && <ExtraTile
                     letter={props.extraLetter}
                     tileSize={tileSize}
                     spaceSize={spaceSize}

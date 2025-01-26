@@ -5,6 +5,8 @@ import { Supabase } from '@/utils/supabaseFunctions';
 
 import { formatSeconds } from '@/utils/helperFunctions';
 
+import LeaderboardEntry from '@/components/LeaderboardEntry';
+
 export default function LeaderBoard() {
     const [leaderboard, setLeaderboard] = useState<any>(null);
     useEffect(() => {
@@ -25,12 +27,19 @@ export default function LeaderBoard() {
                     data={leaderboard}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({item, index}) => (
-                        <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 10, backgroundColor: COLOURS.red}}>
-                            <Text>{index + 1}</Text>
-                            <Text>{item.display_name}</Text>
-                            <Text>{item.slides}</Text>
-                            <Text>{formatSeconds(item.time_seconds)}s</Text>
-                        </View>
+                        // <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 10, backgroundColor: COLOURS.red}}>
+                        //     <Text>{index + 1}</Text>
+                        //     <Text>{item.display_name}</Text>
+                        //     <Text>{item.slides}</Text>
+                        //     <Text>{formatSeconds(item.time_seconds)}s</Text>
+                        // </View>
+                        <LeaderboardEntry 
+                            index={index}
+                            display_name={item.display_name}
+                            slides={item.slides}
+                            time_seconds={item.time_seconds}
+                            solution={item.solution}
+                        />
                     )}
                 />
                 
