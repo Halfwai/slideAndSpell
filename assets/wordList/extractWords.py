@@ -34,14 +34,11 @@ def extract_words_from_json(json_file):
                         newKey = newKey.replace(",", "")
                         definition = data[newKey]
                     except:
-
+                        # definition = get_online_definition(key)
                         definition = False
                 if definition:          
                     words[key.lower()] = definition
                     continue
-            # definition = get_online_definition(key)
-            # if definition:
-            #     words[key.lower()] = definition
     return words
 
 def extract_words_from_wordNet(json_file):

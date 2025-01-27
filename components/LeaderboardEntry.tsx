@@ -24,7 +24,8 @@ export default function LeaderboardEntry(props: LeaderboardEntryProps) {
     const tileSize = Dimensions.get('window').width / 10;
 
 
-    const scaleY = useRef(new Animated.Value(0)).current;
+    const height = useRef(new Animated.Value(0)).current;
+    const [opacity, setOpacity] = useState(0);
 
     const [displayBoard, setDisplayBoard] = useState(false);
 
@@ -37,18 +38,23 @@ export default function LeaderboardEntry(props: LeaderboardEntryProps) {
     }, [displayBoard]);
 
     const showBoard = () => {
-        Animated.spring(scaleY, {
+        Animated.spring(height, {
             toValue: tileSize * (props.solution.length + 1),
             useNativeDriver: false
         }).start();
+        setTimeout(() => {
+            setOpacity(1);
+        }, 300);
     }
 
     const hideBoard = () => {
-        Animated.timing(scaleY, {
+        Animated.timing(height, {
             toValue: 0,
             duration: 300,
             useNativeDriver: false
         }).start();
+        setOpacity(0);
+
     }
 
 
@@ -74,11 +80,11 @@ export default function LeaderboardEntry(props: LeaderboardEntryProps) {
                 <Animated.View style={[
                         styles.boardContainer,
                         {
-                            height: scaleY
+                            height: height,
                         }
                     ]}>
                     {props.solution.map((row, index) => (
-                        <View key={index} style={{flexDirection: 'row'}}>
+                        <Animated.View key={index} style={{flexDirection: 'row', opacity: opacity}}>
                             {row.map((letter, i) => (
                                 <View key={i} style={[styles.tileContainer, {width: tileSize, height: tileSize, display: displayBoard ? 'flex' : 'none'}]}>
                                     <Tile 
@@ -87,7 +93,7 @@ export default function LeaderboardEntry(props: LeaderboardEntryProps) {
                                 </View>
 
                             ))}
-                        </View>
+                        </Animated.View>
                         ))}
                 </Animated.View>
                 
@@ -106,9 +112,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginVertical: 10,
         borderRadius: 10,
-        backgroundColor: 'lightgray',
+        backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
+        marginHorizontal: 10,
     },
     tileContainer: {
         justifyContent: 'center',
