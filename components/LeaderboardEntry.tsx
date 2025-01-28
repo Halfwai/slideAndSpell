@@ -12,7 +12,7 @@ import { COLOURS } from '@/constants/colours';
 
 
 interface LeaderboardEntryProps {
-    index: number;
+    index: string;
     display_name: string;
     slides: number;
     time_seconds: number;
@@ -61,10 +61,10 @@ export default function LeaderboardEntry(props: LeaderboardEntryProps) {
     return (
         <View>
             <View style={styles.container}>
-            <MyAppText>{props.index + 1}</MyAppText>
-                    <MyAppText>{props.display_name}</MyAppText>
-                    <MyAppText>{props.slides}</MyAppText>
-                    <MyAppText>{formatSeconds(props.time_seconds)}s</MyAppText>
+                <MyAppText>{props.index}</MyAppText>
+                <MyAppText>{props.display_name}</MyAppText>
+                <MyAppText>{props.slides}</MyAppText>
+                <MyAppText>{formatSeconds(props.time_seconds)}s</MyAppText>
                 <Pressable onPress={() => {                           
                     if (!displayBoard) {
                             LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
@@ -104,7 +104,7 @@ export default function LeaderboardEntry(props: LeaderboardEntryProps) {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        justifyContent: 'space-between', 
+        justifyContent: 'space-around', 
         width: '100%', 
         padding: 10,
     }, 
@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginHorizontal: 10,
+        width: "100%"
     },
     tileContainer: {
         justifyContent: 'center',

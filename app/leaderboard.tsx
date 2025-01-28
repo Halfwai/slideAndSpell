@@ -1,4 +1,4 @@
-import{ View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { COLOURS } from '@/constants/colours';
 import { useEffect, useState } from 'react';
 import { Supabase } from '@/utils/supabaseFunctions';
@@ -6,6 +6,8 @@ import { Supabase } from '@/utils/supabaseFunctions';
 import { formatSeconds } from '@/utils/helperFunctions';
 
 import LeaderboardEntry from '@/components/LeaderboardEntry';
+
+import MyAppText from '@/components/MyAppText';
 
 export default function LeaderBoard() {
     const [leaderboard, setLeaderboard] = useState<any>(null);
@@ -18,31 +20,47 @@ export default function LeaderBoard() {
         });
     }, []);
 
+    let currentRank = 1;
+    let rankCounter = 0;
+    let previousRank = 1;
+    let currentSlides = 0;
+    let currentTime = 0;
+
+    function returnRank(slides : number, time_seconds : number) : string {
+        if (slides === currentSlides && time_seconds === currentTime) {
+            currentRank++;
+            return `=${previousRank}=`;
+        }
+        currentSlides = slides;
+        currentTime = time_seconds;
+        previousRank = currentRank;
+        return `${currentRank++}`;
+    }
+
 
     return (
         <View style={styles.container}>
-            <Text>Leaderboard</Text>
-            {leaderboard && 
-                <FlatList 
-                    data={leaderboard}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({item, index}) => (
-                        // <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 10, backgroundColor: COLOURS.red}}>
-                        //     <Text>{index + 1}</Text>
-                        //     <Text>{item.display_name}</Text>
-                        //     <Text>{item.slides}</Text>
-                        //     <Text>{formatSeconds(item.time_seconds)}s</Text>
-                        // </View>
-                        <LeaderboardEntry 
-                            index={index}
-                            display_name={item.display_name}
-                            slides={item.slides}
-                            time_seconds={item.time_seconds}
-                            solution={item.solution}
-                        />
-                    )}
-                />
-                
+            <View style={styles.titleContainer}>
+                <MyAppText style={styles.title}>Leaderboard</MyAppText>
+            </View>
+            {leaderboard ?
+                (leaderboard.length != 0 ?
+                    <FlatList
+                        data={leaderboard}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item, index }) => (
+                            <LeaderboardEntry
+                                index={returnRank(item.slides, item.time_seconds)}
+                                display_name={item.display_name}
+                                slides={item.slides}
+                                time_seconds={item.time_seconds}
+                                solution={item.solution}
+                            />
+                        )}
+                    />
+                    :
+                    <MyAppText>No entries yet</MyAppText>
+                ) : <MyAppText>Loading...</MyAppText>
             }
         </View>
     )
@@ -52,7 +70,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
         backgroundColor: COLOURS.blue
-    }
+    },
+    titleContainer: {
+        borderBottomWidth: 1,
+        width: "100%",
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: "10%",
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: "black",
+    },
 });
