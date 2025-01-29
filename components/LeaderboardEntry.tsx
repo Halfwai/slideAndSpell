@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Pressable, LayoutAnimation, Animated, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Pressable, LayoutAnimation, Animated, Dimensions, TouchableOpacity } from 'react-native';
 import MyAppText from '@/components/MyAppText';
 
 import { formatSeconds } from '@/utils/helperFunctions';
@@ -59,44 +59,44 @@ export default function LeaderboardEntry(props: LeaderboardEntryProps) {
 
 
     return (
-        <View>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <View style={styles.container}>
-                <MyAppText>{props.index}</MyAppText>
-                <MyAppText>{props.display_name}</MyAppText>
-                <MyAppText>{props.slides}</MyAppText>
-                <MyAppText>{formatSeconds(props.time_seconds)}s</MyAppText>
-                <Pressable onPress={() => {                           
+                <MyAppText style={styles.text}>{props.index}</MyAppText>
+                <MyAppText style={styles.userNameText}>{props.display_name}</MyAppText>
+                <MyAppText style={styles.text}>{props.slides}</MyAppText>
+                <MyAppText style={styles.text}>{formatSeconds(props.time_seconds)}s</MyAppText>
+                <TouchableOpacity onPress={() => {                           
                     if (!displayBoard) {
                             LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                         } else {
                             LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
                         }
                         setDisplayBoard(!displayBoard)
-                    }}>
+                    }}
+                    style={{flex: 1}}    
+                >
                     <MyAppText>{displayBoard ? 'Hide' : 'Show'}</MyAppText>
-                </Pressable>
+                </TouchableOpacity>
             </View>
+            <Animated.View style={[
+                    styles.boardContainer,
+                    {
+                        height: height,
+                    }
+                ]}>
+                {props.solution.map((row, index) => (
+                    <Animated.View key={index} style={{flexDirection: 'row', opacity: opacity}}>
+                        {row.map((letter, i) => (
+                            <View key={i} style={[styles.tileContainer, {width: tileSize, height: tileSize, display: displayBoard ? 'flex' : 'none'}]}>
+                                <Tile 
+                                    letter={letter}
+                                />
+                            </View>
 
-                <Animated.View style={[
-                        styles.boardContainer,
-                        {
-                            height: height,
-                        }
-                    ]}>
-                    {props.solution.map((row, index) => (
-                        <Animated.View key={index} style={{flexDirection: 'row', opacity: opacity}}>
-                            {row.map((letter, i) => (
-                                <View key={i} style={[styles.tileContainer, {width: tileSize, height: tileSize, display: displayBoard ? 'flex' : 'none'}]}>
-                                    <Tile 
-                                        letter={letter}
-                                    />
-                                </View>
-
-                            ))}
-                        </Animated.View>
                         ))}
-                </Animated.View>
-                
+                    </Animated.View>
+                    ))}
+            </Animated.View>                
         </View>
     )
 }
@@ -104,19 +104,19 @@ export default function LeaderboardEntry(props: LeaderboardEntryProps) {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        justifyContent: 'space-around', 
+        justifyContent: 'center', 
+        alignItems: 'center',
         width: '100%', 
-        padding: 10,
+        paddingVertical: 20,
+        backgroundColor: "white",
     }, 
     boardContainer: {
         borderWidth: 1,
-        marginVertical: 10,
         borderRadius: 10,
-        backgroundColor: 'white',
+        backgroundColor: COLOURS.blue,
         justifyContent: 'center',
         alignItems: 'center',
-        marginHorizontal: 10,
-        width: "100%"
+        width: "95%"
     },
     tileContainer: {
         justifyContent: 'center',
@@ -124,4 +124,14 @@ const styles = StyleSheet.create({
         backgroundColor: COLOURS.green,
         borderRadius: 10,
     },
+    text: {
+        flex: 1,
+        textAlign: 'center',
+        fontSize: 16
+    },
+    userNameText: {
+        flex: 2,
+        textAlign: 'center',
+        fontSize: 16
+    }
 });

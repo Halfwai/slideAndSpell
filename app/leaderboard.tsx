@@ -29,7 +29,7 @@ export default function LeaderBoard() {
     function returnRank(slides : number, time_seconds : number) : string {
         if (slides === currentSlides && time_seconds === currentTime) {
             currentRank++;
-            return `=${previousRank}=`;
+            return `${previousRank}`;
         }
         currentSlides = slides;
         currentTime = time_seconds;
@@ -45,6 +45,14 @@ export default function LeaderBoard() {
             </View>
             {leaderboard ?
                 (leaderboard.length != 0 ?
+                    <View>
+                    <View style={styles.headerContainer}>
+                        <MyAppText style={{fontWeight: 'bold', flex: 1, textAlign: 'center'}}>Rank</MyAppText>
+                        <MyAppText style={{fontWeight: 'bold', flex: 2, textAlign: 'center'}}>Name</MyAppText>
+                        <MyAppText style={{fontWeight: 'bold', flex: 1, textAlign: 'center'}}>Slides</MyAppText>
+                        <MyAppText style={{fontWeight: 'bold', flex: 1, textAlign: 'center'}}>Time</MyAppText>
+                        <View style={{flex: 1}} />
+                    </View>
                     <FlatList
                         data={leaderboard}
                         keyExtractor={(item, index) => index.toString()}
@@ -57,7 +65,9 @@ export default function LeaderBoard() {
                                 solution={item.solution}
                             />
                         )}
+                        style={{backgroundColor: "white", height: "80%"}}
                     />
+                    </View>
                     :
                     <MyAppText>No entries yet</MyAppText>
                 ) : <MyAppText>Loading...</MyAppText>
@@ -70,10 +80,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: COLOURS.blue
+        backgroundColor: COLOURS.blue,
     },
     titleContainer: {
-        borderBottomWidth: 1,
         width: "100%",
         justifyContent: 'center',
         alignItems: 'center',
@@ -83,5 +92,12 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         color: "black",
+    },
+    headerContainer: {
+        flexDirection: 'row', 
+        justifyContent: 'space-around', 
+        width: '100%', 
+        padding: 10,
+        borderBottomWidth: 1,
     },
 });
