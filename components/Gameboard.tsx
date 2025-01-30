@@ -10,8 +10,8 @@ import Definitions from "@/components/Definitions";
 
 interface GameBoardProps {
     gameBoard: string[][],
-    extraLetter?: string,
-    onGameEnd?: Function
+    extraLetter: string,
+    onGameEnd: Function
 }
 
 // Define the Gameboard component

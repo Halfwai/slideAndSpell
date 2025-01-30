@@ -84,18 +84,25 @@ export default function LeaderboardEntry(props: LeaderboardEntryProps) {
                         height: height,
                     }
                 ]}>
-                {props.solution.map((row, index) => (
-                    <Animated.View key={index} style={{flexDirection: 'row', opacity: opacity}}>
-                        {row.map((letter, i) => (
-                            <View key={i} style={[styles.tileContainer, {width: tileSize, height: tileSize, display: displayBoard ? 'flex' : 'none'}]}>
-                                <Tile 
-                                    letter={letter}
-                                />
-                            </View>
+                <TouchableOpacity
+                    onPress={() => {
+                        
+                    }}
+                >
+                    {props.solution.map((row, index) => (
+                        <Animated.View key={index} style={{flexDirection: 'row', opacity: opacity}}>
+                            {row.map((letter, i) => (
+                                <View key={i} style={[styles.tileContainer, {width: tileSize, height: tileSize, display: displayBoard ? 'flex' : 'none'}]}>
+                                    <Tile 
+                                        letter={letter}
+                                    />
+                                </View>
 
-                        ))}
-                    </Animated.View>
+                            ))}
+                        </Animated.View>
                     ))}
+                </TouchableOpacity>
+
             </Animated.View>                
         </View>
     )
