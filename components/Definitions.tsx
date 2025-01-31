@@ -1,14 +1,17 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Animated, Dimensions, DeviceEventEmitter, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Animated, Dimensions, DeviceEventEmitter, ScrollView, TouchableOpacity } from 'react-native';
 import Definition from '@/components/Definition';
 import { COLOURS } from '@/constants/colours';
+import AuthButton from '@/components/AuthButton';
+import Auth from '@/app/Auth';
 
 interface DefinitionsProps {
     slideIn: boolean,
     validWords: {
         word: string,
         definition: string
-    }[]
+    }[],
+    close?: Function
 }
 
 export default function Definitions(props: DefinitionsProps) {
@@ -39,19 +42,32 @@ export default function Definitions(props: DefinitionsProps) {
                     )
                 })}
             </ScrollView>
+            {props.close &&
+                <AuthButton 
+                    text="Close" 
+                    onPress={() => props.close && props.close()} 
+                    style={styles.button}
+                />
+            }
         </Animated.View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        height: "80%",
+        height: "70%",
+        width: "100%",
         borderTopWidth: 1,
         borderBottomWidth: 1,
         borderColor: COLOURS.green,
         backgroundColor: COLOURS.green, 
         borderRadius: 10,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        position: 'absolute',
+    },
+    button: {
+        backgroundColor: "white",
+        marginVertical: 20,
     }
 });

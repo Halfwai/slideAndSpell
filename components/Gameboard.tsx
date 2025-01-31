@@ -1,5 +1,5 @@
 // Import necessary libraries
-import { StyleSheet, Dimensions, Animated } from "react-native";
+import { StyleSheet, Dimensions, Animated, View } from "react-native";
 import GameBoardTile from "./GameBoardTile";
 import React, { useState, useEffect, useRef } from "react";
 import EmptySquare from "@/components/EmptySquare";
@@ -141,11 +141,14 @@ export default function GameBoard(props: GameBoardProps) {
                 }}
                 slideUp={activateSlideUp}
             />
-            {gameOver && 
+            {gameOver && validWords.length > 0 && 
+            <View style={{alignItems: 'center', justifyContent: 'center', width: Dimensions.get('screen').width, height: Dimensions.get('screen').height}}>
                 <Definitions 
                     slideIn={activateSlideUp}
                     validWords={validWords}
                 />
+            </View>
+
             }               
         </>
     );

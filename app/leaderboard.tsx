@@ -1,34 +1,35 @@
-import { View, Text, StyleSheet, FlatList, Modal } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Modal, TouchableOpacity } from 'react-native';
 import { COLOURS } from '@/constants/colours';
 import { useEffect, useState } from 'react';
 import { Supabase } from '@/utils/supabaseFunctions';
-
-import { formatSeconds } from '@/utils/helperFunctions';
 import { GameBoardFunctions } from '@/utils/gameBoardFunctions';
 import Definitions from '@/components/Definitions';
 
+import dayjs from 'dayjs'
+
+import DateTimePicker from 'react-native-ui-datepicker';
 import LeaderboardEntry from '@/components/LeaderboardEntry';
 
 import MyAppText from '@/components/MyAppText';
 
 export default function LeaderBoard() {
     const [leaderboard, setLeaderboard] = useState<any>(null);
-    const [modalVisible, setModalVisible] = useState(false);
     const [validWords, setValidWords] = useState<{ word: string, definition: string }[]>([]);
 
+    const date = new Date();
+    const sqlDate = date.toISOString().split('T')[0];
+    const [selectedDate, setSelectedDate] = useState<string>(sqlDate);
+    const [openDatePicker, setOpenDatePicker] = useState(false)
+
     useEffect(() => {
-        const date = new Date();
-        const sqlDate = date.toISOString().split('T')[0];
-        Supabase.getLeaderboard(sqlDate).then((data) => {
-            console.log(data);
+        Supabase.getLeaderboard(selectedDate).then((data) => {
             setLeaderboard(data);
         });
-    }, []);
+    }, [selectedDate]);
 
     function getDefinitions(gameBoard: string[][]) {
         const { correctWords } = GameBoardFunctions.checkWords(gameBoard);
         setValidWords(correctWords);
-        setModalVisible(true);
     }
 
     let currentRank = 1;
@@ -53,6 +54,20 @@ export default function LeaderBoard() {
             <View style={styles.titleContainer}>
                 <MyAppText style={styles.title}>Leaderboard</MyAppText>
             </View>
+            <TouchableOpacity onPress={() => setOpenDatePicker(true)}>
+                <MyAppText>{selectedDate}</MyAppText>
+            </TouchableOpacity>
+            <DateTimePicker
+                mode="single"
+                // date={selectedDate}
+                onChange={(params) => {
+                    console.log(params);
+                    if (!params.date) return;
+                    const dateString = new Date(params.date as Date).toISOString().split('T')[0];
+                    setSelectedDate(dateString);
+                    setOpenDatePicker(false);
+                }}
+            />
             {leaderboard ?
                 (leaderboard.length != 0 ?
                     <View>
@@ -80,10 +95,16 @@ export default function LeaderBoard() {
                         )}
                         style={{backgroundColor: "white", height: "80%"}}
                     />
-                            <Definitions 
-                                validWords={validWords}
-                                slideIn={modalVisible}
-                            />
+                    {validWords.length != 0 &&
+                        <Definitions 
+                            validWords={validWords}
+                            slideIn={true}
+                            close={() => {
+                                setValidWords([]);
+                            }}
+                        />
+                    }
+
                     </View>
                     :
                     <MyAppText>No entries yet</MyAppText>
