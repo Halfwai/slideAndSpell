@@ -1,9 +1,11 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Modal } from 'react-native';
 import { COLOURS } from '@/constants/colours';
 import { useEffect, useState } from 'react';
 import { Supabase } from '@/utils/supabaseFunctions';
 
 import { formatSeconds } from '@/utils/helperFunctions';
+import { GameBoardFunctions } from '@/utils/gameBoardFunctions';
+import Definitions from '@/components/Definitions';
 
 import LeaderboardEntry from '@/components/LeaderboardEntry';
 
@@ -11,6 +13,9 @@ import MyAppText from '@/components/MyAppText';
 
 export default function LeaderBoard() {
     const [leaderboard, setLeaderboard] = useState<any>(null);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [validWords, setValidWords] = useState<{ word: string, definition: string }[]>([]);
+
     useEffect(() => {
         const date = new Date();
         const sqlDate = date.toISOString().split('T')[0];
@@ -20,8 +25,13 @@ export default function LeaderBoard() {
         });
     }, []);
 
+    function getDefinitions(gameBoard: string[][]) {
+        const { correctWords } = GameBoardFunctions.checkWords(gameBoard);
+        setValidWords(correctWords);
+        setModalVisible(true);
+    }
+
     let currentRank = 1;
-    let rankCounter = 0;
     let previousRank = 1;
     let currentSlides = 0;
     let currentTime = 0;
@@ -63,10 +73,17 @@ export default function LeaderBoard() {
                                 slides={item.slides}
                                 time_seconds={item.time_seconds}
                                 solution={item.solution}
+                                showModel ={() => {
+                                    getDefinitions(item.solution)                                    
+                                }}  
                             />
                         )}
                         style={{backgroundColor: "white", height: "80%"}}
                     />
+                            <Definitions 
+                                validWords={validWords}
+                                slideIn={modalVisible}
+                            />
                     </View>
                     :
                     <MyAppText>No entries yet</MyAppText>
@@ -100,4 +117,8 @@ const styles = StyleSheet.create({
         padding: 10,
         borderBottomWidth: 1,
     },
+    model: {
+        justifyContent: 'center',
+        alignContent: 'center'
+    }
 });

@@ -17,6 +17,7 @@ interface LeaderboardEntryProps {
     slides: number;
     time_seconds: number;
     solution: string[][];
+    showModel: Function
 }
 
 
@@ -86,7 +87,7 @@ export default function LeaderboardEntry(props: LeaderboardEntryProps) {
                 ]}>
                 <TouchableOpacity
                     onPress={() => {
-                        
+                        props.showModel();
                     }}
                 >
                     {props.solution.map((row, index) => (

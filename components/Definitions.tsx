@@ -51,5 +51,7 @@ const styles = StyleSheet.create({
         borderColor: COLOURS.green,
         backgroundColor: COLOURS.green, 
         borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
