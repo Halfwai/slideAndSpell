@@ -142,7 +142,7 @@ export default function GameBoard(props: GameBoardProps) {
                 slideUp={activateSlideUp}
             />
             {gameOver && validWords.length > 0 && 
-            <View style={{alignItems: 'center', justifyContent: 'center', width: Dimensions.get('screen').width, height: Dimensions.get('screen').height}}>
+            <View style={{alignItems: 'center', justifyContent: 'center', width: Dimensions.get('screen').width, height: Dimensions.get('screen').height * 0.7}}>
                 <Definitions 
                     slideIn={activateSlideUp}
                     validWords={validWords}

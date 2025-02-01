@@ -33,6 +33,16 @@ export default function Definitions(props: DefinitionsProps) {
         }
     }, [props.slideIn]);
 
+    function slideOut() {
+        Animated.timing(definitionsPositionY, {
+            toValue: Dimensions.get('window').height,
+            duration: 500,
+            useNativeDriver: true
+        }).start(({finished}) => {
+            if(finished) props.close && props.close();
+        });
+    }
+
     return (
         <Animated.View style={[styles.container, { transform: [{ translateX: 0 }, { translateY: definitionsPositionY }] }]}>
             <ScrollView>
@@ -45,7 +55,7 @@ export default function Definitions(props: DefinitionsProps) {
             {props.close &&
                 <AuthButton 
                     text="Close" 
-                    onPress={() => props.close && props.close()} 
+                    onPress={() => slideOut()} 
                     style={styles.button}
                 />
             }
@@ -55,7 +65,7 @@ export default function Definitions(props: DefinitionsProps) {
 
 const styles = StyleSheet.create({
     container: {
-        height: "70%",
+        height: "100%",
         width: "100%",
         borderTopWidth: 1,
         borderBottomWidth: 1,
