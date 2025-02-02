@@ -4,6 +4,11 @@ import { useEffect, useState } from 'react';
 import { Supabase } from '@/utils/supabaseFunctions';
 import { GameBoardFunctions } from '@/utils/gameBoardFunctions';
 import Definitions from '@/components/Definitions';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faBackward, faForward } from '@fortawesome/free-solid-svg-icons'
+import BottomButtons from '@/components/BottomButtons';
+
+
 
 import dayjs from 'dayjs'
 
@@ -21,14 +26,12 @@ export default function LeaderBoard() {
     const [selectedDate, setSelectedDate] = useState<string>(sqlDate);
     const [openDatePicker, setOpenDatePicker] = useState(false)
 
+
     useEffect(() => {
+        setLeaderboard(null);
         Supabase.getLeaderboard(selectedDate).then((data) => {
             setLeaderboard(data);
         });
-        currentRank = 1;
-        previousRank = 1;
-        currentSlides = 0;
-        currentTime = 0;
     }, [selectedDate]);
 
     function getDefinitions(gameBoard: string[][]) {
@@ -58,12 +61,38 @@ export default function LeaderBoard() {
             <View style={styles.titleContainer}>
                 <MyAppText style={styles.title}>Leaderboard</MyAppText>
             </View>
-            <TouchableOpacity 
-                onPress={() => setOpenDatePicker(true)}
-                style={{padding: 10, borderWidth: 1, borderColor: COLOURS.green, borderRadius: 10, marginBottom: 10, backgroundColor: 'white'}}
-            >
-                <MyAppText>{selectedDate}</MyAppText>
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: "center", width: '100%', padding: 10, flex: 1 }}>
+                <TouchableOpacity
+                    onPress={() => {
+                        let date = new Date(selectedDate);
+                        date.setDate(date.getDate() - 1);
+                        const dateString = date.toISOString().split('T')[0];
+                        setSelectedDate(dateString);
+                    }}
+                    style={styles.dateButtons}
+                >
+                    <FontAwesomeIcon icon={faBackward} size={30} color={"black"} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => setOpenDatePicker(true)}
+                    style={styles.dateButtons}
+                >
+                    <MyAppText>{selectedDate}</MyAppText>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                        let date = new Date(selectedDate);
+                        date.setDate(date.getDate() + 1);
+                        const dateString = date.toISOString().split('T')[0];
+                        setSelectedDate(dateString);
+                    }}
+                    style={styles.dateButtons}
+                >
+                    <FontAwesomeIcon icon={faForward} size={30} color={"black"} />
+                </TouchableOpacity>
+
+            </View>
+
             <Modal
                 animationType="slide"
                 visible={openDatePicker}
@@ -102,7 +131,7 @@ export default function LeaderBoard() {
                                     setTimeout(() => {
                                         setOpenDatePicker(false);
                                     }, 100);
-                                    
+
                                 }
                                 }
                             />
@@ -112,14 +141,7 @@ export default function LeaderBoard() {
                 </Pressable>
 
             </Modal>
-            <View
-                style={{
-                    width: "100%",
-                    height: "70%",
-                    backgroundColor: "white",
-                    alignItems: 'center',
-                }}
-            >
+            <View style={styles.leaderBoardContainer}>
                 {leaderboard &&
                     <View style={styles.headerContainer}>
                         <MyAppText style={{ fontWeight: 'bold', flex: 1, textAlign: 'center' }}>Rank</MyAppText>
@@ -131,7 +153,7 @@ export default function LeaderBoard() {
                 }
 
                 {leaderboard && leaderboard.length != 0 ?
-                    <View style={{ width: "100%"}}>
+                    <View style={{ width: "100%", height: "90%" }}>
                         <FlatList
                             data={leaderboard}
                             keyExtractor={(item, index) => index.toString()}
@@ -145,9 +167,10 @@ export default function LeaderBoard() {
                                     showModel={() => {
                                         getDefinitions(item.solution)
                                     }}
+
                                 />
+
                             )}
-                            style={{ backgroundColor: "white", height: "80%" }}
                         />
                     </View>
                     :
@@ -165,6 +188,10 @@ export default function LeaderBoard() {
                     />
                 }
             </View>
+            <View style={{ flex: 2, justifyContent: 'center', width: '100%' }}>
+                <BottomButtons />
+
+            </View>
         </View>
     )
 }
@@ -180,6 +207,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: "10%",
+        flex: 1
     },
     title: {
         fontSize: 24,
@@ -189,8 +217,25 @@ const styles = StyleSheet.create({
     headerContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
+        alignItems: 'center',
         width: '100%',
         padding: 10,
         borderBottomWidth: 1,
+        height: "10%"
     },
+    dateButtons: {
+        padding: 10,
+        borderWidth: 1,
+        borderColor: COLOURS.green,
+        borderRadius: 10,
+        marginBottom: 10,
+        backgroundColor: 'white'
+    },
+    leaderBoardContainer: {
+        width: "100%",
+        flex: 7,
+        backgroundColor: "white",
+        alignItems: 'center',
+        borderWidth: 1,
+    }
 });

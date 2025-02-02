@@ -1,4 +1,4 @@
-import { Text, View, Image, StyleSheet, Dimensions } from "react-native";
+import { Text, View, Image, StyleSheet, Dimensions, BackHandler } from "react-native";
 import MenuButton from "@/components/MenuButton";
 import React, {useState} from "react";
 import { supabase } from '@/lib/supabase'
@@ -34,7 +34,6 @@ export default function Menu(){
                 <MenuButton 
                     text="Puzzle of the Day"
                     onPress={() => (
-                        console.log("Puzzle of the Day"),
                         switchRoute('/puzzleOfTheDay' as RelativePathString)
                     )}
                     delay={0}
@@ -43,7 +42,6 @@ export default function Menu(){
                 <MenuButton 
                     text="Endless Mode"
                     onPress={() => (
-                        console.log("Endless Mode"),
                         switchRoute('/endlessGame' as RelativePathString)
                     )}
                     delay={100}
@@ -52,7 +50,6 @@ export default function Menu(){
                 <MenuButton 
                     text="Stats"
                     onPress={() => (
-                        console.log("Stats"),
                         switchRoute('/stats' as RelativePathString)
                     )}
                     delay={200}
@@ -61,7 +58,6 @@ export default function Menu(){
                 <MenuButton 
                     text="Leaderboards"
                     onPress={() => (
-                        console.log("Leaderboards"),
                         switchRoute('/leaderboard' as RelativePathString)
                     )}
                     delay={300}
@@ -70,7 +66,7 @@ export default function Menu(){
                 <MenuButton 
                     text="Settings"
                     onPress={() => (
-                        console.log("Settings")
+                        switchRoute('/settings' as RelativePathString)
                     )}
                     delay={400}
                     exitMenu={exitMenu}
@@ -91,7 +87,7 @@ export default function Menu(){
                     <MenuButton 
                         text="Exit"
                         onPress={() => (
-                            console.log("Exit")
+                            BackHandler.exitApp()
                         )}
                         delay={500}
                         exitMenu={exitMenu}
