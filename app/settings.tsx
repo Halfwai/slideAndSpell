@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, Alert } from 'react-native';
 import MyAppText from '@/components/MyAppText';
 import { useState, useContext } from 'react';
 
@@ -8,10 +8,11 @@ import AuthButton from '@/components/AuthButton';
 
 import { SessionContext } from '@/utils/context';
 
+import { Supabase } from '@/utils/supabaseFunctions';
+
 export default function Settings() {
     const session = useContext(SessionContext);
     const user = session?.user?.user_metadata;
-
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -19,11 +20,24 @@ export default function Settings() {
     const [passwordConfirm, setPasswordConfirm] = useState('');
 
     const createUserObject = () => {
-        let userObject: { email?: string } = {}
-        if(email !== ''){
+        let userObject: { 
+            email?: string,
+            display_name?: string,
+            password?: string,
+        } = {}
+        if(email.toLowerCase() !== '' && user && email !== user.email.toLowerCase()){
             userObject.email = email;
         }
-        console.log(user);
+        if(displayName !== '' && user && displayName !== user.display_name){
+            userObject.display_name = displayName; 
+        }
+        if(password !== '' && password === passwordConfirm){
+            userObject.password = password;
+        }
+        if(Object.keys(userObject).length === 0){
+            console.log("No changes made");
+        }
+        return userObject;        
     }
 
 
@@ -75,7 +89,12 @@ export default function Settings() {
                 <AuthButton 
                     text="Save Changes" 
                     onPress={() => {
-                        createUserObject();
+                        const newUserData = createUserObject();
+                        if(Object.keys(newUserData).length === 0){
+                            Alert.alert("No changes made");
+                            return;
+                        }
+                        Supabase.updateUser(newUserData);
                     }} 
                     style={{ backgroundColor: COLOURS.green }} 
                 />

@@ -61,4 +61,20 @@ export class Supabase {
         }
         return data;
     };
+
+    static async updateUser(userObject : any) {
+        if(Object.keys(userObject).length === 0){
+            Alert.alert("No changes made");
+        }
+        const { data, error } = await supabase.auth.updateUser({
+            email: userObject.email,
+            password: userObject.password,
+            data: { display_name: userObject.display_name }
+        })
+        if (error) {
+            Alert.alert(error.message)
+        } else {
+            Alert.alert("Changes saved")
+        };   
+    }
 }

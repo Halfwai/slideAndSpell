@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Animated, PanResponder } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { ColorSpace } from 'react-native-reanimated';
 
+import Tile from '@/components/Tile';
+
 interface ExtraTileProps {
     letter: string;
     tileSize: number;
@@ -85,10 +87,9 @@ export default function ExtraTile(props: ExtraTileProps) {
                 ]}
                 {...panResponder.panHandlers}
             >
-                <Text style={ styles({tileSize: props.tileSize, yOffset: yOffset}).text}>{props.letter}</Text>
+                <Tile letter={props.letter} />
             </Animated.View>
         </View>
-
     );
 }
 
