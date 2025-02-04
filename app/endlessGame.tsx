@@ -9,6 +9,7 @@ import { supabase } from '@/lib/supabase'
 
 
 import { GameBoardFunctions } from "@/utils/gameBoardFunctions";
+import InGameBottomMenu from "@/components/InGameBottomMenu";
 
 export default function Index() {
     const [exitMenu, setExitMenu] = useState(false);
@@ -79,6 +80,7 @@ export default function Index() {
                 </View>
                
             }
+            <InGameBottomMenu />
         </View>
     );
 }
