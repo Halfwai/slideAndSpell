@@ -1,22 +1,19 @@
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faBackward, faForward, faVolumeHigh, faVolumeXmark } from '@fortawesome/free-solid-svg-icons';
 
-import { ArrowReturnLeft } from 'react-bootstrap-icons';
-import { ArrowRight } from 'react-bootstrap-icons';
-import * as Icon from 'react-bootstrap-icons';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
 
 export default function InGameBottomMenu() {
     return (
         <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} >
-            <Icon.ArrowRight />
+                <MaterialIcon name="skip-previous" size={30} color={'white'} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} >
-                <FontAwesomeIcon icon={faBackward} size={30} color={'white'} />
+                <MaterialIcon name="vibrate" size={30} color={'white'} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} >
-                <FontAwesomeIcon icon={faVolumeHigh} size={30} color={'white'} />
+                <EntypoIcon name="sound" size={30} color={'white'} />
             </TouchableOpacity>
         </View>
     )

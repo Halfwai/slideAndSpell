@@ -1,15 +1,14 @@
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faBackward, faForward, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function BottomButtons() {
     return (
         <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} >
-                <FontAwesomeIcon icon={faRotateLeft} size={30} color={'white'} />
+                <MaterialIcon name="skip-previous" size={30} color={'white'} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} >
-                <FontAwesomeIcon icon={faForward} size={30} color={'white'} />
+                <MaterialIcon name="vibrate" size={30} color={'white'} />
             </TouchableOpacity>
         </View>
     )

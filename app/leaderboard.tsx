@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { Supabase } from '@/utils/supabaseFunctions';
 import { GameBoardFunctions } from '@/utils/gameBoardFunctions';
 import Definitions from '@/components/Definitions';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faBackward, faForward } from '@fortawesome/free-solid-svg-icons'
 import BottomButtons from '@/components/BottomButtons';
+
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 
@@ -71,7 +71,7 @@ export default function LeaderBoard() {
                     }}
                     style={styles.dateButtons}
                 >
-                    <FontAwesomeIcon icon={faBackward} size={30} color={"black"} />
+                    <MaterialIcon name="skip-previous" size={30} color={'black'} />
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => setOpenDatePicker(true)}
@@ -88,7 +88,7 @@ export default function LeaderBoard() {
                     }}
                     style={styles.dateButtons}
                 >
-                    <FontAwesomeIcon icon={faForward} size={30} color={"black"} />
+                    <MaterialIcon name="skip-previous" size={30} color={'black'} />
                 </TouchableOpacity>
 
             </View>
