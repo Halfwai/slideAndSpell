@@ -4,7 +4,7 @@ import {useContext, useEffect, useState} from "react";
 
 import MyAppText from "@/components/MyAppText";
 import { Supabase } from "@/utils/supabaseFunctions";
-import { SessionContext } from "@/utils/context";
+import { UserContext } from "@/utils/context";
 import { useRouter } from "expo-router";
 
 import StatBox from "@/components/StatBox";
@@ -12,7 +12,7 @@ import { formatSeconds } from "@/utils/helperFunctions";
 
 
 export default function Stats() {
-    const session = useContext(SessionContext);
+    const session = useContext(UserContext).session;
     if (!session || !session.user) {
         Alert.alert('Please log in to view your stats');
         useRouter().push('/');

@@ -3,7 +3,7 @@ import GameBoard from "../components/Gameboard";
 import React, { useState, useContext } from "react";
 import MenuButton from "@/components/MenuButton";
 
-import { SessionContext } from "@/utils/context";
+import { UserContext } from "@/utils/context";
 
 import { supabase } from '@/lib/supabase'
 
@@ -17,7 +17,7 @@ export default function Index() {
     const [extraLetter, setExtraLetter] = useState<string | null>(null);
     const [levelPicked, setLevelPicked] = useState<number | null>(null);
 
-    const session = useContext(SessionContext);
+    const session = useContext(UserContext).session;
 
     async function updateUserStats(time: number, slides: number) {
         console.log(levelPicked);

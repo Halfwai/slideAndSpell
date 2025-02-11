@@ -3,19 +3,29 @@ import { Stack } from "expo-router";
 import { StatusBar, View } from "react-native";
 import { supabase } from "@/lib/supabase";
 import { Session } from '@supabase/supabase-js'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useFonts } from 'expo-font';
 
-import { SessionContext } from '@/utils/context';
+import { UserContext } from '@/utils/context';
 
 
 import { COLOURS }from "@/constants/colours";
 
 
 export default function RootLayout() {
-    const user = useContext(SessionContext);
-
     const [session, setSession] = useState<Session | null>(null)
+    const [vibrate, setVibrate] = useState(true);
+    const [sound, setSound] = useState(true);
+
+    const contextInput = {
+        session: session,
+        vibrate: vibrate,
+        sound: sound,
+        setVibrate: setVibrate,
+        setSound: setSound,
+    }
+
     
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
@@ -25,7 +35,31 @@ export default function RootLayout() {
         supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session)
         })
+        getSoundAndVibrateSettings();
     }, [])
+
+
+    const getSoundAndVibrateSettings = async () => {
+        try {
+            const vibrateValue = await AsyncStorage.getItem('vibrate');
+            const soundValue = await AsyncStorage.getItem('sound');
+        if (vibrateValue !== null && soundValue !== null) {
+            setVibrate(vibrateValue === 'true');
+            setSound(soundValue === 'true');
+        }
+        } catch (e) {
+            setupDefaultSettings();
+        }
+    };
+
+    const setupDefaultSettings = async () => {
+        try {
+            await AsyncStorage.setItem('vibrate', "true");
+            await AsyncStorage.setItem('sound', "true");
+        } catch (e) {
+            console.error(e);
+        }
+    };
     
     const [loaded, error] = useFonts({
         'Postino_std': require('@/assets/fonts/Postino Std Regular.otf'),
@@ -41,7 +75,7 @@ export default function RootLayout() {
             <StatusBar 
                 backgroundColor={COLOURS.blue}
             />
-            <SessionContext.Provider value={session}>
+            <UserContext.Provider value={contextInput}>
                 <View style={{ flex: 1, backgroundColor: COLOURS.blue }}>
                     <Stack
                         screenOptions={{
@@ -51,7 +85,7 @@ export default function RootLayout() {
                         }}
                     />
                 </View>
-            </SessionContext.Provider>
+            </UserContext.Provider>
 
         </>);
 }

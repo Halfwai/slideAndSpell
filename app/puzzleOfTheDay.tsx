@@ -2,10 +2,12 @@ import { Text, View, StyleSheet } from "react-native";
 import GameBoard from "../components/Gameboard";
 import React, { useState, useContext, useEffect, Alert } from "react";
 
-import { SessionContext } from "@/utils/context";
+import { UserContext } from "@/utils/context";
 
 import { supabase } from '@/lib/supabase'
 import { router, RelativePathString } from "expo-router";
+
+import InGameBottomMenu from "@/components/InGameBottomMenu";
 
 
 import { GameBoardFunctions } from "@/utils/gameBoardFunctions";
@@ -15,7 +17,7 @@ export default function Index() {
     const [extraLetter, setExtraLetter] = useState<string | null>(null);
     const [date, setDate] = useState<string | null>(null);
 
-    const session = useContext(SessionContext);
+    const session = useContext(UserContext).session;
 
     if(!session) {
         Alert.alert("Please log in to play the puzzle of the day");
@@ -101,6 +103,7 @@ export default function Index() {
                     />
                 </View>
             }
+            <InGameBottomMenu />
         </View>
     );
 }

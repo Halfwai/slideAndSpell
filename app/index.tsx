@@ -9,10 +9,10 @@ import { Session } from '@supabase/supabase-js'
 
 import { COLOURS } from '@/constants/colours'
 
-import { SessionContext } from '@/utils/context'
+import { UserContext } from '@/utils/context'
 
 export default function App() {
-    const session = useContext(SessionContext);
+    const session = useContext(UserContext).session;
     return (
         <View style={{flex: 1, backgroundColor: COLOURS.blue}}>            
             {session && session.user ? 
