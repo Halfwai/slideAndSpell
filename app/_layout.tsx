@@ -37,7 +37,6 @@ export default function RootLayout() {
         loadedMusic = loadedSound;
         setMusic(loadedMusic);  
         await loadedMusic.playAsync();
-
       }
   
       loadSound();  
@@ -52,6 +51,7 @@ export default function RootLayout() {
     useEffect(() => {
         if (sound) {
             music?.playAsync();
+            music?.setIsLoopingAsync(true);
         } else {
             music?.stopAsync();
         }
