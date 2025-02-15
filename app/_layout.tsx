@@ -8,7 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
 
 import { UserContext } from '@/utils/context';
-
+import { Audio } from 'expo-av';
+import { useAudioPlayer } from 'expo-audio';
 
 import { COLOURS }from "@/constants/colours";
 
@@ -17,6 +18,44 @@ export default function RootLayout() {
     const [session, setSession] = useState<Session | null>(null)
     const [vibrate, setVibrate] = useState(true);
     const [sound, setSound] = useState(true);
+
+    const [music, setMusic] = useState<Audio.Sound | null>(null);
+
+    useEffect(() => {
+      Audio.setAudioModeAsync({
+        playsInSilentModeIOS: true,
+      });
+    }, []);
+  
+    useEffect(() => {
+      let loadedMusic: Audio.Sound | null = null;
+  
+      async function loadSound() {
+        const { sound: loadedSound } = await Audio.Sound.createAsync(
+          require('@/assets/music/moonlight-sonata-classical-piano-241539.mp3')
+        );
+        loadedMusic = loadedSound;
+        setMusic(loadedMusic);  
+        await loadedMusic.playAsync();
+
+      }
+  
+      loadSound();  
+      // Cleanup to unload the sound
+      return () => {
+        if (loadedMusic) {
+          loadedMusic.unloadAsync();
+        }
+      };
+    }, []);
+
+    useEffect(() => {
+        if (sound) {
+            music?.playAsync();
+        } else {
+            music?.stopAsync();
+        }
+    }, [sound]);
 
     const contextInput = {
         session: session,
@@ -37,6 +76,15 @@ export default function RootLayout() {
         })
         getSoundAndVibrateSettings();
     }, [])
+
+    // useEffect(() => {
+    //     try {            
+    //         player.play();
+    //         console.log("sound played");
+    //     } catch (e) {
+    //         console.error(e);
+    //     }        
+    // }, [sound]);
 
 
     const getSoundAndVibrateSettings = async () => {

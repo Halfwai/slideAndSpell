@@ -1,7 +1,9 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import React, { useRef, useState, useEffect, useMemo, useContext } from 'react';
 import { View, Text, StyleSheet, Animated, PanResponder } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { ColorSpace } from 'react-native-reanimated';
+
+import { UserContext } from '@/utils/context';
 
 import Tile from '@/components/Tile';
 
@@ -21,6 +23,9 @@ export default function ExtraTile(props: ExtraTileProps) {
     const yOffset = props.spaceSize * ((props.boardSize / 2) + 1);
     const xOffset = props.spaceSize * ((props.boardSize - 1) / 2);
 
+    const userContext = useContext(UserContext);
+    const vibrate = userContext ? userContext.vibrate : false;
+
     function returnDistanceToZero(x : number, y: number) {
         return Math.sqrt(Math.pow(x - props.zeroPos.x, 2) + Math.pow(y - props.zeroPos.y, 2));
     }
@@ -31,7 +36,7 @@ export default function ExtraTile(props: ExtraTileProps) {
             onMoveShouldSetPanResponder: () => true,
             // Haptic feedback when the user touches the tile
             onPanResponderGrant: () => {
-                (async () => {
+                if (vibrate) (async () => {
                     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                 })();
             },
@@ -62,7 +67,7 @@ export default function ExtraTile(props: ExtraTileProps) {
                 moveTile(0, 0);
             },
         }),
-        [props.zeroPos, props.canInsert]
+        [props.zeroPos, props.canInsert, vibrate]
     );
 
     const moveTile = (x: number, y: number) => {

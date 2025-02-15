@@ -1,12 +1,14 @@
 // Import necessary libraries
 import { Text, StyleSheet, Animated, PanResponder } from 'react-native';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext, useMemo } from 'react';
 import React from 'react';
 import * as Haptics from 'expo-haptics';
 
 import Tile from '@/components/Tile';
 
 import { COLOURS } from '@/constants/colours';
+
+import { UserContext } from '@/utils/context';
 
 // Import the Direction enum
 import { Direction } from '@/constants/enums';
@@ -29,6 +31,10 @@ export default function GameBoardTile(props: GameBoardTileProps) {
     const tilePosition = useRef(new Animated.ValueXY({ x: props.position.x, y: props.position.y })).current;
     const slidableRef = useRef(props.slidable);
     const colour = useRef(props.valid ? new Animated.Value(3) : new Animated.Value(0)).current;
+
+    const userContext = useContext(UserContext);
+    const vibrate = userContext ? userContext.vibrate : false;
+
     
 
     const [resetColour, setResetColour] = useState(0);
@@ -47,12 +53,12 @@ export default function GameBoardTile(props: GameBoardTileProps) {
     }, [resetColour]);
 
     // Define the panResponder
-    const panResponder = useRef(
+    const panResponder = useMemo(() => 
         PanResponder.create({       
             onMoveShouldSetPanResponder: () => true,
             // Haptic feedback when the user touches the tile
             onPanResponderGrant: () => {
-                (async () => {
+                if (vibrate) (async () => {
                     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                 })();
             },
@@ -96,8 +102,8 @@ export default function GameBoardTile(props: GameBoardTileProps) {
                     moveTile({ x: props.position.x, y: props.position.y +  props.spaceSize });
                 }
             },
-        })
-    ).current;
+        }), [vibrate]
+    );
 
     // interpolateColour is used to change the colour of the tile based on the value of the animated colour variable
     const interpolateColour = colour.interpolate({
