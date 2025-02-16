@@ -7,11 +7,13 @@ import { GameBoardFunctions } from "@/utils/gameBoardFunctions";
 import ExtraTile from "@/components/ExtraTile";
 import ScoreComponent from "@/components/ScoreComponent";
 import Definitions from "@/components/Definitions";
+import Hints from "@/components/Hints";
 
 interface GameBoardProps {
     gameBoard: string[][],
     extraLetter: string,
-    onGameEnd: Function
+    onGameEnd: Function,
+    hints: string[][]
 }
 
 // Define the Gameboard component
@@ -56,6 +58,11 @@ export default function GameBoard(props: GameBoardProps) {
     const [canInsertLetter, setCanInsertLetter] = useState(false);
     const [gameOver, setGameOver] = useState(false);
 
+    const [hints, setHints] = useState<string[][]>([]);
+    const [hintsSlideIn, setHintsSlideIn] = useState(false);
+
+
+
 
 
     useEffect(() => {
@@ -74,12 +81,26 @@ export default function GameBoard(props: GameBoardProps) {
             } else {
                 setCanInsertLetter(false);
             }
-        }        
+        }
+        if (slides % 10 === 0 && slides !== 0) {
+            if(hints.length < props.hints.length) {
+                setHints((hints) => {
+                    const newHints = [...hints];
+                    newHints.push(props.hints[hints.length]);
+                    return newHints;
+                })
+            }
+            setHintsSlideIn(true);
+        }       
     }, [board]);
 
     return (
         <>
             <Animated.View style={[styles().mainBoard, { transform: [{ translateY: boardPosition }] }]}>
+                <Hints 
+                    startSlideIn={hintsSlideIn}
+                    hints={hints}
+                />
                 {/* Map the board state to Tile components */}
                 {board.map((row, i) => (
                     row.map((cell, j) => (

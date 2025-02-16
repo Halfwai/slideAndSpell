@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, TextInput, Alert, Keyboard } from 'react-native';
 import MyAppText from '@/components/MyAppText';
 import { useState, useContext } from 'react';
 
@@ -6,38 +6,44 @@ import { COLOURS } from '@/constants/colours';
 
 import AuthButton from '@/components/AuthButton';
 
-import { SessionContext } from '@/utils/context';
+import { UserContext } from '@/utils/context';
 
 import { Supabase } from '@/utils/supabaseFunctions';
 
+import InGameBottomMenu from '@/components/InGameBottomMenu';
+
 export default function Settings() {
-    const session = useContext(SessionContext);
-    const user = session?.user?.user_metadata;
+    const context = useContext(UserContext);
+    const user = context?.session?.user?.user_metadata;
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [displayName, setDisplayName] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [showBottomButtons, setShowBottomButtons] = useState(true);
+
+    Keyboard.addListener('keyboardDidShow', () => setShowBottomButtons(false));
+    Keyboard.addListener('keyboardDidHide', () => setShowBottomButtons(true));
 
     const createUserObject = () => {
-        let userObject: { 
+        let userObject: {
             email?: string,
             display_name?: string,
             password?: string,
         } = {}
-        if(email.toLowerCase() !== '' && user && email !== user.email.toLowerCase()){
+        if (email.toLowerCase() !== '' && user && email !== user.email.toLowerCase()) {
             userObject.email = email;
         }
-        if(displayName !== '' && user && displayName !== user.display_name){
-            userObject.display_name = displayName; 
+        if (displayName !== '' && user && displayName !== user.display_name) {
+            userObject.display_name = displayName;
         }
-        if(password !== '' && password === passwordConfirm){
+        if (password !== '' && password === passwordConfirm) {
             userObject.password = password;
         }
-        if(Object.keys(userObject).length === 0){
+        if (Object.keys(userObject).length === 0) {
             console.log("No changes made");
         }
-        return userObject;        
+        return userObject;
     }
 
 
@@ -86,19 +92,23 @@ export default function Settings() {
                     autoCorrect={false}
                     inputMode="email"
                 />
-                <AuthButton 
-                    text="Save Changes" 
+                <AuthButton
+                    text="Save Changes"
                     onPress={() => {
                         const newUserData = createUserObject();
-                        if(Object.keys(newUserData).length === 0){
+                        if (Object.keys(newUserData).length === 0) {
                             Alert.alert("No changes made");
                             return;
                         }
                         Supabase.updateUser(newUserData);
-                    }} 
-                    style={{ backgroundColor: COLOURS.green }} 
+                    }}
+                    style={{ backgroundColor: COLOURS.green }}
                 />
-            </View>            
+            </View>
+            {showBottomButtons &&
+                <InGameBottomMenu />
+            }
+
         </View>
     )
 }

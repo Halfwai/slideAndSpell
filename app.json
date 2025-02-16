@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "slideAndSpell",
-    "slug": "slideAndSpell",
+    "slug": "slide-and-spell",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -15,7 +15,13 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -23,7 +29,7 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-        "expo-av",
+      "expo-av",
       "expo-audio",
       "expo-router",
       [
@@ -40,6 +46,21 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "ad617efa-d78f-4b05-8cf9-4c8cd4e9ead8"
+      }
+    },
+    "owner": "halfwai",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/ad617efa-d78f-4b05-8cf9-4c8cd4e9ead8"
     }
   }
 }

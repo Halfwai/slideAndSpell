@@ -103,7 +103,7 @@ const styles = (colour: string) => StyleSheet.create({
     },
     text: {
         color: 'black',
-        fontSize: RFPercentage(4),
+        fontSize: RFPercentage(3.8),
         textAlign: 'center',
     }
 });

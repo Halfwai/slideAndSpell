@@ -34,7 +34,6 @@ export class Supabase {
         })
 
         if (error) Alert.alert(error.message)
-        if (!session) Alert.alert("Sign up error, please try again")
         setLoading(false)
     }
 
@@ -76,5 +75,19 @@ export class Supabase {
         } else {
             Alert.alert("Changes saved")
         };   
+    }
+
+    static async insertGameBoard(date: string, gameBoard: string[][], extraLetter: string, hints: string[][]) {
+        const { data, error } = await supabase
+            .from('puzzles')
+            .insert([
+                { date: date, game_board: gameBoard, extra_letter: extraLetter, hints: hints },
+            ])
+        .select()
+        if (error) {
+            console.error(error)
+            return
+        }
+        return data;
     }
 }

@@ -156,8 +156,9 @@ export default function LeaderBoard() {
                     />
                 }
             </View>
-            <View style={{ flex: 2, justifyContent: 'center', width: '100%', alignItems: 'center' }}>
-                <InGameBottomMenu />
+            <InGameBottomMenu />
+            <View style={{ flex: 1.5, justifyContent: 'center', width: '100%', alignItems: 'center' }}>
+                
 
             </View>
         </View>

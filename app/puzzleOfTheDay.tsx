@@ -11,13 +11,16 @@ import InGameBottomMenu from "@/components/InGameBottomMenu";
 
 
 import { GameBoardFunctions } from "@/utils/gameBoardFunctions";
+import { Supabase } from "@/utils/supabaseFunctions";
 
 export default function Index() {
     const [gameBoard, setGameBoard] = useState<string[][] | null>(null);
     const [extraLetter, setExtraLetter] = useState<string | null>(null);
     const [date, setDate] = useState<string | null>(null);
+    const [hints, setHints] = useState<string[][] | null>(null);
 
-    const session = useContext(UserContext).session;
+
+    const session = useContext(UserContext)?.session;
 
     if(!session) {
         Alert.alert("Please log in to play the puzzle of the day");
@@ -43,24 +46,16 @@ export default function Index() {
         if (data.length > 0) {
             setGameBoard(data[0].game_board);
             setExtraLetter(data[0].extra_letter);
+            setHints(data[0].hints);
             return;
         }
-        const { gameBoard, extraLetter } = GameBoardFunctions.generateGameBoard(4);
-        const { data: insertData, error: insertError } = await supabase
-            .from('puzzles')
-            .insert([
-                { date: sqlDate, game_board: gameBoard, extra_letter: extraLetter },
-            ])
-        .select()
-        if (insertError) {
-            console.error(insertError)
+        const { gameBoard, extraLetter, hints } = GameBoardFunctions.generateGameBoard(4);
+        const insertData = Supabase.insertGameBoard(sqlDate, gameBoard, extraLetter, hints);
+        if (!insertData) {
             return
         }
-        if (insertData) {
-            console.log(insertData);
-            setGameBoard(gameBoard);
-            setExtraLetter(extraLetter);
-        }
+        setGameBoard(gameBoard);
+        setExtraLetter(extraLetter);
     }
 
     async function updateUserStats(time: number, slides: number, gameBoard: string[][]) {
@@ -76,7 +71,6 @@ export default function Index() {
         }])
         .select();
         if (error) console.error(error)
-        else console.log(data)
     }
 
     return (
@@ -88,7 +82,7 @@ export default function Index() {
                 backgroundColor: "#CBE6F7"
             }}
         >
-            {gameBoard && extraLetter &&
+            {gameBoard && extraLetter && hints &&
                 <View
                     style={{
                     justifyContent: "center",
@@ -100,6 +94,7 @@ export default function Index() {
                         onGameEnd={(time : number, slides: number, gameBoard: string[][]) => {
                             updateUserStats(time, slides, gameBoard);
                         }}
+                        hints={hints}
                     />
                 </View>
             }

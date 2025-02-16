@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import MyAppText from '@/components/MyAppText';
 import { useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
@@ -25,7 +25,6 @@ export default function Dictionary() {
         try {
             definitions = data[0].meanings[0].definitions;
             if (currentDefinition.toLowerCase() !== definitions[0].definition.toLowerCase()) {
-                console.log('here');
                 definitions.splice(0, 0, { definition: currentDefinition });
             }
         } catch (error) {
@@ -39,7 +38,10 @@ export default function Dictionary() {
             <View style={styles.titleContainer}>
                 <MyAppText style={styles.title}>{word}</MyAppText>  
             </View>
-            {definitions.length != 0 && (
+            {definitions.length === 0 ?
+                <MyAppText>Definitions Loading...</MyAppText>
+            :
+            (
                 <View style={styles.definitionContainer}>
                     <ScrollView>
                         {definitions.map((definition, index) => {

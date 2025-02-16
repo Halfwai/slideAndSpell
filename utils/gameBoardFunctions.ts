@@ -12,18 +12,19 @@ type Definitions = {
 };
 
 export class GameBoardFunctions {
-    static generateGameBoard(size: number): { extraLetter: string, gameBoard: string[][] } {
+    static generateGameBoard(size: number): { extraLetter: string, gameBoard: string[][], hints: string[][]} {
         const words = GameBoardFunctions.returnValidWords(size);
         let gameBoard = [];
         for (let i = 0; i < size; i++) {
             gameBoard.push(words[i].split(''));
         }
+        const solution = JSON.parse(JSON.stringify(gameBoard));
         const randomIndexX = Math.floor(Math.random() * wordList.length);
         const randomIndexY = Math.floor(Math.random() * wordList.length);
         let extraLetter = gameBoard[randomIndexY][randomIndexX];
         gameBoard[randomIndexX][randomIndexY] = "0";
         gameBoard = GameBoardFunctions.convolveBoard(gameBoard);
-        return {extraLetter, gameBoard};
+        return {extraLetter, gameBoard, hints: solution};
     }
 
     // checkSlidable function checks if a tile can be moved in a certain direction and returns a Direction enum
@@ -109,7 +110,7 @@ export class GameBoardFunctions {
 
     private static convolveBoard(gameBoard: string[][]): string[][] {
         const size = gameBoard.length;
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < 100; i++) {
             let x = Math.floor(Math.random() * size);
             let y = Math.floor(Math.random() * size);
             while(GameBoardFunctions.checkSlidable(x, y, gameBoard) === Direction.FALSE){

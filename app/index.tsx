@@ -12,10 +12,10 @@ import { COLOURS } from '@/constants/colours'
 import { UserContext } from '@/utils/context'
 
 export default function App() {
-    const session = useContext(UserContext).session;
+    const context = useContext(UserContext);
     return (
         <View style={{flex: 1, backgroundColor: COLOURS.blue}}>            
-            {session && session.user ? 
+            {context && context.session && context.session.user ? 
                 <Menu />
                     : 
                 <Auth />

@@ -16,11 +16,11 @@ export default function Index() {
     const [gameBoard, setGameBoard] = useState<string[][] | null>(null);
     const [extraLetter, setExtraLetter] = useState<string | null>(null);
     const [levelPicked, setLevelPicked] = useState<number | null>(null);
+    const [hints, setHints] = useState<string[][] | null>(null);
 
-    const session = useContext(UserContext).session;
+    const session = useContext(UserContext)?.session;
 
     async function updateUserStats(time: number, slides: number) {
-        console.log(levelPicked);
         if (!session) return;
         let { data, error } = await supabase
         .rpc('update_user_stats', {
@@ -30,7 +30,6 @@ export default function Index() {
             input_time: time
         })
         if (error) console.error(error)
-        else console.log(data)
     }
 
     return (
@@ -43,7 +42,7 @@ export default function Index() {
                 width: "100%",
             }}
         >
-            {gameBoard && extraLetter ?
+            {gameBoard && extraLetter && hints ?
                 <View
                     style={{
                     justifyContent: "center",
@@ -55,6 +54,7 @@ export default function Index() {
                         onGameEnd={(time : number, slides: number) => {
                             updateUserStats(time, slides);
                         }}
+                        hints={hints}
                     />
                 </View>
                 :
@@ -68,9 +68,10 @@ export default function Index() {
                                 setTimeout(() => {
                                     const level = i + 3;
                                     setLevelPicked(level);
-                                    const {extraLetter, gameBoard} = GameBoardFunctions.generateGameBoard(level);
+                                    const {extraLetter, gameBoard, hints} = GameBoardFunctions.generateGameBoard(level);
                                     setExtraLetter(extraLetter);
                                     setGameBoard(gameBoard);
+                                    setHints(hints);
                                 }, 700)
                             )}
                             delay={i * 100}
