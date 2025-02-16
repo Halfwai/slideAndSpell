@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 import { Supabase } from '@/utils/supabaseFunctions';
 import { GameBoardFunctions } from '@/utils/gameBoardFunctions';
 import Definitions from '@/components/Definitions';
-import BottomButtons from '@/components/BottomButtons';
+import InGameBottomMenu from '@/components/InGameBottomMenu';
 
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import WordsDefinitionsModel from '@/components/WordsDefinitionsModel';
 
 
 
@@ -88,9 +90,8 @@ export default function LeaderBoard() {
                     }}
                     style={styles.dateButtons}
                 >
-                    <MaterialIcon name="skip-previous" size={30} color={'black'} />
+                    <MaterialIcon name="skip-next" size={30} color={'black'} />
                 </TouchableOpacity>
-
             </View>
 
             <Modal
@@ -101,44 +102,11 @@ export default function LeaderBoard() {
                 }}
                 transparent={true}
             >
-                <Pressable
-                    style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100%',
-                        width: '100%',
-                        padding: 20,
-                    }}
-                    onPress={() => setOpenDatePicker(false)}
-                >
-                    <TouchableWithoutFeedback>
-                        <View
-                            style={{
-                                backgroundColor: 'white',
-                                borderRadius: 10,
-                                borderWidth: 1,
-                                borderColor: COLOURS.green,
-                            }}>
-                            <DateTimePicker
-                                mode="single"
-                                date={selectedDate}
-                                onChange={(params) => {
-                                    if (!params.date) return;
-                                    let date = new Date(params.date as Date);
-                                    date.setDate(date.getDate() + 1);
-                                    const dateString = date.toISOString().split('T')[0];
-                                    setSelectedDate(dateString);
-                                    setTimeout(() => {
-                                        setOpenDatePicker(false);
-                                    }, 100);
-
-                                }
-                                }
-                            />
-                        </View>
-                    </TouchableWithoutFeedback>
-
-                </Pressable>
+                <WordsDefinitionsModel
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate}
+                    setOpenDatePicker={setOpenDatePicker}
+                />
 
             </Modal>
             <View style={styles.leaderBoardContainer}>
@@ -188,8 +156,8 @@ export default function LeaderBoard() {
                     />
                 }
             </View>
-            <View style={{ flex: 2, justifyContent: 'center', width: '100%' }}>
-                <BottomButtons />
+            <View style={{ flex: 2, justifyContent: 'center', width: '100%', alignItems: 'center' }}>
+                <InGameBottomMenu />
 
             </View>
         </View>

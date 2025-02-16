@@ -6,6 +6,8 @@ import { COLOURS } from '@/constants/colours';
 import Definition from '@/components/Definition';
 import { GameBoardFunctions } from '@/utils/gameBoardFunctions';
 
+import InGameBottomMenu from '@/components/InGameBottomMenu';
+
 export default function Dictionary() {
     const params = useLocalSearchParams();
     const word: string = Array.isArray(params.word) ? params.word[0] : params.word;
@@ -47,8 +49,8 @@ export default function Dictionary() {
                         })}
                     </ScrollView>
                 </View>
-
             )}
+            <InGameBottomMenu />
         </View>
     )
 }
@@ -69,7 +71,8 @@ const styles = StyleSheet.create({
         fontSize: 35,
     },
     definitionContainer: {
-        height: "70%"
+        height: "75%",
+        backgroundColor: COLOURS.green
     },
 });
 

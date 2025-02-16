@@ -7,6 +7,8 @@ import { useRouter} from 'expo-router';
 
 import { UserContext } from '@/utils/context';
 
+import RoundButton from '@/components/RoundButton';
+
 
 export default function InGameBottomMenu() {
     const router = useRouter();
@@ -17,36 +19,27 @@ export default function InGameBottomMenu() {
     const { vibrate, sound, setSound, setVibrate } = context;
     return (
         <View style={styles.buttonContainer}>
-            <TouchableOpacity 
-                style={styles.button} 
+            <RoundButton 
+                icon="skip-previous" 
                 onPress={() => {
                     router.back();
                 }}
-            >
-                <MaterialIcon name="skip-previous" size={30} color={'white'} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} 
+                iconType="material"
+            />
+            <RoundButton 
+                icon={vibrate ? "vibrate" : "vibrate-off"} 
                 onPress={() => {
                     setVibrate(!vibrate);
                 }}
-            >
-                {vibrate ?                 
-                    <MaterialIcon name="vibrate" size={30} color={'white'} /> :
-                    <MaterialIcon name="vibrate-off" size={30} color={'white'} />
-                }
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} 
+                iconType="material"
+            />
+            <RoundButton 
+                icon={sound ? "sound" : "sound-mute"} 
                 onPress={() => {
                     setSound(!sound);
                 }}
-            >
-                { sound ? 
-                    <EntypoIcon name="sound" size={30} color={'white'} /> : 
-                    <EntypoIcon name="sound-mute" size={30} color={'white'} 
-                />
-
-                }
-            </TouchableOpacity>
+                iconType="entypo"
+            />
         </View>
     )
 }
@@ -59,10 +52,5 @@ const styles = StyleSheet.create({
         width: '100%',
         position: 'absolute',
         bottom: "3%",
-    },
-    button: {
-        backgroundColor: 'black',
-        borderRadius: 50,
-        padding: 15,
     },
 })
