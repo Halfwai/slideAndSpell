@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
-import { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import RoundButton from '@/components/RoundButton';
 import Tile from '@/components/Tile';
@@ -8,13 +8,16 @@ import { COLOURS } from '@/constants/colours';
 interface HintsProps {
     startSlideIn: Boolean;
     hints: string[][];
+    tileSize: number;
+    spaceSize: number;
 }
 
 
 export default function Hints(props: HintsProps) {
     const hintButtonPosition = useRef(new Animated.ValueXY({ x: -Dimensions.get("screen").width, y: -150 })).current;
-    const hintBoardPosition = useRef(new Animated.ValueXY({ x: Dimensions.get("screen").width, y: -200 })).current;
+    const hintBoardPosition = useRef(new Animated.ValueXY({ x: Dimensions.get("screen").width, y: 0 })).current;
     const [showHints, setShowHints] = useState(false);
+    const [hintsBoard, setHintsBoard] = useState<string[][]>([]);
 
     function slideInHintButton() {
         // slide in
@@ -25,26 +28,48 @@ export default function Hints(props: HintsProps) {
         }).start();
     }
 
-    function slideHintBoard(){
-        if (showHints) {
+    function slideHintBoard() {
+        if(!showHints) {
+            setShowHints(true);
             Animated.timing(hintBoardPosition, {
-                toValue: { x: Dimensions.get("screen").width * 0.25, y: -200 },
+                toValue: { x: 0, y: 0 },
                 duration: 500,
                 useNativeDriver: true
             }).start();
+            return
         }
-        if (!showHints) {
-            Animated.timing(hintBoardPosition, {
-                toValue: { x: Dimensions.get("screen").width, y: -200 },
-                duration: 500,
-                useNativeDriver: true
-            }).start();
-        }
+        Animated.timing(hintBoardPosition, {
+            toValue: { x: Dimensions.get("screen").width, y: 0 },
+            duration: 500,
+            useNativeDriver: true
+        }).start(({finished}) => {
+            if(finished) setShowHints(false);
+        } );
+
     }
 
     useEffect(() => {
         slideHintBoard();
     }, [showHints]);
+
+    const upDateHintsBoard = () => {
+        let newHintsBoard = props.hints;
+        if (props.hints.length === 0) {
+            return;
+        }
+        for (let i = newHintsBoard.length; i < props.hints[0].length; i++) {
+            const hintLine = []
+            for (let j = 0; j < props.hints[0].length; j++) {
+                hintLine.push("?");
+            }
+            newHintsBoard[i] = hintLine;
+        }
+        setHintsBoard(newHintsBoard);
+    };
+
+    useEffect(() => {
+        upDateHintsBoard();
+    }, [props.hints]);
 
 
     useEffect(() => {
@@ -57,22 +82,25 @@ export default function Hints(props: HintsProps) {
         <>
             <Animated.View style={{ transform: [{ translateX: hintButtonPosition.x }, { translateY: hintButtonPosition.y }], ...styles.container }}>
                 {props.hints.length > 0 && (
-                    <RoundButton icon="lightbulb-on-outline" onPress={() => { setShowHints((showHints) => {return !showHints}) }} iconType="material" colour="" />
+                    <RoundButton icon="lightbulb-on-outline" onPress={() => { slideHintBoard() }} iconType="material" />
                 )}
             </Animated.View>
-
+            {showHints && (
                 <View style={styles.container}>
-                    {props.hints.map((hint, index) => (
+                    {hintsBoard.map((hint, index) => (
                         <Animated.View key={index} style={{ flexDirection: 'row', transform: [{ translateX: hintBoardPosition.x }, { translateY: hintBoardPosition.y }] }}>
                             {hint.map((letter, letterIndex) => (
-                                <View key={letterIndex}style={{ width: 50, height: 50 }}>
-                                    <Tile letter={letter} style={{backgroundColor: COLOURS.green}}/>
-                                </View>                                
+                                <View key={letterIndex} style={{ width: props.spaceSize, height: props.spaceSize, justifyContent: 'center', alignItems: 'center' }}>
+                                    <View style={[{ width: props.tileSize, height: props.tileSize, borderRadius: 10 }, letter != "?" ? { backgroundColor: COLOURS.green} : { backgroundColor: COLOURS.grey }]}>
+                                        <Tile letter={letter} />
+                                    </View>
+                                </View>
+
                             ))}
                         </Animated.View>
                     ))}
                 </View>
-
+            )}
         </>
 
     )
@@ -81,5 +109,6 @@ export default function Hints(props: HintsProps) {
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
+        zIndex: 1,
     }
 })

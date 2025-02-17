@@ -100,6 +100,8 @@ export default function GameBoard(props: GameBoardProps) {
                 <Hints 
                     startSlideIn={hintsSlideIn}
                     hints={hints}
+                    tileSize={tileSize}
+                    spaceSize={spaceSize}
                 />
                 {/* Map the board state to Tile components */}
                 {board.map((row, i) => (
