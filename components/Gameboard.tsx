@@ -19,7 +19,7 @@ interface GameBoardProps {
 // Define the Gameboard component
 export default function GameBoard(props: GameBoardProps) {
     const size = props.gameBoard.length;
-    const spaceSize = (300 - 2) / size;
+    const spaceSize = ((Dimensions.get("screen").width * 0.85) - 2) / size;
     const tileSize = spaceSize - 4;
 
     const [squareColour, setSquareColour] = useState(0);
@@ -61,10 +61,6 @@ export default function GameBoard(props: GameBoardProps) {
     const [hints, setHints] = useState<string[][]>([]);
     const [hintsSlideIn, setHintsSlideIn] = useState(false);
 
-
-
-
-
     useEffect(() => {
         setZeroPos(GameBoardFunctions.returnZeroPos(board, spaceSize));
         const { correctWords, newValidArray } = GameBoardFunctions.checkWords(board);
@@ -72,32 +68,30 @@ export default function GameBoard(props: GameBoardProps) {
             setValidArray(newValidArray);
         }
         if (correctWords.length === size - 1 && !gameOver) {
-            const {word, zeroY} = GameBoardFunctions.getFinalWord(board, props.extraLetter);
+            const { word, zeroY } = GameBoardFunctions.getFinalWord(board, props.extraLetter);
             const definition = GameBoardFunctions.checkWord(word);
             if (definition) {
-                correctWords.splice(zeroY, 0, {word: word, definition: definition});
+                correctWords.splice(zeroY, 0, { word: word, definition: definition });
                 setValidWords(correctWords);
                 setCanInsertLetter(true);
             } else {
                 setCanInsertLetter(false);
             }
         }
-        if (slides % 10 === 0 && slides !== 0) {
-            if(hints.length < props.hints.length) {
-                setHints((hints) => {
-                    const newHints = [...hints];
-                    newHints.push(props.hints[hints.length]);
-                    return newHints;
-                })
-            }
+        if (hints.length < props.hints.length && slides % 10 === 0 && slides !== 0) {
+            setHints((hints) => {
+                const newHints = [...hints];
+                newHints.push(props.hints[hints.length]);
+                return newHints;
+            });
             setHintsSlideIn(true);
-        }       
+        }
     }, [board]);
 
     return (
         <>
             <Animated.View style={[styles().mainBoard, { transform: [{ translateY: boardPosition }] }]}>
-                <Hints 
+                <Hints
                     startSlideIn={hintsSlideIn}
                     hints={hints}
                     tileSize={tileSize}
@@ -137,42 +131,42 @@ export default function GameBoard(props: GameBoardProps) {
 
             </Animated.View>
             {!gameOver && props.extraLetter && <ExtraTile
-                    letter={props.extraLetter}
-                    tileSize={tileSize}
-                    spaceSize={spaceSize}
-                    boardSize={size}
-                    zeroPos={zeroPos}
-                    canInsert={canInsertLetter}
-                    setEmptySquareColour={(colour: number) => {
-                        setSquareColour(colour)
-                    }}
-                    removeZero={() => {
-                        setBoard(GameBoardFunctions.removeZero(board, props.extraLetter));
-                        setGameOver(true);
-                        setIncrementTime(false);
-                        setTimeout(() => {
-                            slideBoardOut();
-                        }, 1000);
-                    }}
-                />}
+                letter={props.extraLetter}
+                tileSize={tileSize}
+                spaceSize={spaceSize}
+                boardSize={size}
+                zeroPos={zeroPos}
+                canInsert={canInsertLetter}
+                setEmptySquareColour={(colour: number) => {
+                    setSquareColour(colour)
+                }}
+                removeZero={() => {
+                    setBoard(GameBoardFunctions.removeZero(board, props.extraLetter));
+                    setGameOver(true);
+                    setIncrementTime(false);
+                    setTimeout(() => {
+                        slideBoardOut();
+                    }, 1000);
+                }}
+            />}
             <ScoreComponent
                 incrementTime={incrementTime}
                 slides={slides}
                 gameOver={gameOver}
-                returnTime={(time : number) => {
+                returnTime={(time: number) => {
                     props.onGameEnd(time, slides, board);
                 }}
                 slideUp={activateSlideUp}
             />
-            {gameOver && validWords.length > 0 && 
-            <View style={{alignItems: 'center', justifyContent: 'center', width: Dimensions.get('screen').width, height: Dimensions.get('screen').height * 0.7}}>
-                <Definitions 
-                    slideIn={activateSlideUp}
-                    validWords={validWords}
-                />
-            </View>
+            {gameOver && validWords.length > 0 &&
+                <View style={{ alignItems: 'center', justifyContent: 'center', width: Dimensions.get('screen').width, height: Dimensions.get('screen').height * 0.7 }}>
+                    <Definitions
+                        slideIn={activateSlideUp}
+                        validWords={validWords}
+                    />
+                </View>
 
-            }               
+            }
         </>
     );
 }
@@ -180,8 +174,8 @@ export default function GameBoard(props: GameBoardProps) {
 // Define the styles
 const styles = () => StyleSheet.create({
     mainBoard: {
-        width: 300,
-        height: 300,
+        width: (Dimensions.get("screen").width * 0.85),
+        height: (Dimensions.get("screen").width * 0.85),
         flexDirection: 'row',
         borderWidth: 2,
         borderRadius: 10,

@@ -112,7 +112,6 @@ const styles = (props : {tileSize : number, yOffset : number}) => StyleSheet.cre
         margin: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 1,
         borderRadius: 10,
         backgroundColor: '#AAA',
     },

@@ -52,10 +52,13 @@ export default function Index() {
         const { gameBoard, extraLetter, hints } = GameBoardFunctions.generateGameBoard(4);
         const insertData = Supabase.insertGameBoard(sqlDate, gameBoard, extraLetter, hints);
         if (!insertData) {
+            console.error("Error inserting data");
             return
         }
         setGameBoard(gameBoard);
         setExtraLetter(extraLetter);
+        setHints(hints);
+        return;
     }
 
     async function updateUserStats(time: number, slides: number, gameBoard: string[][]) {

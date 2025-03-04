@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
 import React, { useRef, useEffect, useState } from 'react';
-import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import RoundButton from '@/components/RoundButton';
 import Tile from '@/components/Tile';
 import { COLOURS } from '@/constants/colours';
@@ -15,7 +14,7 @@ interface HintsProps {
 
 export default function Hints(props: HintsProps) {
     const hintButtonPosition = useRef(new Animated.ValueXY({ x: -Dimensions.get("screen").width, y: -150 })).current;
-    const hintBoardPosition = useRef(new Animated.ValueXY({ x: Dimensions.get("screen").width, y: 0 })).current;
+    const hintBoardPosition = useRef(new Animated.ValueXY({ x: Dimensions.get("screen").width, y: -1 })).current;
     const [showHints, setShowHints] = useState(false);
     const [hintsBoard, setHintsBoard] = useState<string[][]>([]);
 
@@ -29,31 +28,32 @@ export default function Hints(props: HintsProps) {
     }
 
     function slideHintBoard() {
-        if(!showHints) {
+        if (!showHints) {
             setShowHints(true);
+            return;
+        } else {
             Animated.timing(hintBoardPosition, {
-                toValue: { x: 0, y: 0 },
+                toValue: { x: Dimensions.get("screen").width, y: -1 },
                 duration: 500,
                 useNativeDriver: true
-            }).start();
-            return
+            }).start(({ finished }) => {
+                if (finished) setShowHints(false);
+            });
         }
-        Animated.timing(hintBoardPosition, {
-            toValue: { x: Dimensions.get("screen").width, y: 0 },
-            duration: 500,
-            useNativeDriver: true
-        }).start(({finished}) => {
-            if(finished) setShowHints(false);
-        } );
-
     }
 
     useEffect(() => {
-        slideHintBoard();
+        if(showHints) {
+            Animated.timing(hintBoardPosition, {
+                toValue: { x: -1, y: -1 },
+                duration: 500,
+                useNativeDriver: true
+            }).start();
+        }
     }, [showHints]);
 
     const upDateHintsBoard = () => {
-        let newHintsBoard = props.hints;
+        let newHintsBoard = JSON.parse(JSON.stringify(props.hints));
         if (props.hints.length === 0) {
             return;
         }
@@ -82,7 +82,14 @@ export default function Hints(props: HintsProps) {
         <>
             <Animated.View style={{ transform: [{ translateX: hintButtonPosition.x }, { translateY: hintButtonPosition.y }], ...styles.container }}>
                 {props.hints.length > 0 && (
-                    <RoundButton icon="lightbulb-on-outline" onPress={() => { slideHintBoard() }} iconType="material" />
+                    <RoundButton
+                        icon="lightbulb-on-outline" 
+                        onPress={() => { 
+                            slideHintBoard() 
+                        }} 
+                        iconType="material"
+                        colour={showHints ? COLOURS.green : undefined}
+                    />
                 )}
             </Animated.View>
             {showHints && (
@@ -91,7 +98,7 @@ export default function Hints(props: HintsProps) {
                         <Animated.View key={index} style={{ flexDirection: 'row', transform: [{ translateX: hintBoardPosition.x }, { translateY: hintBoardPosition.y }] }}>
                             {hint.map((letter, letterIndex) => (
                                 <View key={letterIndex} style={{ width: props.spaceSize, height: props.spaceSize, justifyContent: 'center', alignItems: 'center' }}>
-                                    <View style={[{ width: props.tileSize, height: props.tileSize, borderRadius: 10 }, letter != "?" ? { backgroundColor: COLOURS.green} : { backgroundColor: COLOURS.grey }]}>
+                                    <View style={[{ width: props.tileSize, height: props.tileSize, borderRadius: 10 }, letter != "?" ? { backgroundColor: COLOURS.green } : { backgroundColor: COLOURS.red }]}>
                                         <Tile letter={letter} />
                                     </View>
                                 </View>

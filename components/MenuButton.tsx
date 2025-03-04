@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import { Text, View, Dimensions, Animated, TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
 
 import { useFocusEffect } from 'expo-router';
@@ -8,6 +8,8 @@ import { RFPercentage } from "react-native-responsive-fontsize";
 import MyAppText from '@/components/MyAppText';
 
 import { COLOURS } from '@/constants/colours';
+import { UserContext } from '@/utils/context';
+import * as Haptics from 'expo-haptics';
 
 interface MenuButtonProps {
     text: string,
@@ -18,6 +20,7 @@ interface MenuButtonProps {
 }
 
 export default function MenuButton(props: MenuButtonProps) {
+    const userContext = useContext(UserContext);
     const buttonPosition = useRef(new Animated.Value(Dimensions.get('window').width)).current;
     const [colour, setColour] = React.useState("white");
     function slideIn() {
@@ -67,7 +70,10 @@ export default function MenuButton(props: MenuButtonProps) {
             >
                 <TouchableOpacity
                     style={[styles(colour).touchable, props.style as ViewStyle]}
-                    onPress={() => {
+                    onPress={async() => {
+                        if (userContext && userContext.vibrate) {
+                            await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                        }
                         props.onPress();
                         setColour(COLOURS.green);
                     }}
