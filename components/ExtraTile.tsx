@@ -23,6 +23,7 @@ export default function ExtraTile(props: ExtraTileProps) {
     const yOffset = props.spaceSize * ((props.boardSize / 2) + 1);
     const xOffset = props.spaceSize * ((props.boardSize - 1) / 2);
 
+
     const userContext = useContext(UserContext);
     const vibrate = userContext ? userContext.vibrate : false;
 

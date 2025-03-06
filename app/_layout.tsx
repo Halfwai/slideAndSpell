@@ -77,16 +77,6 @@ export default function RootLayout() {
         getSoundAndVibrateSettings();
     }, [])
 
-    // useEffect(() => {
-    //     try {            
-    //         player.play();
-    //         console.log("sound played");
-    //     } catch (e) {
-    //         console.error(e);
-    //     }        
-    // }, [sound]);
-
-
     const getSoundAndVibrateSettings = async () => {
         try {
             const vibrateValue = await AsyncStorage.getItem('vibrate');
