@@ -13,7 +13,8 @@ interface GameBoardProps {
     gameBoard: string[][],
     extraLetter: string,
     onGameEnd: Function,
-    hints: string[][]
+    hints?: string[][],
+    returnCompleteWords?: Function
 }
 
 // Define the Gameboard component
@@ -64,6 +65,7 @@ export default function GameBoard(props: GameBoardProps) {
     useEffect(() => {
         setZeroPos(GameBoardFunctions.returnZeroPos(board, spaceSize));
         const { correctWords, newValidArray } = GameBoardFunctions.checkWords(board);
+        props.returnCompleteWords && props.returnCompleteWords(correctWords.length);
         if (validArray !== newValidArray) {
             setValidArray(newValidArray);
         }
@@ -78,7 +80,7 @@ export default function GameBoard(props: GameBoardProps) {
                 setCanInsertLetter(false);
             }
         }
-        if (hints.length < props.hints.length && slides % 10 === 0 && slides !== 0) {
+        if(props.hints && hints.length < props.hints.length && slides % 10 === 0 && slides !== 0) {
             setHints((hints) => {
                 const newHints = [...hints];
                 newHints.push(props.hints[hints.length]);
@@ -123,6 +125,7 @@ export default function GameBoard(props: GameBoardProps) {
                                         setBoard(newBoard);
                                     }}
                                     valid={validArray[i]}
+                                    disabled={props.hints === undefined && j < size - 1}
                                 />
                             }
                         </React.Fragment>
@@ -159,13 +162,12 @@ export default function GameBoard(props: GameBoardProps) {
                 slideUp={activateSlideUp}
             />
             {gameOver && validWords.length > 0 &&
-                <View style={{ alignItems: 'center', justifyContent: 'center', width: Dimensions.get('screen').width, height: Dimensions.get('screen').height * 0.7 }}>
+                <View style={{ alignItems: 'center', justifyContent: 'center', width: Dimensions.get('screen').width, height: Dimensions.get('screen').height * 0.6 }}>
                     <Definitions
                         slideIn={activateSlideUp}
                         validWords={validWords}
                     />
                 </View>
-
             }
         </>
     );

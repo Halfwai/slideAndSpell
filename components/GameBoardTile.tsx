@@ -22,6 +22,7 @@ interface GameBoardTileProps {
     switch: Function,
     resetBoard: Function,
     valid: boolean,
+    disabled: boolean
 }
 
 
@@ -64,11 +65,12 @@ export default function GameBoardTile(props: GameBoardTileProps) {
             },
             onPanResponderMove: (e, gestureState) => {
                 // Change the colour of the tile when the user moves it. If the tile can be moved it will be blue, otherwise it will be red.
-                if (slidableRef.current === Direction.FALSE) {
+                if (slidableRef.current === Direction.FALSE || props.disabled) {
                     changeColour(2);
                 } else {
                     changeColour(1);
                 }
+                if (props.disabled) return;
                 
                 // Move the tile in the direction the user is moving it. Tile position is locked to the empty space.
                 if (slidableRef.current === Direction.RIGHT) {
@@ -88,6 +90,7 @@ export default function GameBoardTile(props: GameBoardTileProps) {
             // Move the tile to the empty space when the user releases it
             onPanResponderRelease: (e, gestureState) => {
                 setResetColour(current => current + 1);
+                if (props.disabled) return;
                 if (slidableRef.current === Direction.RIGHT) {
                     if (gestureState.dx <= 0) return;
                     moveTile({ x: props.position.x +  props.spaceSize, y: props.position.y });

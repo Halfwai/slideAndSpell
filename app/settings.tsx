@@ -12,9 +12,12 @@ import { Supabase } from '@/utils/supabaseFunctions';
 
 import InGameBottomMenu from '@/components/InGameBottomMenu';
 
+import { useRouter, RelativePathString } from 'expo-router';
+
 export default function Settings() {
     const context = useContext(UserContext);
     const user = context?.session?.user?.user_metadata;
+    const router = useRouter();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -104,11 +107,17 @@ export default function Settings() {
                     }}
                     style={{ backgroundColor: COLOURS.green }}
                 />
+                <AuthButton
+                    text="Play Tutorial"
+                    onPress={() => {
+                        router.push('/tutorialScreen' as RelativePathString);
+                    }}
+                    style={{ backgroundColor: COLOURS.grey }}
+                />
             </View>
             {showBottomButtons &&
                 <InGameBottomMenu />
             }
-
         </View>
     )
 }

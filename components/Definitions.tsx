@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Animated, Dimensions, DeviceEventEmitter, Scrol
 import Definition from '@/components/Definition';
 import { COLOURS } from '@/constants/colours';
 import AuthButton from '@/components/AuthButton';
-import Auth from '@/app/Auth';
+import Auth from '@/app/auth';
 
 interface DefinitionsProps {
     slideIn: boolean,

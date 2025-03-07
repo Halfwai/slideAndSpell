@@ -1,8 +1,8 @@
 import 'react-native-url-polyfill/auto'
 import { useState, useEffect, useContext } from 'react'
-import Auth from '@/app/Auth'
+import Auth from '@/app/auth'
 
-import Menu from '@/app/Menu'
+import Menu from '@/app/menu'
 import { View } from 'react-native'
 import { Session } from '@supabase/supabase-js'
 
@@ -17,6 +17,8 @@ import Tutorial from '@/components/Tutorial'
 
 export default function App() {
     const [runTutorial, setRunTutorial] = useState<boolean | null>(true)
+
+    const context = useContext(UserContext);
     
     const getTutorialRun = async () => {
         // try {
@@ -53,14 +55,14 @@ export default function App() {
     if (runTutorial === true) {
         return <Tutorial 
             endTutorial={() => {
-                // setRunTutorial(false);
-                // AsyncStorage.setItem('runTutorial', "false");
+                setRunTutorial(false);
+                AsyncStorage.setItem('runTutorial', "false");
             }}
         />;
     }
 
 
-    const context = useContext(UserContext);
+    
     return (
         <View style={{flex: 1, backgroundColor: COLOURS.blue}}>            
             {context && context.session && context.session.user ? 
