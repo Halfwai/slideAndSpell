@@ -1,4 +1,4 @@
-import { Animated, TouchableOpacity, StyleSheet, View, TextInput, Alert, KeyboardAvoidingView } from "react-native"
+import { Animated, TouchableOpacity, StyleSheet, View, TextInput, Alert, Modal, ScrollView, Linking, Pressable } from "react-native"
 import MyAppText from "@/components/MyAppText"
 import { useEffect, useRef, useState } from "react"
 
@@ -7,6 +7,7 @@ import AuthButton from "@/components/AuthButton"
 import { supabase } from '@/lib/supabase'
 
 import { COLOURS } from '@/constants/colours'
+import PrivacyPolicy from "@/components/PrivacyPolicy"
 interface SignUpProps {
     setMenu: Function,
 }
@@ -18,21 +19,23 @@ export default function SignUp(props: SignUpProps) {
     const [displayName, setDisplayName] = useState('')
     const [loading, setLoading] = useState(false)
 
+    const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false)
+
 
     async function signUpWithEmail() {
-        if(email === ''){ 
-            Alert.alert('Please enter an email'); 
-            return; 
+        if (email === '') {
+            Alert.alert('Please enter an email');
+            return;
         };
-        if(password === ''){
+        if (password === '') {
             Alert.alert('Please enter a password');
             return;
         }
-        if(password !== passwordConfirm){
+        if (password !== passwordConfirm) {
             Alert.alert('Passwords do not match');
             return;
         }
-        if(displayName === ''){
+        if (displayName === '') {
             Alert.alert('Please enter a display name');
             return;
         }
@@ -55,8 +58,8 @@ export default function SignUp(props: SignUpProps) {
     }
 
     return (
-        <View style={styles.container}>   
-            <MyAppText style={styles.title}>Sign Up</MyAppText> 
+        <View style={styles.container}>
+            <MyAppText style={styles.title}>Sign Up</MyAppText>
             <View style={styles.inputContainer}>
                 <TextInput
                     placeholder="Email"
@@ -73,7 +76,7 @@ export default function SignUp(props: SignUpProps) {
                     value={displayName}
                     onChangeText={setDisplayName}
                     autoCorrect={false}
-                /> 
+                />
                 <TextInput
                     placeholder="Password"
                     style={styles.input}
@@ -91,9 +94,30 @@ export default function SignUp(props: SignUpProps) {
                     secureTextEntry={true}
                 />
             </View>
+            <TouchableOpacity 
+                style={styles.privacyPolicy}
+                onPress={() => {
+                    setShowPrivacyPolicy(true)
+                }
+            }>
+                <MyAppText>
+                    By Signing up you agree to our <MyAppText
+                        style={styles.privacyPolicyText}
+                    >Privacy Policy</MyAppText>
+                </MyAppText>
+            </TouchableOpacity>
+            <AuthButton text="Sign Up" onPress={signUpWithEmail} style={{ backgroundColor: COLOURS.green }} />
+            <AuthButton text="Back" onPress={() => { props.setMenu("welcome") }} style={{ backgroundColor: "white", borderColor: COLOURS.green }} />
+            <Modal
+                visible={showPrivacyPolicy}
+                animationType="slide"
+                transparent={true}
+            >
+                <PrivacyPolicy
+                    hidePrivacyPolicy={() => setShowPrivacyPolicy(false)}
+                />
 
-            <AuthButton text="Sign Up" onPress={signUpWithEmail} style={{ backgroundColor: COLOURS.green }} /> 
-            <AuthButton text="Back" onPress={() => { props.setMenu("welcome") }} style={{ backgroundColor: "white", borderColor: COLOURS.green }} />         
+            </Modal>
         </View>
     )
 }
@@ -105,21 +129,28 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     inputContainer: {
-        marginBottom: 20,
         width: '100%',
         alignItems: 'center',
     },
     title: {
         fontSize: 30,
     },
+    privacyPolicy: {
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    privacyPolicyText: {
+        textDecorationLine: 'underline',
+    },
     input: {
         width: '90%',
-        margin: 10,
+        marginTop: 10,
         borderWidth: 1,
         borderRadius: 10,
         backgroundColor: 'white',
         padding: 10,
         fontSize: 20,
         height: 50,
-    }
+    },
 })

@@ -14,7 +14,6 @@ import SignUp from '@/components/SignUp';
 
 export default function Auth() {
     const [currentMenu, setCurrentMenu] = useState('welcome')
-    const [slideIn, setSlideIn] = useState(false);
     const [welcomePos, setWelcomePos] = useState({x: 0, y: 0})
     const [signInPos, setSignInPos] = useState({x: - Dimensions.get('window').width, y: 0})
     const [signUpPos, setSignUpPos] = useState({x: Dimensions.get('window').width * 2, y: 0})
@@ -50,15 +49,13 @@ export default function Auth() {
             <View style={{flex: 1, width: '100%'}}>
                 <AuthComponentContainer
                     position={welcomePos}
-                    setSlideIn={(state : boolean) => setSlideIn(state)}
                 >
                     <Welcome 
                         setMenu={(state : string) => setCurrentMenu(state)}
                     />
                 </AuthComponentContainer>
                 <AuthComponentContainer
-                    position={signInPos}
-                    setSlideIn={(state : boolean) => setSlideIn(state)}                
+                    position={signInPos}                
                 >
                     <SignIn 
                         setMenu={(state : string) => setCurrentMenu(state)}
@@ -66,7 +63,6 @@ export default function Auth() {
                 </AuthComponentContainer>
                 <AuthComponentContainer
                     position={signUpPos}
-                    setSlideIn={(state : boolean) => setSlideIn(state)}
                 >
                     <SignUp 
                         setMenu={(state : string) => setCurrentMenu(state)}

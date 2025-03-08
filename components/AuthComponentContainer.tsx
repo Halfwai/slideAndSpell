@@ -7,7 +7,6 @@ import { useRef, useEffect, useState} from 'react'
 
 interface AuthComponentContainerProps {
     position: {x: number, y: number},
-    setSlideIn: Function,
     children: React.ReactNode,
 }
 

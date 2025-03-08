@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Alert, Keyboard } from 'react-native';
+import { View, StyleSheet, TextInput, Alert, Keyboard, Modal } from 'react-native';
 import MyAppText from '@/components/MyAppText';
 import { useState, useContext } from 'react';
 
@@ -11,6 +11,7 @@ import { UserContext } from '@/utils/context';
 import { Supabase } from '@/utils/supabaseFunctions';
 
 import InGameBottomMenu from '@/components/InGameBottomMenu';
+import PrivacyPolicy from '@/components/PrivacyPolicy';
 
 import { useRouter, RelativePathString } from 'expo-router';
 
@@ -18,6 +19,8 @@ export default function Settings() {
     const context = useContext(UserContext);
     const user = context?.session?.user?.user_metadata;
     const router = useRouter();
+    const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -114,10 +117,26 @@ export default function Settings() {
                     }}
                     style={{ backgroundColor: COLOURS.grey }}
                 />
+                <AuthButton
+                    text="Privacy Policy"
+                    onPress={() => {
+                        setShowPrivacyPolicy(true);
+                    }}
+                    style={{ backgroundColor: COLOURS.grey }}
+                />
             </View>
             {showBottomButtons &&
                 <InGameBottomMenu />
             }
+            <Modal
+                visible={showPrivacyPolicy}
+                animationType="slide"
+                transparent={true}
+            >
+                <PrivacyPolicy
+                    hidePrivacyPolicy={() => setShowPrivacyPolicy(false)}
+                />
+            </Modal>
         </View>
     )
 }

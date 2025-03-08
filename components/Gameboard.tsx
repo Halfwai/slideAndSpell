@@ -1,4 +1,3 @@
-// Import necessary libraries
 import { StyleSheet, Dimensions, Animated, View } from "react-native";
 import GameBoardTile from "./GameBoardTile";
 import React, { useState, useEffect, useRef } from "react";
