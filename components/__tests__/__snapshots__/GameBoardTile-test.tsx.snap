@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GameBoardTile Component renders correctly 1`] = `
+<View
+  collapsable={false}
+  onMoveShouldSetResponder={[Function]}
+  onMoveShouldSetResponderCapture={[Function]}
+  onResponderEnd={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderReject={[Function]}
+  onResponderRelease={[Function]}
+  onResponderStart={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  onStartShouldSetResponderCapture={[Function]}
+  style={
+    {
+      "backgroundColor": "rgba(139, 240, 188, 1)",
+      "borderRadius": 10,
+      "height": 50,
+      "margin": 1,
+      "position": "absolute",
+      "transform": [
+        {
+          "translateX": 0,
+        },
+        {
+          "translateY": 0,
+        },
+      ],
+      "width": 50,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "borderRadius": 10,
+        "borderWidth": 1,
+        "height": "100%",
+        "justifyContent": "center",
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "fontFamily": "Postino_std",
+          "fontSize": 24,
+          "textAlign": "center",
+        }
+      }
+    >
+      A
+    </Text>
+  </View>
+</View>
+`;

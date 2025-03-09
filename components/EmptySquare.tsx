@@ -1,7 +1,13 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-export default function EmptySquare(props: { tileSize: number, position: { x: number, y: number }, colour: number }) {
+interface EmptySquareProps {
+    tileSize: number;
+    position: { x: number, y: number };
+    colour: number;
+}
+
+export default function EmptySquare(props: EmptySquareProps) {
     return (
         <View 
             style={[styles(props.tileSize, props.colour).square, {transform: [{translateX: props.position.x}, {translateY: props.position.y}]}]}

@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
 
-import GameBoard from "@/components/Gameboard";
+import GameBoard from "@/components/GameBoard";
 import {COLOURS} from "@/constants/colours";
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';

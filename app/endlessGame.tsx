@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet } from "react-native";
-import GameBoard from "../components/Gameboard";
+import GameBoard from "../components/GameBoard";
 import React, { useState, useContext } from "react";
 import MenuButton from "@/components/MenuButton";
 

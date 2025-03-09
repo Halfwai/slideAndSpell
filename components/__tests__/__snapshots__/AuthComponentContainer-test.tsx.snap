@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Auth Component Container renders correctly 1`] = `
+<View
+  collapsable={false}
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#CBE6F7",
+      "position": "absolute",
+      "transform": [
+        {
+          "translateX": 0,
+        },
+        {
+          "translateY": 0,
+        },
+      ],
+      "width": "100%",
+      "zIndex": 0,
+    }
+  }
+>
+  <View />
+</View>
+`;

@@ -24,9 +24,7 @@ export default function Definition(props: DefinitionProps) {
             <Link href={`/dictionary?word=${props.word}`} style={styles.link}>
                 <MyAppText>More info</MyAppText>
             </Link>
-            }
-
-            
+            }            
         </View>
     )
 } 

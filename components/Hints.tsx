@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
+import { View, StyleSheet, Animated, Dimensions } from 'react-native';
 import React, { useRef, useEffect, useState } from 'react';
 import RoundButton from '@/components/RoundButton';
 import Tile from '@/components/Tile';

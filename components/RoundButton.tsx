@@ -1,6 +1,5 @@
 import { TouchableOpacity, StyleSheet } from "react-native";
-import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
-import EntypoIcon from "react-native-vector-icons/Entypo";
+import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import { COLOURS } from "@/constants/colours";
 import * as Haptics from 'expo-haptics';
 import { useContext } from "react";
@@ -27,9 +26,9 @@ export default function RoundButton(props: RoundButtonProps) {
             }}
         >
         {props.iconType === "entypo" ? (
-            <EntypoIcon name={props.icon} size={30} color={"black"} />
+            <Entypo name={props.icon as any} size={30} color={"black"} />
         ) : (
-            <MaterialIcon name={props.icon} size={30} color={"black"} />
+            <MaterialCommunityIcons name={props.icon as any} size={30} color={"black"} />
         )}
         </TouchableOpacity>
     );

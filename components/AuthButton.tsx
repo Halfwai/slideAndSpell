@@ -21,6 +21,7 @@ export default function AuthButton(props: AuthButtonProps) {
                 }
                 props.onPress()
             }}
+            testID='authButton'
         >
             <MyAppText style={styles.buttonText}>{props.text}</MyAppText>
         </TouchableOpacity>
@@ -28,12 +29,6 @@ export default function AuthButton(props: AuthButtonProps) {
 }
 
 const styles = StyleSheet.create({
-    buttonContainer: {
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        width: '100%',
-        alignItems: 'center',
-    },
     button: {
         padding: 12,
         borderRadius: 10,

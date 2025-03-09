@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExtraTile Component renders correctly 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "position": "absolute",
+      "top": -175,
+      "width": "100%",
+      "zIndex": 1,
+    }
+  }
+>
+  <View
+    collapsable={false}
+    onMoveShouldSetResponder={[Function]}
+    onMoveShouldSetResponderCapture={[Function]}
+    onResponderEnd={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderReject={[Function]}
+    onResponderRelease={[Function]}
+    onResponderStart={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    onStartShouldSetResponderCapture={[Function]}
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#AAA",
+        "borderRadius": 10,
+        "height": 50,
+        "justifyContent": "center",
+        "margin": 1,
+        "transform": [
+          {
+            "translateX": 0,
+          },
+          {
+            "translateY": 0,
+          },
+        ],
+        "width": 50,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "alignItems": "center",
+          "borderRadius": 10,
+          "borderWidth": 1,
+          "height": "100%",
+          "justifyContent": "center",
+          "width": "100%",
+        }
+      }
+    >
+      <Text
+        style={
+          {
+            "fontFamily": "Postino_std",
+            "fontSize": 24,
+            "textAlign": "center",
+          }
+        }
+      >
+        A
+      </Text>
+    </View>
+  </View>
+</View>
+`;

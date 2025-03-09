@@ -4,7 +4,7 @@ import MyAppText from '@/components/MyAppText';
 import { formatSeconds } from '@/utils/helperFunctions';
 import {useState, useRef, useEffect }from 'react';
 
-import GameBoard from './Gameboard';
+import GameBoard from './GameBoard';
 
 import Tile from '@/components/Tile';
 
