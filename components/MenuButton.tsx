@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useContext } from 'react';
-import { Text, View, Dimensions, Animated, TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
+import { View, Dimensions, Animated, TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
 
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, usePathname } from 'expo-router';
 
 import { RFPercentage } from "react-native-responsive-fontsize";
 
@@ -17,9 +17,12 @@ interface MenuButtonProps {
     delay: number,
     exitMenu: boolean,
     style?: {height: number | string | undefined},
+    slideIn?: boolean,
 }
 
 export default function MenuButton(props: MenuButtonProps) {
+    // console.log(usePathname());
+
     const userContext = useContext(UserContext);
     const buttonPosition = useRef(new Animated.Value(Dimensions.get('window').width)).current;
     const [colour, setColour] = React.useState("white");
@@ -44,13 +47,13 @@ export default function MenuButton(props: MenuButtonProps) {
         }, props.delay);
     }
 
-    useFocusEffect(() => {
+    useEffect(() => {
         if (!props.exitMenu) {
             setTimeout(() => {
                 slideIn();
             }, props.delay);
         }
-    });
+    }, [props.slideIn]);
 
 
     useEffect(() => {
@@ -77,6 +80,7 @@ export default function MenuButton(props: MenuButtonProps) {
                         props.onPress();
                         setColour(COLOURS.green);
                     }}
+                    testID="menuButton"
                 >
                     <MyAppText style={styles(colour).text}>{props.text}</MyAppText>
                 </TouchableOpacity>

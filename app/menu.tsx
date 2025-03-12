@@ -3,10 +3,11 @@ import MenuButton from "@/components/MenuButton";
 import React, { useState } from "react";
 import { supabase } from '@/lib/supabase'
 
-import { useRouter, RelativePathString } from 'expo-router';
+import { useRouter, RelativePathString, useFocusEffect } from 'expo-router';
 
 export default function Menu() {
     const [exitMenu, setExitMenu] = useState(false);
+    const [slideIn, setSlideIn] = useState(true);
 
     const router = useRouter();
 
@@ -17,6 +18,14 @@ export default function Menu() {
                 setExitMenu(false);
             }, 700);
     }
+
+    useFocusEffect(() => {
+        console.log("Infocus")
+        if(!exitMenu && !slideIn) {
+            setSlideIn(true);
+        }
+    });
+
     return (
         <View
             style={styles.container}
@@ -38,6 +47,7 @@ export default function Menu() {
                     )}
                     delay={0}
                     exitMenu={exitMenu}
+                    slideIn={slideIn}
                 />
                 <MenuButton
                     text="Endless Mode"
@@ -46,6 +56,7 @@ export default function Menu() {
                     )}
                     delay={100}
                     exitMenu={exitMenu}
+                    slideIn={slideIn}
                 />
                 <MenuButton
                     text="Stats"
@@ -54,6 +65,7 @@ export default function Menu() {
                     )}
                     delay={200}
                     exitMenu={exitMenu}
+                    slideIn={slideIn}
                 />
                 <MenuButton
                     text="Leaderboards"
@@ -62,6 +74,7 @@ export default function Menu() {
                     )}
                     delay={300}
                     exitMenu={exitMenu}
+                    slideIn={slideIn}
                 />
                 <MenuButton
                     text="Settings"
@@ -70,6 +83,7 @@ export default function Menu() {
                     )}
                     delay={400}
                     exitMenu={exitMenu}
+                    slideIn={slideIn}
                 />
                 <View style={{ flexDirection: 'row', flex: 1, width: "100%", justifyContent: "space-evenly", alignItems: "center" }}>
                     <View style={{ width: "40%", height: "100%", paddingBottom: "10%" }} >
@@ -81,6 +95,7 @@ export default function Menu() {
                             delay={500}
                             exitMenu={exitMenu}
                             style={{ height: "100%" }}
+                            slideIn={slideIn}
                         />
                     </View>
                     <View style={{ width: "40%", height: "100%", paddingBottom: "10%" }} >
@@ -92,6 +107,7 @@ export default function Menu() {
                             delay={500}
                             exitMenu={exitMenu}
                             style={{ height: "100%" }}
+                            slideIn={slideIn}
                         />
                     </View>
                 </View>
