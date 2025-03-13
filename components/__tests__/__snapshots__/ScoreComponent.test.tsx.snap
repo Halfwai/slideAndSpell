@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ScoreComponent Component renders correctly 1`] = `
+<View
+  style={
+    {
+      "flexDirection": "row",
+      "marginTop": 20,
+      "position": "absolute",
+      "zIndex": 0,
+    }
+  }
+>
+  <View
+    collapsable={false}
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#8BF0BC",
+        "borderBottomWidth": 5,
+        "borderColor": "white",
+        "borderTopWidth": 5,
+        "flexDirection": "column",
+        "justifyContent": "center",
+        "paddingVertical": 10,
+        "transform": [
+          {
+            "translateX": -750,
+          },
+          {
+            "translateY": 200,
+          },
+        ],
+        "width": 375,
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "black",
+          "fontSize": 20,
+          "textAlign": "center",
+        }
+      }
+    >
+      Time
+    </Text>
+    <Text
+      style={
+        {
+          "color": "black",
+          "fontSize": 20,
+          "textAlign": "center",
+        }
+      }
+    >
+      00:00:00
+    </Text>
+  </View>
+  <View
+    collapsable={false}
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#8BF0BC",
+        "borderBottomWidth": 5,
+        "borderColor": "white",
+        "borderTopWidth": 5,
+        "flexDirection": "column",
+        "justifyContent": "center",
+        "paddingVertical": 10,
+        "transform": [
+          {
+            "translateX": 750,
+          },
+          {
+            "translateY": 200,
+          },
+        ],
+        "width": 375,
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "black",
+          "fontSize": 20,
+          "textAlign": "center",
+        }
+      }
+    >
+      Slides
+    </Text>
+    <Text
+      style={
+        {
+          "color": "black",
+          "fontSize": 20,
+          "textAlign": "center",
+        }
+      }
+    >
+      0
+    </Text>
+  </View>
+</View>
+`;

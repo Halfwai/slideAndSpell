@@ -12,7 +12,7 @@ import { UserContext } from '@/utils/context'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import Tutorial from '@/components/Tutorial'
+import Tutorial from '@/components/submenuComponents/Tutorial'
 
 
 export default function App() {

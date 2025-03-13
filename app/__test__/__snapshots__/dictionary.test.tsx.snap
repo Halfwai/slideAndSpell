@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dictionary Component renders correctly 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#CBE6F7",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "borderRadius": 10,
+        "height": "10%",
+        "margin": 10,
+        "padding": 10,
+      }
+    }
+  >
+    <Text
+      style={
+        [
+          {
+            "fontFamily": "Quicksand",
+          },
+          {
+            "fontSize": 35,
+          },
+        ]
+      }
+    />
+  </View>
+  <Text
+    style={
+      [
+        {
+          "fontFamily": "Quicksand",
+        },
+        undefined,
+      ]
+    }
+  >
+    Definitions Loading...
+  </Text>
+</View>
+`;

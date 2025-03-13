@@ -1,4 +1,4 @@
-import Tutorial from "@/components/Tutorial";
+import Tutorial from "@/components/submenuComponents/Tutorial";
 import { useRouter, RelativePathString } from "expo-router";
 
 export default function TutorialScreen() {

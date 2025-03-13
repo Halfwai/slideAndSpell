@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StatBox Component renders correctly 1`] = `
+<View
+  collapsable={false}
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "white",
+      "borderColor": "#8BF0BC",
+      "borderRadius": 10,
+      "borderWidth": 1,
+      "height": "100%",
+      "justifyContent": "center",
+      "margin": 5,
+      "padding": 10,
+      "transform": [
+        {
+          "translateX": -750,
+        },
+        {
+          "translateY": 0,
+        },
+      ],
+      "width": 150,
+    }
+  }
+>
+  <Text
+    style={
+      [
+        {
+          "fontFamily": "Quicksand",
+        },
+        {
+          "fontSize": 27,
+          "textAlign": "center",
+        },
+      ]
+    }
+  >
+    Test Stat
+  </Text>
+  <Text
+    style={
+      [
+        {
+          "fontFamily": "Quicksand",
+        },
+        {
+          "fontSize": 53,
+          "textAlign": "center",
+        },
+      ]
+    }
+  >
+    100
+  </Text>
+</View>
+`;

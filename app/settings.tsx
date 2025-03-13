@@ -1,17 +1,17 @@
 import { View, StyleSheet, TextInput, Alert, Keyboard, Modal } from 'react-native';
-import MyAppText from '@/components/MyAppText';
+import MyAppText from '@/components/common/MyAppText';
 import { useState, useContext } from 'react';
 
 import { COLOURS } from '@/constants/colours';
 
-import AuthButton from '@/components/AuthButton';
+import AuthButton from '@/components/buttons/AuthButton';
 
 import { UserContext } from '@/utils/context';
 
 import { Supabase } from '@/utils/supabaseFunctions';
 
-import InGameBottomMenu from '@/components/InGameBottomMenu';
-import PrivacyPolicy from '@/components/PrivacyPolicy';
+import InGameBottomMenu from '@/components/submenuComponents/InGameBottomMenu';
+import PrivacyPolicy from '@/components/modals/PrivacyPolicy';
 
 import { useRouter, RelativePathString } from 'expo-router';
 

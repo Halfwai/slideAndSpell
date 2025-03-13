@@ -1,12 +1,12 @@
 import { View, StyleSheet, ScrollView } from 'react-native';
-import MyAppText from '@/components/MyAppText';
+import MyAppText from '@/components/common/MyAppText';
 import { useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { COLOURS } from '@/constants/colours';
-import Definition from '@/components/Definition';
+import Definition from '@/components/submenuComponents/Definition';
 import { GameBoardFunctions } from '@/utils/gameBoardFunctions';
 
-import InGameBottomMenu from '@/components/InGameBottomMenu';
+import InGameBottomMenu from '@/components/submenuComponents/InGameBottomMenu';
 
 export default function Dictionary() {
     const params = useLocalSearchParams();

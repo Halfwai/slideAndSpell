@@ -3,21 +3,16 @@ import { COLOURS } from '@/constants/colours';
 import { useEffect, useState } from 'react';
 import { Supabase } from '@/utils/supabaseFunctions';
 import { GameBoardFunctions } from '@/utils/gameBoardFunctions';
-import Definitions from '@/components/Definitions';
-import InGameBottomMenu from '@/components/InGameBottomMenu';
+import Definitions from '@/components/submenuComponents/Definitions';
+import InGameBottomMenu from '@/components/submenuComponents/InGameBottomMenu';
 
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
-import WordsDefinitionsModel from '@/components/WordsDefinitionsModel';
+import WordsDefinitionsModel from '@/components/modals/WordsDefinitionsModel';
 
+import LeaderboardEntry from '@/components/submenuComponents/LeaderboardEntry';
 
-
-import dayjs from 'dayjs'
-
-import DateTimePicker from 'react-native-ui-datepicker';
-import LeaderboardEntry from '@/components/LeaderboardEntry';
-
-import MyAppText from '@/components/MyAppText';
+import MyAppText from '@/components/common/MyAppText';
 
 export default function LeaderBoard() {
     const [leaderboard, setLeaderboard] = useState<any>(null);
@@ -73,7 +68,7 @@ export default function LeaderBoard() {
                     }}
                     style={styles.dateButtons}
                 >
-                    <MaterialIcon name="skip-previous" size={30} color={'black'} />
+                    <MaterialCommunityIcons name="skip-previous" size={30} color={'black'} />
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => setOpenDatePicker(true)}
@@ -90,7 +85,7 @@ export default function LeaderBoard() {
                     }}
                     style={styles.dateButtons}
                 >
-                    <MaterialIcon name="skip-next" size={30} color={'black'} />
+                    <MaterialCommunityIcons name="skip-next" size={30} color={'black'} />
                 </TouchableOpacity>
             </View>
 
@@ -135,7 +130,6 @@ export default function LeaderBoard() {
                                     showModel={() => {
                                         getDefinitions(item.solution)
                                     }}
-
                                 />
 
                             )}
@@ -158,7 +152,7 @@ export default function LeaderBoard() {
             </View>
             <InGameBottomMenu />
             <View style={{ flex: 1.5, justifyContent: 'center', width: '100%', alignItems: 'center' }}>
-                
+
 
             </View>
         </View>

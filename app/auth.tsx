@@ -7,10 +7,10 @@ import { useFonts } from 'expo-font';
 
 import { COLOURS } from '@/constants/colours'
 
-import AuthComponentContainer from '@/components/AuthComponentContainer'
-import Welcome from '@/components/Welcome'
-import SignIn from '@/components/SignIn';
-import SignUp from '@/components/SignUp';
+import AuthComponentContainer from '@/components/authComponents/AuthComponentContainer'
+import Welcome from '@/components/authComponents/Welcome'
+import SignIn from '@/components/authComponents/SignIn';
+import SignUp from '@/components/authComponents/SignUp';
 
 export default function Auth() {
     const [currentMenu, setCurrentMenu] = useState('welcome')

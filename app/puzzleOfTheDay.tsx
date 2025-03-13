@@ -7,7 +7,7 @@ import { UserContext } from "@/utils/context";
 import { supabase } from '@/lib/supabase'
 import { router, RelativePathString } from "expo-router";
 
-import InGameBottomMenu from "@/components/InGameBottomMenu";
+import InGameBottomMenu from "@/components/submenuComponents/InGameBottomMenu";
 
 
 import { GameBoardFunctions } from "@/utils/gameBoardFunctions";

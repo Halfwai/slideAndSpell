@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tile Component renders correctly 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "borderRadius": 10,
+      "borderWidth": 1,
+      "height": "100%",
+      "justifyContent": "center",
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    style={
+      {
+        "fontFamily": "Postino_std",
+        "fontSize": 24,
+        "textAlign": "center",
+      }
+    }
+  >
+    A
+  </Text>
+</View>
+`;
