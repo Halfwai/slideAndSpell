@@ -1,11 +1,11 @@
-import { Text, View, StyleSheet } from "react-native";
-import GameBoard from "@/components/GameBoard";
-import React, { useState, useContext, useEffect, Alert } from "react";
+import { Text, View, StyleSheet, Alert } from "react-native";
+import GameBoard from "@/components/gameComponents/GameBoard";
+import React, { useState, useContext, useEffect } from "react";
 
 import { UserContext } from "@/utils/context";
 
 import { supabase } from '@/lib/supabase'
-import { router, RelativePathString } from "expo-router";
+import { useRouter, RelativePathString } from "expo-router";
 
 import InGameBottomMenu from "@/components/submenuComponents/InGameBottomMenu";
 
@@ -18,9 +18,9 @@ export default function Index() {
     const [extraLetter, setExtraLetter] = useState<string | null>(null);
     const [date, setDate] = useState<string | null>(null);
     const [hints, setHints] = useState<string[][] | null>(null);
-
-
     const session = useContext(UserContext)?.session;
+
+    const router = useRouter();
 
     if(!session) {
         Alert.alert("Please log in to play the puzzle of the day");

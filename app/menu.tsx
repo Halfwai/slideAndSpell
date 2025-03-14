@@ -2,8 +2,9 @@ import { Text, View, Image, StyleSheet, Dimensions, BackHandler } from "react-na
 import MenuButton from "@/components/buttons/MenuButton";
 import React, { useState } from "react";
 import { supabase } from '@/lib/supabase'
+import { useFocusEffect } from '@react-navigation/native';
 
-import { useRouter, RelativePathString, useFocusEffect } from 'expo-router';
+import { useRouter, RelativePathString } from 'expo-router';
 
 export default function Menu() {
     const [exitMenu, setExitMenu] = useState(false);
