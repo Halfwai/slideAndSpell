@@ -12,7 +12,8 @@ import { formatSeconds } from "@/utils/helperFunctions";
 
 
 export default function Stats() {
-    const session = useContext(UserContext).session;
+    const userContext = useContext(UserContext);
+    const session = userContext ? userContext.session : null;
     if (!session || !session.user) {
         Alert.alert('Please log in to view your stats');
         useRouter().push('/');

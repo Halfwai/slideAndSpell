@@ -5,7 +5,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "@/utils/context";
 
 import { supabase } from '@/lib/supabase'
-import { useRouter, RelativePathString } from "expo-router";
+import { useRouter, RelativePathString } from 'expo-router';
 
 import InGameBottomMenu from "@/components/submenuComponents/InGameBottomMenu";
 
@@ -14,13 +14,12 @@ import { GameBoardFunctions } from "@/utils/gameBoardFunctions";
 import { Supabase } from "@/utils/supabaseFunctions";
 
 export default function Index() {
+    const router = useRouter();
     const [gameBoard, setGameBoard] = useState<string[][] | null>(null);
     const [extraLetter, setExtraLetter] = useState<string | null>(null);
     const [date, setDate] = useState<string | null>(null);
     const [hints, setHints] = useState<string[][] | null>(null);
-    const session = useContext(UserContext)?.session;
-
-    const router = useRouter();
+    const session = useContext(UserContext)?.session;    
 
     if(!session) {
         Alert.alert("Please log in to play the puzzle of the day");
@@ -28,38 +27,20 @@ export default function Index() {
     }
 
     useEffect(() => {
-        getGameboard();
+        (async() => {
+            const gameboardData = await Supabase.getGameboard();
+            if (!gameboardData) {
+                Alert.alert("Error getting gameboard data");
+                router.push("/menu" as RelativePathString);
+                return;
+            };
+            const { date, gameBoard, extraLetter, hints } = gameboardData;
+            setDate(date);
+            setGameBoard(gameBoard);
+            setExtraLetter(extraLetter);
+            setHints(hints);
+        })();
     }, []);
-
-    async function getGameboard() {
-        const date = new Date();
-        const sqlDate = date.toISOString().split('T')[0];
-        setDate(sqlDate);
-        let { data, error } = await supabase
-            .from('puzzles')
-            .select("*")
-            .eq('date', sqlDate)
-        if (error || !data) {
-            console.error(error)
-            return
-        }
-        if (data.length > 0) {
-            setGameBoard(data[0].game_board);
-            setExtraLetter(data[0].extra_letter);
-            setHints(data[0].hints);
-            return;
-        }
-        const { gameBoard, extraLetter, hints } = GameBoardFunctions.generateGameBoard(4);
-        const insertData = Supabase.insertGameBoard(sqlDate, gameBoard, extraLetter, hints);
-        if (!insertData) {
-            console.error("Error inserting data");
-            return
-        }
-        setGameBoard(gameBoard);
-        setExtraLetter(extraLetter);
-        setHints(hints);
-        return;
-    }
 
     async function updateUserStats(time: number, slides: number, gameBoard: string[][]) {
         if (!session) return;

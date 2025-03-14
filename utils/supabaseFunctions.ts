@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase'
+import { GameBoardFunctions } from '@/utils/gameBoardFunctions'
 import { Alert } from 'react-native'
 
 export class Supabase {
@@ -35,6 +36,39 @@ export class Supabase {
 
         if (error) Alert.alert(error.message)
         setLoading(false)
+    }
+
+    static getGameboard = async() => {
+        const date = new Date();
+        const sqlDate = date.toISOString().split('T')[0];
+        let { data, error } = await supabase
+            .from('puzzles')
+            .select("*")
+            .eq('date', sqlDate)
+        if (error || !data) {
+            console.error(error)
+            return
+        }
+        if (data.length > 0) {
+            return {
+                date: sqlDate,
+                gameBoard: data[0].game_board,
+                extraLetter: data[0].extra_letter,
+                hints: data[0].hints
+            }
+        }
+        const { gameBoard, extraLetter, hints } = GameBoardFunctions.generateGameBoard(4);
+        const insertData = Supabase.insertGameBoard(sqlDate, gameBoard, extraLetter, hints);
+        if (!insertData) {
+            console.error("Error inserting data");
+            return
+        }
+        return {
+            date: sqlDate,
+            gameBoard: gameBoard,
+            extraLetter: extraLetter,
+            hints: hints
+        }
     }
 
     static getStats = async (userId : string) => {

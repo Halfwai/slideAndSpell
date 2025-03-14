@@ -1,3 +1,4 @@
+import React from 'react';
 import { render } from '@testing-library/react-native';
 import PuzzleOfTheDay from '@/app/puzzleOfTheDay';
 
@@ -9,6 +10,12 @@ afterEach(() => {
     jest.clearAllMocks();
     jest.useRealTimers();
 });
+
+jest.mock('expo-router', () => ({
+    useRouter: jest.fn(() => ({
+      push: jest.fn(),
+    })),
+  }));
 
 it(`PuzzleOfTheDay Component renders correctly`, () => {
     const { toJSON } = render(

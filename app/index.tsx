@@ -4,7 +4,6 @@ import Auth from '@/app/auth'
 
 import Menu from '@/app/menu'
 import { View } from 'react-native'
-import { Session } from '@supabase/supabase-js'
 
 import { COLOURS } from '@/constants/colours'
 
@@ -21,17 +20,17 @@ export default function App() {
     const context = useContext(UserContext);
     
     const getTutorialRun = async () => {
-        // try {
-        //     const runTutorialSetting = await AsyncStorage.getItem('runTutorial');
-        //     if (runTutorialSetting == null) {
-        //         setupTutorialSettings();
-        //     }
-        //     if (runTutorialSetting !== null) {
-        //         setRunTutorial(runTutorialSetting === "true");
-        //     }
-        // } catch (e) {
-        //     setupTutorialSettings();
-        // }
+        try {
+            const runTutorialSetting = await AsyncStorage.getItem('runTutorial');
+            if (runTutorialSetting == null) {
+                setupTutorialSettings();
+            }
+            if (runTutorialSetting !== null) {
+                setRunTutorial(runTutorialSetting === "true");
+            }
+        } catch (e) {
+            setupTutorialSettings();
+        }
     };
 
     const setupTutorialSettings = async () => {
@@ -39,7 +38,7 @@ export default function App() {
             await AsyncStorage.setItem('runTutorial', "true");
             setRunTutorial(true);
         } catch (e) {
-            console.error(e);
+            console.error("Error setting up tutorial settings");
         }
     };
 
