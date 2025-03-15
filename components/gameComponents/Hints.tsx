@@ -11,7 +11,6 @@ interface HintsProps {
     spaceSize: number;
 }
 
-
 export default function Hints(props: HintsProps) {
     const hintButtonPosition = useRef(new Animated.ValueXY({ x: -Dimensions.get("screen").width, y: -150 })).current;
     const hintBoardPosition = useRef(new Animated.ValueXY({ x: Dimensions.get("screen").width, y: -1 })).current;

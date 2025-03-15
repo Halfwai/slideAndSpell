@@ -1,20 +1,16 @@
-import { View, Text, StyleSheet, Animated, Dimensions, BackHandler } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { StyleSheet, Animated, Dimensions, BackHandler } from 'react-native';
 import MyAppText from '@/components/common/MyAppText';
 import { COLOURS } from '@/constants/colours';
-import { useRef, useEffect } from 'react';
 import { RFPercentage } from "react-native-responsive-fontsize";
-
-import { useRouter } from 'expo-router';
 
 interface StatBoxProps {
     stat: string;
-    value: number;
+    value: number | string;
     position: 'left' | 'right' | 'bottom';
 }
 
 export default function StatBox(props: StatBoxProps) {
-    const router = useRouter();
-
     // if(props.position === 'left') {
     let startPosition = {x: 0, y: 0};
     if (props.position === 'left') {

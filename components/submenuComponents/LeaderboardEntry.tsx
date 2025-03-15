@@ -1,13 +1,9 @@
-import { Text, View, StyleSheet, Pressable, LayoutAnimation, Animated, Dimensions, TouchableOpacity } from 'react-native';
+import React, {useState, useRef, useEffect }from 'react';
+import { View, StyleSheet, LayoutAnimation, Animated, Dimensions, TouchableOpacity } from 'react-native';
 import MyAppText from '@/components/common/MyAppText';
-
 import { formatSeconds } from '@/utils/helperFunctions';
-import {useState, useRef, useEffect }from 'react';
-
 import Tile from '@/components/common/Tile';
-
 import { COLOURS } from '@/constants/colours';
-
 
 interface LeaderboardEntryProps {
     index: string;
@@ -18,14 +14,10 @@ interface LeaderboardEntryProps {
     showModel: Function
 }
 
-
 export default function LeaderboardEntry(props: LeaderboardEntryProps) {
     const tileSize = Dimensions.get('window').width / 10;
-
-
     const height = useRef(new Animated.Value(0)).current;
     const [opacity, setOpacity] = useState(0);
-
     const [displayBoard, setDisplayBoard] = useState(false);
 
     useEffect(() => {
@@ -53,9 +45,7 @@ export default function LeaderboardEntry(props: LeaderboardEntryProps) {
             useNativeDriver: false
         }).start();
         setOpacity(0);
-
     }
-
 
     return (
         <View style={{justifyContent: 'center', alignItems: 'center'}}>

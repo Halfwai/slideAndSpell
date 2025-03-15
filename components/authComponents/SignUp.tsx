@@ -1,10 +1,10 @@
-import { Animated, TouchableOpacity, StyleSheet, View, TextInput, Alert, Modal, ScrollView, Linking, Pressable } from "react-native"
+import { TouchableOpacity, StyleSheet, View, TextInput, Modal } from "react-native"
 import MyAppText from "@/components/common/MyAppText"
-import { useEffect, useRef, useState } from "react"
+import React, { useState } from "react"
 
 import AuthButton from "@/components/buttons/AuthButton"
 
-import { supabase } from '@/lib/supabase'
+import { Supabase } from '@/utils/supabaseFunctions'
 
 import { COLOURS } from '@/constants/colours'
 import PrivacyPolicy from "@/components/modals/PrivacyPolicy"
@@ -18,44 +18,7 @@ export default function SignUp(props: SignUpProps) {
     const [passwordConfirm, setPasswordConfirm] = useState('')
     const [displayName, setDisplayName] = useState('')
     const [loading, setLoading] = useState(false)
-
     const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false)
-
-
-    async function signUpWithEmail() {
-        if (email === '') {
-            Alert.alert('Please enter an email');
-            return;
-        };
-        if (password === '') {
-            Alert.alert('Please enter a password');
-            return;
-        }
-        if (password !== passwordConfirm) {
-            Alert.alert('Passwords do not match');
-            return;
-        }
-        if (displayName === '') {
-            Alert.alert('Please enter a display name');
-            return;
-        }
-        setLoading(true)
-        const {
-            data: { session },
-            error,
-        } = await supabase.auth.signUp({
-            email: email,
-            password: password,
-            options: {
-                data: {
-                    display_name: 'username'
-                }
-            }
-        })
-
-        if (error) Alert.alert(error.message)
-        setLoading(false)
-    }
 
     return (
         <View style={styles.container}>
@@ -94,20 +57,32 @@ export default function SignUp(props: SignUpProps) {
                     secureTextEntry={true}
                 />
             </View>
-            <TouchableOpacity 
+            <TouchableOpacity
                 style={styles.privacyPolicy}
                 onPress={() => {
                     setShowPrivacyPolicy(true)
                 }
-            }>
+                }>
                 <MyAppText>
                     By Signing up you agree to our <MyAppText
                         style={styles.privacyPolicyText}
                     >Privacy Policy</MyAppText>
                 </MyAppText>
             </TouchableOpacity>
-            <AuthButton text="Sign Up" onPress={signUpWithEmail} style={{ backgroundColor: COLOURS.green }} />
-            <AuthButton text="Back" onPress={() => { props.setMenu("welcome") }} style={{ backgroundColor: "white", borderColor: COLOURS.green }} />
+            <AuthButton
+                text="Sign Up"
+                onPress={() => {
+                    Supabase.signUpWithEmail(email, password, passwordConfirm, displayName, setLoading)
+                }}
+                style={{ backgroundColor: COLOURS.green }}
+            />
+            <AuthButton
+                text="Back"
+                onPress={() => {
+                    props.setMenu("welcome")
+                }}
+                style={{ backgroundColor: "white", borderColor: COLOURS.green }} />
+                disabled={loading}
             <Modal
                 visible={showPrivacyPolicy}
                 animationType="slide"

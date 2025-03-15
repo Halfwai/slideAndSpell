@@ -1,9 +1,7 @@
-import { View, TouchableOpacity, StyleSheet, Animated, Keyboard, Dimensions } from 'react-native'
+import { StyleSheet, Animated, Keyboard, Dimensions } from 'react-native'
 import { COLOURS } from '@/constants/colours'
-import MyAppText from '@/components/common/MyAppText'
-import AuthButton from '@/components/buttons/AuthButton'
 
-import { useRef, useEffect, useState} from 'react'
+import React, { useRef, useEffect, useState} from 'react'
 
 interface AuthComponentContainerProps {
     position: {x: number, y: number},

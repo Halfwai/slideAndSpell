@@ -7,6 +7,8 @@ import Definition from '@/components/submenuComponents/Definition';
 import { GameBoardFunctions } from '@/utils/gameBoardFunctions';
 
 import InGameBottomMenu from '@/components/submenuComponents/InGameBottomMenu';
+import { getDefinition } from '@/utils/helperFunctions';
+
 
 export default function Dictionary() {
     const params = useLocalSearchParams();
@@ -15,24 +17,11 @@ export default function Dictionary() {
 
     useEffect(() => {
         const currentDefinition = GameBoardFunctions.checkWord(word);
-        getDefinition(word, currentDefinition);
+        getDefinition(word, currentDefinition).then((data) => {
+            setDefinitions(data);
+        });     
     }, []);    
    
-    async function getDefinition(word: string, currentDefinition: string) {
-        const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
-        const data = await response.json();
-        let definitions;
-        try {
-            definitions = data[0].meanings[0].definitions;
-            if (currentDefinition.toLowerCase() !== definitions[0].definition.toLowerCase()) {
-                definitions.splice(0, 0, { definition: currentDefinition });
-            }
-        } catch (error) {
-            definitions = [{ definition: currentDefinition }];
-        }
-        setDefinitions(definitions);
-    }
-
     return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>

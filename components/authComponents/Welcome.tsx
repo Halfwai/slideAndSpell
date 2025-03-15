@@ -1,10 +1,8 @@
-import { View, TouchableOpacity, StyleSheet, Animated } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { COLOURS } from '@/constants/colours'
 import MyAppText from '@/components/common/MyAppText'
 import AuthButton from '@/components/buttons/AuthButton'
-
-import React, { useRef, useEffect } from 'react'
-
+import React from 'react'
 import { useRouter } from 'expo-router';
 
 interface WelcomeProps {
@@ -13,22 +11,20 @@ interface WelcomeProps {
 
 export default function Welcome(props: WelcomeProps) {
     const router = useRouter();
-    return(
+    return (
         <>
             <View style={styles.welcomeContainer}>
                 <MyAppText style={styles.title}>Hi</MyAppText>
                 <MyAppText style={styles.welcomeText}>Welcome to Slide and Spell, please sign in for stats and leaderboards, or hit endless mode to play without stats or tracking.</MyAppText>
             </View>
             <View style={styles.buttonContainer}>
-                <AuthButton text="Sign In" onPress={() => props.setMenu("signIn")} style={{ backgroundColor: COLOURS.green}} />
-                <AuthButton text="Sign Up" onPress={() => props.setMenu("signUp")} style={{ backgroundColor: "white", borderColor: COLOURS.green}} />
+                <AuthButton text="Sign In" onPress={() => props.setMenu("signIn")} style={{ backgroundColor: COLOURS.green }} />
+                <AuthButton text="Sign Up" onPress={() => props.setMenu("signUp")} style={{ backgroundColor: "white", borderColor: COLOURS.green }} />
             </View>
             <View style={styles.endlessContainer}>
-                <AuthButton text="Endless Mode" onPress={() => router.push('/endlessGame')} style={{ backgroundColor: "white", borderColor: COLOURS.green}} />            
+                <AuthButton text="Endless Mode" onPress={() => router.push('/endlessGame')} style={{ backgroundColor: "white", borderColor: COLOURS.green }} />
             </View>
         </>
-
-
     )
 }
 
@@ -64,7 +60,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 1,
         width: '90%',
-    }, 
+    },
     buttonText: {
         fontSize: 20,
         color: 'black',

@@ -1,3 +1,4 @@
+import React from "react";
 import Tutorial from "@/components/submenuComponents/Tutorial";
 import { useRouter, RelativePathString } from "expo-router";
 

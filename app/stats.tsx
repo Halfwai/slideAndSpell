@@ -1,6 +1,6 @@
-import {Text, View, StyleSheet, Alert } from "react-native";
+import { Text, View, StyleSheet, Alert } from "react-native";
 import { COLOURS } from "@/constants/colours";
-import {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import MyAppText from "@/components/common/MyAppText";
 import { Supabase } from "@/utils/supabaseFunctions";
@@ -20,14 +20,14 @@ export default function Stats() {
         return;
     };
 
-    const [stats, setStats] = useState< any >(null);
+    const [stats, setStats] = useState<any>(null);
 
     useEffect(() => {
         Supabase.getStats(session.user.id).then((data) => {
             setStats(data);
         });
     }, []);
-    
+
     if (!stats) {
         return (
             <View style={styles.container}>
@@ -42,22 +42,22 @@ export default function Stats() {
             </View>
             <View style={styles.statBoxContainer} >
                 <StatBox stat="3x3 Games" value={stats.three_completed_games} position={"left"} />
-                <StatBox stat="3x3 Lowest Swipes" value={stats.lowest_swipes_three} position={"right"}/>
+                <StatBox stat="3x3 Lowest Swipes" value={stats.lowest_swipes_three} position={"right"} />
             </View>
             <View style={styles.statBoxContainer} >
-                <StatBox stat="4x4 Games" value={stats.four_completed_games} position={"left"}/>
-                <StatBox stat="4x4 Lowest Swipes" value={stats.lowest_swipes_four} position={"right"}/>
+                <StatBox stat="4x4 Games" value={stats.four_completed_games} position={"left"} />
+                <StatBox stat="4x4 Lowest Swipes" value={stats.lowest_swipes_four} position={"right"} />
             </View>
             <View style={styles.statBoxContainer} >
                 <StatBox stat="5x5 Games" value={stats.five_completed_games} position={"left"} />
-                <StatBox stat="5x5 Lowest Swipes" value={stats.lowest_swipes_five} position={"right"}/>
+                <StatBox stat="5x5 Lowest Swipes" value={stats.lowest_swipes_five} position={"right"} />
             </View>
             <View style={styles.statBoxContainer} >
                 <StatBox stat="6x6 Games" value={stats.six_completed_games} position={"left"} />
-                <StatBox stat="6x6 Lowest Swipes" value={stats.lowest_swipes_six} position={"right"}/>
+                <StatBox stat="6x6 Lowest Swipes" value={stats.lowest_swipes_six} position={"right"} />
             </View>
             <View style={styles.statBoxContainer} >
-                <StatBox stat="Total Time Played" value={`${formatSeconds(stats.total_play_time_seconds)}s`}  position={"bottom"}/>
+                <StatBox stat="Total Time Played" value={`${formatSeconds(stats.total_play_time_seconds)}s`} position={"bottom"} />
             </View>
         </View>
     )

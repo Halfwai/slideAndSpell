@@ -1,3 +1,4 @@
+import React from 'react';
 import{Text, TextStyle, StyleSheet} from 'react-native';
 
 interface MyAppTextProps {

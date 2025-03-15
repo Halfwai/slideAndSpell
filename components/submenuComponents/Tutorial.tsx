@@ -1,15 +1,10 @@
-import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
-
+import React, { useRef, useEffect, useState } from 'react';
+import { View, StyleSheet, Animated, Dimensions } from 'react-native';
 import GameBoard from "@/components/gameComponents/GameBoard";
 import {COLOURS} from "@/constants/colours";
-
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
-import { useRef, useEffect, useState } from 'react';
 import MyAppText from '@/components/common/MyAppText';
 import AuthButton from '@/components/buttons/AuthButton';
-
-
 
 interface TutorialProps {
     endTutorial: Function
@@ -20,18 +15,11 @@ export default function Tutorial(props: TutorialProps) {
     const [pointerStartPos, setPointerStartPos] = useState({x: (width * 0.85) / 3, y: 0});
     const [pointerEndPos, setPointerEndPos] = useState({x: (width * 0.85) / 3, y: -((width * 0.85) / 3)});
     const [instructions, setInstructions] = useState<string>("Slide the tiles to form words");
-
-
     const [showPointer, setShowPointer] = useState(true);
-
-
     const pointerPosition = useRef(new Animated.ValueXY({ x: pointerStartPos.x, y: pointerStartPos.y })).current;
     const pointerOpacity = useRef(new Animated.Value(0)).current;
-
-
     const [completeWords, setCompleteWords] = useState<number>(0);
     const [restartAnimation, setRestartAnimation] = useState<boolean>(false);
-
 
     useEffect(() => {
         setRestartAnimation(!restartAnimation); 
@@ -67,10 +55,8 @@ export default function Tutorial(props: TutorialProps) {
                 y: (width * 0.85) / 3
             })
             setInstructions("When one word remains, slide the final tile to complete the puzzle");
-        };
-            
+        };            
     }, [completeWords]);  
-
 
     useEffect(() => {
         animatePointer();
@@ -127,54 +113,22 @@ export default function Tutorial(props: TutorialProps) {
             }
         });
     }
-
-
+    
     return (
-        <View
-            style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "#CBE6F7",
-                width: "100%",
-            }}
-        >
+        <View style={styles.container}>
             {showPointer &&
-                <View
-                    style={{
-                        position: "absolute",
-                        top: 20,
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: 100
-                    }}
-                >
-                    <MyAppText
-                        style={{
-                            fontSize: 25,
-                            textAlign: "center",
-
-                        }}
-                    >
+                <View style={styles.instructionsContainer}>
+                    <MyAppText style={styles.instructionsText}>
                         {instructions}
                     </MyAppText> 
-
                 </View>
-
             }
-           
-            <View
-                style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    backgroundColor: COLOURS.blue
-            }}>
+            <View style={styles.pointerContainer}>
                 {showPointer && 
-                    <Animated.View style={{position: "absolute",zIndex: 2, justifyContent: "center", alignItems: "center", transform: [{translateX: pointerPosition.x}, {translateY: pointerPosition.y}], opacity: pointerOpacity}}>
+                    <Animated.View style={[styles.pointer, {transform: [{translateX: pointerPosition.x}, {translateY: pointerPosition.y}], opacity: pointerOpacity}]}>
                         <MaterialCommunityIcons name="cursor-pointer" size={40} color="#555"/> 
                     </Animated.View>
                 }
-
                 <GameBoard 
                     gameBoard={[["t", "w","0"], ["t", "i", "o"],["l", "o", "e"]]}
                     extraLetter={"t"}
@@ -192,17 +146,45 @@ export default function Tutorial(props: TutorialProps) {
                     setShowPointer(false);
                     props.endTutorial();
                 }}
-                style={{
-                    backgroundColor: COLOURS.green,
-                    position: "absolute",
-                    bottom: 20
-                }}
-
+                style={styles.exitButton}
             />
         </View>
     )
 }   
 
 const styles = StyleSheet.create({
-
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#CBE6F7",
+        width: "100%",
+    },
+    instructionsContainer: {
+        position: "absolute",
+        top: 20,
+        justifyContent: "center",
+        alignItems: "center",
+        height: 100
+    }, 
+    instructionsText: {
+        fontSize: 25,
+        textAlign: "center",
+    },
+    pointerContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: COLOURS.blue
+    }, 
+    pointer: {
+        position: "absolute",
+        zIndex: 2, 
+        justifyContent: "center", 
+        alignItems: "center", 
+    },
+    exitButton: {
+        backgroundColor: COLOURS.green,
+        position: "absolute",
+        bottom: 20
+    }
 });

@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet, FlatList, Modal, TouchableOpacity, Pressable, TouchableWithoutFeedback } from 'react-native';
 import { COLOURS } from '@/constants/colours';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Supabase } from '@/utils/supabaseFunctions';
 import { GameBoardFunctions } from '@/utils/gameBoardFunctions';
 import Definitions from '@/components/submenuComponents/Definitions';
 import InGameBottomMenu from '@/components/submenuComponents/InGameBottomMenu';
 
-import { MaterialCommunityIcons } from 'react-native-vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import WordsDefinitionsModel from '@/components/modals/WordsDefinitionsModel';
 
@@ -22,7 +22,6 @@ export default function LeaderBoard() {
     const sqlDate = date.toISOString().split('T')[0];
     const [selectedDate, setSelectedDate] = useState<string>(sqlDate);
     const [openDatePicker, setOpenDatePicker] = useState(false)
-
 
     useEffect(() => {
         setLeaderboard(null);

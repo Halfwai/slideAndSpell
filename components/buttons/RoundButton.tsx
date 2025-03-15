@@ -2,7 +2,7 @@ import { TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
 import { COLOURS } from "@/constants/colours";
 import * as Haptics from 'expo-haptics';
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "@/utils/context";
 
 

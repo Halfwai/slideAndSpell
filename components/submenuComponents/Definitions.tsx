@@ -1,9 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Animated, Dimensions, DeviceEventEmitter, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Animated, Dimensions, ScrollView } from 'react-native';
 import Definition from '@/components/submenuComponents/Definition';
 import { COLOURS } from '@/constants/colours';
 import AuthButton from '@/components/buttons/AuthButton';
-import Auth from '@/app/auth';
 
 interface DefinitionsProps {
     slideIn: boolean,
@@ -16,9 +15,8 @@ interface DefinitionsProps {
 
 export default function Definitions(props: DefinitionsProps) {
     const definitionsPositionY = useRef(new Animated.Value(Dimensions.get('window').height)).current;
-
     const wordList = useRef(props.validWords);
-
+    
     useEffect(() => {
         wordList.current = props.validWords;
     }, [props.validWords]);
@@ -38,8 +36,8 @@ export default function Definitions(props: DefinitionsProps) {
             toValue: Dimensions.get('window').height,
             duration: 500,
             useNativeDriver: true
-        }).start(({finished}) => {
-            if(finished) props.close && props.close();
+        }).start(({ finished }) => {
+            if (finished) props.close && props.close();
         });
     }
 
@@ -53,9 +51,9 @@ export default function Definitions(props: DefinitionsProps) {
                 })}
             </ScrollView>
             {props.close &&
-                <AuthButton 
-                    text="Close" 
-                    onPress={() => slideOut()} 
+                <AuthButton
+                    text="Close"
+                    onPress={() => slideOut()}
                     style={styles.button}
                 />
             }
@@ -70,7 +68,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderBottomWidth: 1,
         borderColor: COLOURS.green,
-        backgroundColor: COLOURS.green, 
+        backgroundColor: COLOURS.green,
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',

@@ -1,3 +1,4 @@
+import React from 'react';
 import { View, ScrollView, Linking, TouchableOpacity, StyleSheet } from 'react-native';
 import MyAppText from '@/components/common/MyAppText';
 import AuthButton from '@/components/buttons/AuthButton';

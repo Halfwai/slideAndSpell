@@ -42,21 +42,6 @@ export default function Index() {
         })();
     }, []);
 
-    async function updateUserStats(time: number, slides: number, gameBoard: string[][]) {
-        if (!session) return;
-        let { data, error } = await supabase
-        .from('solutions')
-        .insert([{
-            user_id: session.user.id,
-            puzzle_date: date,
-            solution: gameBoard,
-            slides: slides,
-            time_seconds: time
-        }])
-        .select();
-        if (error) console.error(error)
-    }
-
     return (
         <View
             style={{
@@ -76,7 +61,7 @@ export default function Index() {
                         gameBoard={gameBoard} 
                         extraLetter={extraLetter} 
                         onGameEnd={(time : number, slides: number, gameBoard: string[][]) => {
-                            updateUserStats(time, slides, gameBoard);
+                            Supabase.updateUserSolution(time, slides, gameBoard, session, date);
                         }}
                         hints={hints}
                     />

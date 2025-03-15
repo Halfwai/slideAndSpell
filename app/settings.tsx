@@ -1,6 +1,6 @@
 import { View, StyleSheet, TextInput, Alert, Keyboard, Modal } from 'react-native';
 import MyAppText from '@/components/common/MyAppText';
-import { useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 
 import { COLOURS } from '@/constants/colours';
 

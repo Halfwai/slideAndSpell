@@ -29,9 +29,28 @@ export class Supabase {
             password: password,
             options: {
                 data: {
-                    display_name: 'username'
+                    display_name: displayName
                 }
             }
+        })
+
+        if (error) Alert.alert(error.message)
+        setLoading(false)
+    }
+
+    static signInWithEmail = async (email: string, password: string, setLoading: Function) => {
+        if (email === '') {
+            Alert.alert('Please enter an email');
+            return;
+        };
+        if (password === '') {
+            Alert.alert('Please enter a password');
+            return;
+        }
+        setLoading(true)
+        const { error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
         })
 
         if (error) Alert.alert(error.message)
@@ -94,6 +113,33 @@ export class Supabase {
         }
         return data;
     };
+
+    static async updateUserStats(time: number, slides: number, session: any, levelPicked: number | null) {
+        if (!session) return;
+        let { data, error } = await supabase
+        .rpc('update_user_stats', {
+            input_user_id: session.user.id,
+            input_game_type: levelPicked,             
+            input_swipes: slides,
+            input_time: time
+        })
+        if (error) console.error(error)
+    }
+
+    static async updateUserSolution(time: number, slides: number, gameBoard: string[][], session: any, date: string | null) {
+        if (!session) return;
+        let { data, error } = await supabase
+        .from('solutions')
+        .insert([{
+            user_id: session.user.id,
+            puzzle_date: date,
+            solution: gameBoard,
+            slides: slides,
+            time_seconds: time
+        }])
+        .select();
+        if (error) console.error(error)
+    }
 
     static async updateUser(userObject : any) {
         if(Object.keys(userObject).length === 0){

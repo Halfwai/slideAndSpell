@@ -1,8 +1,10 @@
-import { Animated, TouchableOpacity, StyleSheet, TextInput, Alert, View } from "react-native"
+import React from "react"
+import { StyleSheet, TextInput, Alert, View } from "react-native"
 import MyAppText from "@/components/common/MyAppText"
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 
 import { supabase } from '@/lib/supabase'
+import { Supabase } from '@/utils/supabaseFunctions'
 
 import AuthButton from "@/components/buttons/AuthButton"
 
@@ -16,25 +18,6 @@ export default function SignIn(props: SignInProps) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
-
-    async function signInWithEmail() {
-        if (email === '') {
-            Alert.alert('Please enter an email');
-            return;
-        };
-        if (password === '') {
-            Alert.alert('Please enter a password');
-            return;
-        }
-        setLoading(true)
-        const { error } = await supabase.auth.signInWithPassword({
-            email: email,
-            password: password,
-        })
-
-        if (error) Alert.alert(error.message)
-        setLoading(false)
-    }
 
     return (
         <View style={styles.container}>
@@ -62,10 +45,12 @@ export default function SignIn(props: SignInProps) {
 
             <AuthButton
                 text="Sign In"
-                onPress={signInWithEmail}
+                onPress={() => {
+                    Supabase.signInWithEmail(email, password, setLoading)
+                }}
                 style={{ backgroundColor: COLOURS.green }}
             />
-            <AuthButton text="Back" onPress={() => { props.setMenu("welcome") }} style={{ backgroundColor: "white", borderColor: COLOURS.green }} />
+            <AuthButton text="Back" onPress={() => { props.setMenu("welcome") }} style={{ backgroundColor: "white", borderColor: COLOURS.green }} disabled={loading} />
         </View>
     )
 }

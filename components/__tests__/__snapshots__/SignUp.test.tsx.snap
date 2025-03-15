@@ -292,5 +292,6 @@ exports[`SignUp Component renders correctly 1`] = `
       Back
     </Text>
   </View>
+  disabled=
 </View>
 `;

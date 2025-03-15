@@ -1,5 +1,5 @@
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import MyAppText from '@/components/common/MyAppText';
 import { UserContext } from '@/utils/context';
 import * as Haptics from 'expo-haptics';
@@ -8,14 +8,16 @@ interface AuthButtonProps {
     text: string;
     onPress: Function;
     style?: object;
+    disabled?: boolean;
 }
 
 export default function AuthButton(props: AuthButtonProps) {
     const userContext = useContext(UserContext);
     return (
-        <TouchableOpacity 
-            style={[styles.button, props.style]} 
+        <TouchableOpacity
+            style={[styles.button, props.style]}
             onPress={async () => {
+                if (props.disabled) return;
                 if (userContext && userContext.vibrate) {
                     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                 }
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 1,
         width: '90%',
-    }, 
+    },
     buttonText: {
         fontSize: 20,
         color: 'black',

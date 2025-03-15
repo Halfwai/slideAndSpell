@@ -1,5 +1,5 @@
 import 'react-native-url-polyfill/auto'
-import { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Auth from '@/app/auth'
 
 import Menu from '@/app/menu'

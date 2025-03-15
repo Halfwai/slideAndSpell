@@ -1,10 +1,7 @@
-import React, { useRef, useState, useEffect, useMemo, useContext } from 'react';
-import { View, Text, StyleSheet, Animated, PanResponder } from 'react-native';
+import React, { useRef, useMemo, useContext } from 'react';
+import { View, StyleSheet, Animated, PanResponder } from 'react-native';
 import * as Haptics from 'expo-haptics';
-import { ColorSpace } from 'react-native-reanimated';
-
 import { UserContext } from '@/utils/context';
-
 import Tile from '@/components/common/Tile';
 
 interface ExtraTileProps {
@@ -22,18 +19,16 @@ export default function ExtraTile(props: ExtraTileProps) {
     const tilePosition = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
     const yOffset = props.spaceSize * ((props.boardSize / 2) + 1);
     const xOffset = props.spaceSize * ((props.boardSize - 1) / 2);
-
-
     const userContext = useContext(UserContext);
     const vibrate = userContext ? userContext.vibrate : false;
 
-    function returnDistanceToZero(x : number, y: number) {
+    function returnDistanceToZero(x: number, y: number) {
         return Math.sqrt(Math.pow(x - props.zeroPos.x, 2) + Math.pow(y - props.zeroPos.y, 2));
     }
-   
+
     // Define the panResponder
     const panResponder = useMemo(
-        () => PanResponder.create({       
+        () => PanResponder.create({
             onMoveShouldSetPanResponder: () => true,
             // Haptic feedback when the user touches the tile
             onPanResponderGrant: () => {
@@ -43,7 +38,7 @@ export default function ExtraTile(props: ExtraTileProps) {
             },
             onPanResponderMove: (e, gestureState) => {
                 tilePosition.x.setValue(gestureState.dx);
-                tilePosition.y.setValue(gestureState.dy);                
+                tilePosition.y.setValue(gestureState.dy);
                 const distance = returnDistanceToZero(gestureState.dx + xOffset, gestureState.dy - props.spaceSize);
                 if (distance < props.tileSize) {
                     if (props.canInsert) {
@@ -52,15 +47,15 @@ export default function ExtraTile(props: ExtraTileProps) {
                         props.setEmptySquareColour(2);
                     }
                 } else {
-                    props.setEmptySquareColour(0); 
+                    props.setEmptySquareColour(0);
                 }
-                
+
 
             },
             // Move the tile to the empty space when the user releases it
             onPanResponderRelease: (e, gestureState) => {
-                props.setEmptySquareColour(0); 
-                if(props.canInsert && returnDistanceToZero(gestureState.dx + xOffset, gestureState.dy - props.spaceSize) < props.tileSize) {
+                props.setEmptySquareColour(0);
+                if (props.canInsert && returnDistanceToZero(gestureState.dx + xOffset, gestureState.dy - props.spaceSize) < props.tileSize) {
                     moveTile(-xOffset + props.zeroPos.x, props.spaceSize + props.zeroPos.y);
                     props.removeZero();
                     return;
@@ -73,20 +68,20 @@ export default function ExtraTile(props: ExtraTileProps) {
 
     const moveTile = (x: number, y: number) => {
         Animated.spring(tilePosition, {
-            toValue: {x: x, y: y},
+            toValue: { x: x, y: y },
             // bounciness set to 0 to prevent the tile from bouncing into other tiles
             bounciness: 0,
             speed: 1000,
             useNativeDriver: true
         }).start()
     };
-    
+
 
     return (
-        <View style={styles({tileSize: props.tileSize, yOffset: yOffset}).container}>
+        <View style={styles({ tileSize: props.tileSize, yOffset: yOffset }).container}>
             <Animated.View
                 style={[
-                    styles({tileSize: props.tileSize, yOffset: yOffset}).tile,
+                    styles({ tileSize: props.tileSize, yOffset: yOffset }).tile,
                     {
                         transform: [{ translateX: tilePosition.x }, { translateY: tilePosition.y }],
                     }
@@ -99,7 +94,7 @@ export default function ExtraTile(props: ExtraTileProps) {
     );
 }
 
-const styles = (props : {tileSize : number, yOffset : number}) => StyleSheet.create({
+const styles = (props: { tileSize: number, yOffset: number }) => StyleSheet.create({
     container: {
         width: "100%",
         alignItems: 'center',

@@ -10,7 +10,6 @@ interface WordsDefinitionsModelProps {
     setOpenDatePicker: (open: boolean) => void;
 }
 
-
 export default function WordsDefinitionsModel(props: WordsDefinitionsModelProps) {
     const useDateTimePicker = (params: { date: DateType }) => {
         if (!params.date) return;

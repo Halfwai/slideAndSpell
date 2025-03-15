@@ -14,7 +14,6 @@ export default function ScoreComponents(props: ScoreComponentProps) {
     const timeXPos = useRef(new Animated.Value(-Dimensions.get('window').width)).current;
     const slidesXPos = useRef(new Animated.Value(Dimensions.get('window').width)).current;
     const slideYPos = useRef(new Animated.Value(200)).current;
-
     const incrementTimeRef = useRef(props.incrementTime);
 
     useEffect(() => {

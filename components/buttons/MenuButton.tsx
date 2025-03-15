@@ -1,12 +1,7 @@
 import React, { useRef, useEffect, useContext } from 'react';
 import { View, Dimensions, Animated, TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
-
-import { useFocusEffect, usePathname } from 'expo-router';
-
 import { RFPercentage } from "react-native-responsive-fontsize";
-
 import MyAppText from '@/components/common/MyAppText';
-
 import { COLOURS } from '@/constants/colours';
 import { UserContext } from '@/utils/context';
 import * as Haptics from 'expo-haptics';
@@ -16,7 +11,7 @@ interface MenuButtonProps {
     onPress: Function,
     delay: number,
     exitMenu: boolean,
-    style?: {height: number | string | undefined},
+    style?: { height: number | string | undefined },
     slideIn?: boolean,
 }
 
@@ -24,7 +19,7 @@ export default function MenuButton(props: MenuButtonProps) {
     const [colour, setColour] = React.useState("white");
     const userContext = useContext(UserContext);
     const buttonPosition = useRef(new Animated.Value(Dimensions.get('window').width)).current;
-    
+
     function slideIn() {
         Animated.timing(buttonPosition, {
             toValue: 0,
@@ -71,7 +66,7 @@ export default function MenuButton(props: MenuButtonProps) {
             >
                 <TouchableOpacity
                     style={[styles(colour).touchable, props.style as ViewStyle]}
-                    onPress={async() => {
+                    onPress={async () => {
                         if (userContext && userContext.vibrate) {
                             await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                         }
@@ -107,7 +102,7 @@ const styles = (colour: string) => StyleSheet.create({
     },
     button: {
         width: "80%",
-        
+
     },
     text: {
         color: 'black',

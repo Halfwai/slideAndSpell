@@ -1,7 +1,5 @@
-// Import necessary libraries
-import { Text, StyleSheet, Animated, PanResponder } from 'react-native';
-import { useEffect, useRef, useState, useContext, useMemo } from 'react';
-import React from 'react';
+import React, { useEffect, useRef, useState, useContext, useMemo } from 'react';
+import { StyleSheet, Animated, PanResponder } from 'react-native';
 import * as Haptics from 'expo-haptics';
 
 import Tile from '@/components/common/Tile';
@@ -32,12 +30,8 @@ export default function GameBoardTile(props: GameBoardTileProps) {
     const tilePosition = useRef(new Animated.ValueXY({ x: props.position.x, y: props.position.y })).current;
     const slidableRef = useRef(props.slidable);
     const colour = useRef(props.valid ? new Animated.Value(3) : new Animated.Value(0)).current;
-
     const userContext = useContext(UserContext);
-    const vibrate = userContext ? userContext.vibrate : false;
-
-    
-
+    const vibrate = userContext ? userContext.vibrate : false; 
     const [resetColour, setResetColour] = useState(0);
 
     useEffect(() => {
@@ -70,8 +64,7 @@ export default function GameBoardTile(props: GameBoardTileProps) {
                 } else {
                     changeColour(1);
                 }
-                if (props.disabled) return;
-                
+                if (props.disabled) return;                
                 // Move the tile in the direction the user is moving it. Tile position is locked to the empty space.
                 if (slidableRef.current === Direction.RIGHT) {
                     const gestureX = Math.max(Math.min(gestureState.dx, props.spaceSize), 0);

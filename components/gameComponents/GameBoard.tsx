@@ -21,11 +21,8 @@ export default function GameBoard(props: GameBoardProps) {
     const size = props.gameBoard.length;
     const spaceSize = ((Dimensions.get("screen").width * 0.85) - 2) / size;
     const tileSize = spaceSize - 4;
-
     const [squareColour, setSquareColour] = useState(0);
-
     const boardPosition = useRef(new Animated.Value(Dimensions.get('window').height)).current;
-
     const [slides, setSlides] = useState(0);
     const [incrementTime, setIncrementTime] = useState(false);
     const [validWords, setValidWords] = useState<{ word: string, definition: string }[]>([]);
@@ -82,7 +79,9 @@ export default function GameBoard(props: GameBoardProps) {
         if(props.hints && hints.length < props.hints.length && slides % 10 === 0 && slides !== 0) {
             setHints((hints) => {
                 const newHints = [...hints];
-                newHints.push(props.hints[hints.length]);
+                if (props.hints) {
+                    newHints.push(props.hints[hints.length]);
+                }
                 return newHints;
             });
             setHintsSlideIn(true);

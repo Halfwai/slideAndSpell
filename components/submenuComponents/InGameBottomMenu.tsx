@@ -1,14 +1,8 @@
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { useContext } from 'react';
-
-import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import EntypoIcon from 'react-native-vector-icons/Entypo';
+import { View, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
 import { useRouter} from 'expo-router';
-
 import { UserContext } from '@/utils/context';
-
 import RoundButton from '@/components/buttons/RoundButton';
-
 
 export default function InGameBottomMenu() {
     const router = useRouter();

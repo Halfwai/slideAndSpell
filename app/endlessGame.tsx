@@ -3,6 +3,8 @@ import GameBoard from "@/components/gameComponents/GameBoard";
 import React, { useState, useContext } from "react";
 import MenuButton from "@/components/buttons/MenuButton";
 
+import { Supabase } from "@/utils/supabaseFunctions";
+
 import { UserContext } from "@/utils/context";
 
 import { supabase } from '@/lib/supabase'
@@ -19,18 +21,6 @@ export default function Index() {
     const [hints, setHints] = useState<string[][] | null>(null);
 
     const session = useContext(UserContext)?.session;
-
-    async function updateUserStats(time: number, slides: number) {
-        if (!session) return;
-        let { data, error } = await supabase
-        .rpc('update_user_stats', {
-            input_user_id: session.user.id,
-            input_game_type: levelPicked,             
-            input_swipes: slides,
-            input_time: time
-        })
-        if (error) console.error(error)
-    }
 
     return (
         <View
@@ -52,7 +42,7 @@ export default function Index() {
                         gameBoard={gameBoard} 
                         extraLetter={extraLetter} 
                         onGameEnd={(time : number, slides: number) => {
-                            updateUserStats(time, slides);
+                            Supabase.updateUserStats(time, slides, session, levelPicked);
                         }}
                         hints={hints}
                     />

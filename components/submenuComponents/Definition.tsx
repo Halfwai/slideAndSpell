@@ -1,4 +1,5 @@
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, Dimensions } from 'react-native';
 import { COLOURS } from '@/constants/colours';
 import MyAppText from '@/components/common/MyAppText';
 import { Link } from 'expo-router';
@@ -8,6 +9,7 @@ interface DefinitionProps {
     definition: string;
     example?: string;
 }
+
 
 
 export default function Definition(props: DefinitionProps) {
@@ -21,13 +23,13 @@ export default function Definition(props: DefinitionProps) {
                 <MyAppText style={styles.example}>"{props.example}"</MyAppText>
             )}
             {props.word &&
-            <Link href={`/dictionary?word=${props.word}`} style={styles.link}>
-                <MyAppText>More info</MyAppText>
-            </Link>
-            }            
+                <Link href={`/dictionary?word=${props.word}`} style={styles.link}>
+                    <MyAppText>More info</MyAppText>
+                </Link>
+            }
         </View>
     )
-} 
+}
 
 const styles = StyleSheet.create({
     container: {
