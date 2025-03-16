@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Stack } from "expo-router";
 import { StatusBar, View } from "react-native";
 import { supabase } from "@/lib/supabase";
@@ -9,7 +9,6 @@ import { useFonts } from 'expo-font';
 
 import { UserContext } from '@/utils/context';
 import { Audio } from 'expo-av';
-import { useAudioPlayer } from 'expo-audio';
 
 import { COLOURS }from "@/constants/colours";
 

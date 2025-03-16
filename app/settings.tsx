@@ -1,18 +1,12 @@
 import { View, StyleSheet, TextInput, Alert, Keyboard, Modal } from 'react-native';
 import MyAppText from '@/components/common/MyAppText';
 import React, { useState, useContext } from 'react';
-
 import { COLOURS } from '@/constants/colours';
-
 import AuthButton from '@/components/buttons/AuthButton';
-
 import { UserContext } from '@/utils/context';
-
-import { Supabase } from '@/utils/supabaseFunctions';
-
+import { updateUser } from '@/utils/supabaseFunctions';
 import InGameBottomMenu from '@/components/submenuComponents/InGameBottomMenu';
 import PrivacyPolicy from '@/components/modals/PrivacyPolicy';
-
 import { useRouter, RelativePathString } from 'expo-router';
 
 export default function Settings() {
@@ -20,8 +14,6 @@ export default function Settings() {
     const user = context?.session?.user?.user_metadata;
     const router = useRouter();
     const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
-
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [displayName, setDisplayName] = useState('');
@@ -51,7 +43,6 @@ export default function Settings() {
         }
         return userObject;
     }
-
 
     return (
         <View style={styles.container}>
@@ -106,7 +97,7 @@ export default function Settings() {
                             Alert.alert("No changes made");
                             return;
                         }
-                        Supabase.updateUser(newUserData);
+                        updateUser(newUserData);
                     }}
                     style={{ backgroundColor: COLOURS.green }}
                 />

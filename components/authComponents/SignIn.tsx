@@ -1,13 +1,9 @@
 import React from "react"
-import { StyleSheet, TextInput, Alert, View } from "react-native"
+import { StyleSheet, TextInput, View } from "react-native"
 import MyAppText from "@/components/common/MyAppText"
 import { useState } from "react"
-
-import { supabase } from '@/lib/supabase'
-import { Supabase } from '@/utils/supabaseFunctions'
-
+import { signInWithEmail } from '@/utils/supabaseFunctions'
 import AuthButton from "@/components/buttons/AuthButton"
-
 import { COLOURS } from '@/constants/colours'
 
 interface SignInProps {
@@ -46,7 +42,7 @@ export default function SignIn(props: SignInProps) {
             <AuthButton
                 text="Sign In"
                 onPress={() => {
-                    Supabase.signInWithEmail(email, password, setLoading)
+                    signInWithEmail(email, password, setLoading)
                 }}
                 style={{ backgroundColor: COLOURS.green }}
             />

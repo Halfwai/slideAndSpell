@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Alert, StyleSheet, View, Image, TouchableOpacity, Dimensions } from 'react-native'
-
-import { Button, Input } from '@rneui/themed'
-
-import { useFonts } from 'expo-font';
+import { StyleSheet, View, Image, Dimensions } from 'react-native'
 
 import { COLOURS } from '@/constants/colours'
 

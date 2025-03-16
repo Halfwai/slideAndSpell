@@ -1,13 +1,11 @@
 import { TouchableOpacity, StyleSheet, View, TextInput, Modal } from "react-native"
 import MyAppText from "@/components/common/MyAppText"
 import React, { useState } from "react"
-
 import AuthButton from "@/components/buttons/AuthButton"
-
-import { Supabase } from '@/utils/supabaseFunctions'
-
+import { signUpWithEmail } from '@/utils/supabaseFunctions'
 import { COLOURS } from '@/constants/colours'
 import PrivacyPolicy from "@/components/modals/PrivacyPolicy"
+
 interface SignUpProps {
     setMenu: Function,
 }
@@ -72,7 +70,7 @@ export default function SignUp(props: SignUpProps) {
             <AuthButton
                 text="Sign Up"
                 onPress={() => {
-                    Supabase.signUpWithEmail(email, password, passwordConfirm, displayName, setLoading)
+                    signUpWithEmail(email, password, passwordConfirm, displayName, setLoading)
                 }}
                 style={{ backgroundColor: COLOURS.green }}
             />

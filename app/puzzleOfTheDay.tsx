@@ -1,17 +1,10 @@
-import { Text, View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import GameBoard from "@/components/gameComponents/GameBoard";
 import React, { useState, useContext, useEffect } from "react";
-
 import { UserContext } from "@/utils/context";
-
-import { supabase } from '@/lib/supabase'
 import { useRouter, RelativePathString } from 'expo-router';
-
 import InGameBottomMenu from "@/components/submenuComponents/InGameBottomMenu";
-
-
-import { GameBoardFunctions } from "@/utils/gameBoardFunctions";
-import { Supabase } from "@/utils/supabaseFunctions";
+import { getGameboard, updateUserSolution} from "@/utils/supabaseFunctions";
 
 export default function Index() {
     const router = useRouter();
@@ -28,7 +21,7 @@ export default function Index() {
 
     useEffect(() => {
         (async() => {
-            const gameboardData = await Supabase.getGameboard();
+            const gameboardData = await getGameboard();
             if (!gameboardData) {
                 Alert.alert("Error getting gameboard data");
                 router.push("/menu" as RelativePathString);
@@ -61,7 +54,7 @@ export default function Index() {
                         gameBoard={gameBoard} 
                         extraLetter={extraLetter} 
                         onGameEnd={(time : number, slides: number, gameBoard: string[][]) => {
-                            Supabase.updateUserSolution(time, slides, gameBoard, session, date);
+                            updateUserSolution(time, slides, gameBoard, session, date);
                         }}
                         hints={hints}
                     />

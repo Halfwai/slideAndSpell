@@ -1,15 +1,9 @@
-import { Text, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import GameBoard from "@/components/gameComponents/GameBoard";
 import React, { useState, useContext } from "react";
 import MenuButton from "@/components/buttons/MenuButton";
-
-import { Supabase } from "@/utils/supabaseFunctions";
-
+import { updateUserStats } from "@/utils/supabaseFunctions";
 import { UserContext } from "@/utils/context";
-
-import { supabase } from '@/lib/supabase'
-
-
 import { GameBoardFunctions } from "@/utils/gameBoardFunctions";
 import InGameBottomMenu from "@/components/submenuComponents/InGameBottomMenu";
 
@@ -42,7 +36,7 @@ export default function Index() {
                         gameBoard={gameBoard} 
                         extraLetter={extraLetter} 
                         onGameEnd={(time : number, slides: number) => {
-                            Supabase.updateUserStats(time, slides, session, levelPicked);
+                            updateUserStats(time, slides, session, levelPicked);
                         }}
                         hints={hints}
                     />

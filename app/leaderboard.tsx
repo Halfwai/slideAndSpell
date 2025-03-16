@@ -1,7 +1,7 @@
-import { View, Text, StyleSheet, FlatList, Modal, TouchableOpacity, Pressable, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, FlatList, Modal, TouchableOpacity } from 'react-native';
 import { COLOURS } from '@/constants/colours';
 import React, { useEffect, useState } from 'react';
-import { Supabase } from '@/utils/supabaseFunctions';
+import { getLeaderboard} from '@/utils/supabaseFunctions';
 import { GameBoardFunctions } from '@/utils/gameBoardFunctions';
 import Definitions from '@/components/submenuComponents/Definitions';
 import InGameBottomMenu from '@/components/submenuComponents/InGameBottomMenu';
@@ -25,7 +25,7 @@ export default function LeaderBoard() {
 
     useEffect(() => {
         setLeaderboard(null);
-        Supabase.getLeaderboard(selectedDate).then((data) => {
+        getLeaderboard(selectedDate).then((data) => {
             setLeaderboard(data);
         });
     }, [selectedDate]);

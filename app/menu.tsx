@@ -1,4 +1,4 @@
-import { Text, View, Image, StyleSheet, Dimensions, BackHandler } from "react-native";
+import { Text, View, Image, StyleSheet, Dimensions, BackHandler, Alert } from "react-native";
 import MenuButton from "@/components/buttons/MenuButton";
 import React, { useState } from "react";
 import { supabase } from '@/lib/supabase'
@@ -87,6 +87,9 @@ export default function Menu() {
                             text="Log Out"
                             onPress={async () => {
                                 const { error } = await supabase.auth.signOut();
+                                if(error) {
+                                    Alert.alert("Error logging out");
+                                }
                             }}
                             delay={500}
                             exitMenu={exitMenu}

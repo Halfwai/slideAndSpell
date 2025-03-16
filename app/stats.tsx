@@ -1,12 +1,10 @@
-import { Text, View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { COLOURS } from "@/constants/colours";
 import React, { useContext, useEffect, useState } from "react";
-
 import MyAppText from "@/components/common/MyAppText";
-import { Supabase } from "@/utils/supabaseFunctions";
+import { getStats } from "@/utils/supabaseFunctions";
 import { UserContext } from "@/utils/context";
 import { useRouter } from "expo-router";
-
 import StatBox from "@/components/submenuComponents/StatBox";
 import { formatSeconds } from "@/utils/helperFunctions";
 
@@ -23,7 +21,7 @@ export default function Stats() {
     const [stats, setStats] = useState<any>(null);
 
     useEffect(() => {
-        Supabase.getStats(session.user.id).then((data) => {
+        getStats(session.user.id).then((data) => {
             setStats(data);
         });
     }, []);

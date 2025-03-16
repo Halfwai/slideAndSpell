@@ -8,7 +8,6 @@ interface PrivacyPolicyProps {
     hidePrivacyPolicy: Function
 }
 
-
 export default function PrivacyPolicy(props: PrivacyPolicyProps) {
     return (
         <View style={styles.privacyPolicyOuterContainer}>

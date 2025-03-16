@@ -1,13 +1,9 @@
 import React, { useEffect, useRef, useState, useContext, useMemo } from 'react';
 import { StyleSheet, Animated, PanResponder } from 'react-native';
 import * as Haptics from 'expo-haptics';
-
 import Tile from '@/components/common/Tile';
-
 import { COLOURS } from '@/constants/colours';
-
 import { UserContext } from '@/utils/context';
-
 // Import the Direction enum
 import { Direction } from '@/constants/enums';
 
