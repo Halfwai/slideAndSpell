@@ -1,17 +1,23 @@
-import { Text, View, Image, StyleSheet, Dimensions, BackHandler, Alert } from "react-native";
-import MenuButton from "@/components/buttons/MenuButton";
 import React, { useState } from "react";
-import { supabase } from '@/lib/supabase'
+import { View, Image, StyleSheet, Dimensions, BackHandler, Alert } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
-
 import { useRouter, RelativePathString } from 'expo-router';
 
+// Import supabase for logging out
+import { supabase } from '@/lib/supabase'
+
+// Import components
+import MenuButton from "@/components/buttons/MenuButton";
+
 export default function Menu() {
+    // State for the menu animation
     const [exitMenu, setExitMenu] = useState(false);
     const [slideInReady, setSlideInReady] = useState(false);
 
+    // Router for navigation
     const router = useRouter();
 
+    // Function to switch routes with a delay to make the buttons slide out
     const switchRoute = (route: RelativePathString) => {
         setExitMenu(true),
             setTimeout(() => {
@@ -20,8 +26,9 @@ export default function Menu() {
             }, 700);
     }
 
+    // When the screen is focused, reset the slide in animation so the buttons slide in
     useFocusEffect(() => {
-        if(slideInReady) {
+        if (slideInReady) {
             setSlideInReady(false);
             setExitMenu(false);
         }
@@ -36,11 +43,7 @@ export default function Menu() {
                 style={{ height: Dimensions.get('window').height * 0.3, width: "90%" }}
                 resizeMode="contain"
             />
-            <View style={{
-                flex: 2,
-                flexDirection: 'column',
-                width: "100%",
-            }}>
+            <View style={styles.buttonContainer}>
                 <MenuButton
                     text="Puzzle of the Day"
                     onPress={() => (
@@ -81,23 +84,22 @@ export default function Menu() {
                     delay={400}
                     exitMenu={exitMenu}
                 />
-                <View style={{ flexDirection: 'row', flex: 1, width: "100%", justifyContent: "space-evenly", alignItems: "center" }}>
-                    <View style={{ width: "40%", height: "100%", paddingBottom: "10%" }} >
+                <View style={styles.bottomButtonContainer}>
+                    <View style={styles.bottomButton} >
                         <MenuButton
                             text="Log Out"
                             onPress={async () => {
                                 const { error } = await supabase.auth.signOut();
-                                if(error) {
+                                if (error) {
                                     Alert.alert("Error logging out");
                                 }
                             }}
                             delay={500}
                             exitMenu={exitMenu}
                             style={{ height: "100%" }}
-    
                         />
                     </View>
-                    <View style={{ width: "40%", height: "100%", paddingBottom: "10%" }} >
+                    <View style={styles.bottomButton} >
                         <MenuButton
                             text="Exit"
                             onPress={() => (
@@ -106,15 +108,12 @@ export default function Menu() {
                             delay={500}
                             exitMenu={exitMenu}
                             style={{ height: "100%" }}
-    
                         />
                     </View>
                 </View>
             </View>
-
         </View>
     );
-
 }
 
 const styles = StyleSheet.create({
@@ -124,4 +123,20 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#CBE6F7",
     },
+    buttonContainer: {
+        flex: 2,
+        flexDirection: 'column',
+        width: "100%",
+    },
+    bottomButtonContainer: {
+        flexDirection: 'row', 
+        flex: 1, width: "100%", 
+        justifyContent: "space-evenly", 
+        alignItems: "center"
+    },
+    bottomButton: {
+        width: "40%", 
+        height: "100%", 
+        paddingBottom: "10%"
+    }
 });

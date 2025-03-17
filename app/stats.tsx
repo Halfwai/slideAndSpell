@@ -1,15 +1,21 @@
-import { View, StyleSheet, Alert } from "react-native";
-import { COLOURS } from "@/constants/colours";
 import React, { useContext, useEffect, useState } from "react";
-import MyAppText from "@/components/common/MyAppText";
+import { View, StyleSheet, Alert } from "react-native";
+import { useRouter } from "expo-router";
+
+// Import COLOURS
+import { COLOURS } from "@/constants/colours";
+
+// Import functions and context
 import { getStats } from "@/utils/supabaseFunctions";
 import { UserContext } from "@/utils/context";
-import { useRouter } from "expo-router";
-import StatBox from "@/components/submenuComponents/StatBox";
 import { formatSeconds } from "@/utils/helperFunctions";
 
+// Import components
+import MyAppText from "@/components/common/MyAppText";
+import StatBox from "@/components/submenuComponents/StatBox";
 
 export default function Stats() {
+    // Get user session from context
     const userContext = useContext(UserContext);
     const session = userContext ? userContext.session : null;
     if (!session || !session.user) {
@@ -18,14 +24,17 @@ export default function Stats() {
         return;
     };
 
+    // State to store stats
     const [stats, setStats] = useState<any>(null);
 
+    // Get stats from supabase
     useEffect(() => {
         getStats(session.user.id).then((data) => {
             setStats(data);
         });
     }, []);
 
+    // If stats are not loaded yet, show loading screen
     if (!stats) {
         return (
             <View style={styles.container}>
@@ -33,6 +42,7 @@ export default function Stats() {
         )
     }
 
+    // Render stats
     return (
         <View style={styles.container}>
             <View style={styles.statBoxContainer} >

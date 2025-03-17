@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { useRouter} from 'expo-router';
 import { UserContext } from '@/utils/context';
 import RoundButton from '@/components/buttons/RoundButton';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function InGameBottomMenu() {
     const router = useRouter();
@@ -22,15 +23,19 @@ export default function InGameBottomMenu() {
             />
             <RoundButton 
                 icon={vibrate ? "vibrate" : "vibrate-off"} 
-                onPress={() => {
-                    setVibrate(!vibrate);
+                onPress={async() => {
+                    const newVibrateState = !vibrate;
+                    setVibrate(newVibrateState);
+                    await AsyncStorage.setItem('vibrate', newVibrateState ? "true" : "false");
                 }}
                 iconType="material"
             />
             <RoundButton 
                 icon={sound ? "sound" : "sound-mute"} 
-                onPress={() => {
-                    setSound(!sound);
+                onPress={async() => {
+                    const newSoundState = !sound;
+                    setSound(newSoundState);
+                    await AsyncStorage.setItem('sound', newSoundState ? "true" : "false");
                 }}
                 iconType="entypo"
             />

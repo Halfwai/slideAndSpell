@@ -19,7 +19,7 @@ interface GameBoardProps {
 // Define the Gameboard component
 export default function GameBoard(props: GameBoardProps) {
     const size = props.gameBoard.length;
-    const spaceSize = ((Dimensions.get("screen").width * 0.85) - 2) / size;
+    const spaceSize = ((Dimensions.get("window").width * 0.85) - 2) / size;
     const tileSize = spaceSize - 4;
     const [squareColour, setSquareColour] = useState(0);
     const boardPosition = useRef(new Animated.Value(Dimensions.get('window').height)).current;

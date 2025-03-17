@@ -1,72 +1,74 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Image, Dimensions } from 'react-native'
 
+// Import COLOURS
 import { COLOURS } from '@/constants/colours'
 
+// Import Components
 import AuthComponentContainer from '@/components/authComponents/AuthComponentContainer'
 import Welcome from '@/components/authComponents/Welcome'
 import SignIn from '@/components/authComponents/SignIn';
 import SignUp from '@/components/authComponents/SignUp';
 
 export default function Auth() {
+    // Declare state variables
     const [currentMenu, setCurrentMenu] = useState('welcome')
-    const [welcomePos, setWelcomePos] = useState({x: 0, y: 0})
-    const [signInPos, setSignInPos] = useState({x: - Dimensions.get('window').width, y: 0})
-    const [signUpPos, setSignUpPos] = useState({x: Dimensions.get('window').width * 2, y: 0})
+    // Setup the position of each of the auth components
+    const [welcomePos, setWelcomePos] = useState({ x: 0, y: 0 })
+    const [signInPos, setSignInPos] = useState({ x: - Dimensions.get('window').width, y: 0 })
+    const [signUpPos, setSignUpPos] = useState({ x: Dimensions.get('window').width * 2, y: 0 })
 
+    // Update the position of the auth components based on the current menu
     useEffect(() => {
         if (currentMenu === 'welcome') {
-            setWelcomePos({x: 0, y: 0})
+            setWelcomePos({ x: 0, y: 0 })
         } else {
-            setWelcomePos({x: 0, y: -Dimensions.get('window').height})
+            setWelcomePos({ x: 0, y: -Dimensions.get('window').height })
         }
         if (currentMenu === 'signIn') {
-            setSignInPos({x: 0, y: 0})
+            setSignInPos({ x: 0, y: 0 })
         } else {
-            setSignInPos({x: -Dimensions.get('window').width, y: 0})
+            setSignInPos({ x: -Dimensions.get('window').width, y: 0 })
         }
         if (currentMenu === 'signUp') {
-            setSignUpPos({x: 0, y: 0})
+            setSignUpPos({ x: 0, y: 0 })
         } else {
-            setSignUpPos({x: Dimensions.get('window').width * 2, y: 0})
+            setSignUpPos({ x: Dimensions.get('window').width * 2, y: 0 })
         }
     }, [currentMenu])
 
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
-                <Image 
+                <Image
                     source={require("@/assets/images/logo.png")}
-                    style={{ width: "90%", height: "100%", zIndex: 1 }}
+                    style={styles.image}
                     resizeMode="contain"
                 />
             </View>
-
-            <View style={{flex: 1, width: '100%'}}>
+            <View style={styles.componentContainer}>
                 <AuthComponentContainer
                     position={welcomePos}
                 >
-                    <Welcome 
-                        setMenu={(state : string) => setCurrentMenu(state)}
+                    <Welcome
+                        setMenu={(state: string) => setCurrentMenu(state)}
                     />
                 </AuthComponentContainer>
                 <AuthComponentContainer
-                    position={signInPos}                
+                    position={signInPos}
                 >
-                    <SignIn 
-                        setMenu={(state : string) => setCurrentMenu(state)}
+                    <SignIn
+                        setMenu={(state: string) => setCurrentMenu(state)}
                     />
                 </AuthComponentContainer>
                 <AuthComponentContainer
                     position={signUpPos}
                 >
-                    <SignUp 
-                        setMenu={(state : string) => setCurrentMenu(state)}
+                    <SignUp
+                        setMenu={(state: string) => setCurrentMenu(state)}
                     />
                 </AuthComponentContainer>
             </View>
-
-
         </View>
     )
 }
@@ -81,11 +83,19 @@ const styles = StyleSheet.create({
     imageContainer: {
         width: '100%',
         alignItems: 'center',
-        // paddingTop: 20,
         zIndex: 1,
         backgroundColor: COLOURS.blue,
         height: Dimensions.get('window').height * 0.3
     },
+    image: {
+        width: "90%", 
+        height: "100%", 
+        zIndex: 1
+    },
+    componentContainer: {
+        flex: 1, 
+        width: '100%'
+    }
 })
 
 

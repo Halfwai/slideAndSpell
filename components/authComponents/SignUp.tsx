@@ -75,14 +75,16 @@ export default function SignUp(props: SignUpProps) {
                     setLoading(false);
                 }}
                 style={{ backgroundColor: COLOURS.green }}
+                disabled={loading}
             />
             <AuthButton
                 text="Back"
                 onPress={() => {
                     props.setMenu("welcome")
                 }}
-                style={{ backgroundColor: "white", borderColor: COLOURS.green }} />
+                style={{ backgroundColor: "white", borderColor: COLOURS.green }} 
                 disabled={loading}
+            />                
             <Modal
                 visible={showPrivacyPolicy}
                 animationType="slide"

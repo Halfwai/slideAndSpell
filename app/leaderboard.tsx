@@ -1,28 +1,33 @@
-import { View, StyleSheet, FlatList, Modal, TouchableOpacity } from 'react-native';
-import { COLOURS } from '@/constants/colours';
 import React, { useEffect, useState } from 'react';
-import { getLeaderboard} from '@/utils/supabaseFunctions';
-import { GameBoardFunctions } from '@/utils/gameBoardFunctions';
-import Definitions from '@/components/submenuComponents/Definitions';
-import InGameBottomMenu from '@/components/submenuComponents/InGameBottomMenu';
-
+import { View, StyleSheet, FlatList, Modal, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+// Import COLOURS
+import { COLOURS } from '@/constants/colours';
+
+// Import functions
+import { getLeaderboard } from '@/utils/supabaseFunctions';
+import { GameBoardFunctions } from '@/utils/gameBoardFunctions';
+
+// Import components
+import Definitions from '@/components/submenuComponents/Definitions';
+import InGameBottomMenu from '@/components/submenuComponents/InGameBottomMenu';
 import WordsDefinitionsModel from '@/components/modals/WordsDefinitionsModel';
-
 import LeaderboardEntry from '@/components/submenuComponents/LeaderboardEntry';
-
 import MyAppText from '@/components/common/MyAppText';
 
 export default function LeaderBoard() {
+    // Set up state
     const [leaderboard, setLeaderboard] = useState<any>(null);
     const [validWords, setValidWords] = useState<{ word: string, definition: string }[]>([]);
 
+    // Set up date state for date picker
     const date = new Date();
     const sqlDate = date.toISOString().split('T')[0];
     const [selectedDate, setSelectedDate] = useState<string>(sqlDate);
     const [openDatePicker, setOpenDatePicker] = useState(false)
 
+    // Get leaderboard data when the date changes
     useEffect(() => {
         setLeaderboard(null);
         getLeaderboard(selectedDate).then((data) => {
@@ -30,16 +35,19 @@ export default function LeaderBoard() {
         });
     }, [selectedDate]);
 
+    // Get definitions for the words in the solution
     function getDefinitions(gameBoard: string[][]) {
         const { correctWords } = GameBoardFunctions.checkWords(gameBoard);
         setValidWords(correctWords);
     }
 
+    // Variables to set up the rank of the leaderboard entry
     let currentRank = 1;
     let previousRank = 1;
     let currentSlides = 0;
     let currentTime = 0;
 
+    // Function to return the rank of the leaderboard entry
     function returnRank(slides: number, time_seconds: number): string {
         if (slides === currentSlides && time_seconds === currentTime) {
             currentRank++;
@@ -57,7 +65,7 @@ export default function LeaderBoard() {
             <View style={styles.titleContainer}>
                 <MyAppText style={styles.title}>Leaderboard</MyAppText>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: "center", width: '100%', padding: 10, flex: 1 }}>
+            <View style={styles.datePickerContainer}>
                 <TouchableOpacity
                     onPress={() => {
                         let date = new Date(selectedDate);
@@ -87,7 +95,6 @@ export default function LeaderBoard() {
                     <MaterialCommunityIcons name="skip-next" size={30} color={'black'} />
                 </TouchableOpacity>
             </View>
-
             <Modal
                 animationType="slide"
                 visible={openDatePicker}
@@ -101,21 +108,19 @@ export default function LeaderBoard() {
                     setSelectedDate={setSelectedDate}
                     setOpenDatePicker={setOpenDatePicker}
                 />
-
             </Modal>
             <View style={styles.leaderBoardContainer}>
                 {leaderboard &&
                     <View style={styles.headerContainer}>
-                        <MyAppText style={{ fontWeight: 'bold', flex: 1, textAlign: 'center' }}>Rank</MyAppText>
-                        <MyAppText style={{ fontWeight: 'bold', flex: 2, textAlign: 'center' }}>Name</MyAppText>
-                        <MyAppText style={{ fontWeight: 'bold', flex: 1, textAlign: 'center' }}>Slides</MyAppText>
-                        <MyAppText style={{ fontWeight: 'bold', flex: 1, textAlign: 'center' }}>Time</MyAppText>
+                        <MyAppText style={[styles.headerText, {flex: 1}]}>Rank</MyAppText>
+                        <MyAppText style={[styles.headerText, {flex: 2}]}>Name</MyAppText>
+                        <MyAppText style={[styles.headerText, {flex: 1}]}>Slides</MyAppText>
+                        <MyAppText style={[styles.headerText, {flex: 1}]}>Time</MyAppText>
                         <View style={{ flex: 1 }} />
                     </View>
                 }
-
                 {leaderboard && leaderboard.length != 0 ?
-                    <View style={{ width: "100%", height: "90%" }}>
+                    <View style={styles.flatListContainer}>
                         <FlatList
                             data={leaderboard}
                             keyExtractor={(item, index) => index.toString()}
@@ -137,8 +142,6 @@ export default function LeaderBoard() {
                     :
                     <MyAppText>No entries yet</MyAppText>
                 }
-
-
                 {validWords.length != 0 &&
                     <Definitions
                         validWords={validWords}
@@ -150,9 +153,7 @@ export default function LeaderBoard() {
                 }
             </View>
             <InGameBottomMenu />
-            <View style={{ flex: 1.5, justifyContent: 'center', width: '100%', alignItems: 'center' }}>
-
-
+            <View style={styles.bottomBlock}>
             </View>
         </View>
     )
@@ -176,6 +177,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: "black",
     },
+    datePickerContainer: {
+        flexDirection: 'row', 
+        justifyContent: 'space-around', 
+        alignItems: "center", 
+        width: '100%', 
+        padding: 10, 
+        flex: 1
+    },
     headerContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -185,6 +194,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         height: "10%"
     },
+
     dateButtons: {
         padding: 10,
         borderWidth: 1,
@@ -199,5 +209,19 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         alignItems: 'center',
         borderWidth: 1,
+    },
+    headerText: {
+        fontWeight: 'bold', 
+        textAlign: 'center'
+    },
+    bottomBlock: {
+        flex: 1.5, 
+        justifyContent: 'center', 
+        width: '100%', 
+        alignItems: 'center'
+    }, 
+    flatListContainer: {
+        width: "100%", 
+        height: "90%"
     }
 });

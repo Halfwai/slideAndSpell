@@ -1,18 +1,28 @@
-import { View, StyleSheet, TextInput, Alert, Keyboard, Modal } from 'react-native';
-import MyAppText from '@/components/common/MyAppText';
 import React, { useState, useContext } from 'react';
-import { COLOURS } from '@/constants/colours';
-import AuthButton from '@/components/buttons/AuthButton';
-import { UserContext } from '@/utils/context';
-import { updateUser } from '@/utils/supabaseFunctions';
-import InGameBottomMenu from '@/components/submenuComponents/InGameBottomMenu';
-import PrivacyPolicy from '@/components/modals/PrivacyPolicy';
+import { View, StyleSheet, TextInput, Alert, Keyboard, Modal } from 'react-native';
 import { useRouter, RelativePathString } from 'expo-router';
 
+// Import COLOURS
+import { COLOURS } from '@/constants/colours';
+
+// Import fuctions and context
+import { UserContext } from '@/utils/context';
+import { updateUser } from '@/utils/supabaseFunctions';
+
+// Import components
+import AuthButton from '@/components/buttons/AuthButton';
+import MyAppText from '@/components/common/MyAppText';
+import InGameBottomMenu from '@/components/submenuComponents/InGameBottomMenu';
+import PrivacyPolicy from '@/components/modals/PrivacyPolicy';
+
+
 export default function Settings() {
+    // Get user data from context
     const context = useContext(UserContext);
     const user = context?.session?.user?.user_metadata;
+    // Get router
     const router = useRouter();
+    // Setup state
     const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -20,9 +30,11 @@ export default function Settings() {
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [showBottomButtons, setShowBottomButtons] = useState(true);
 
+    // Hide bottom buttons when keyboard is open
     Keyboard.addListener('keyboardDidShow', () => setShowBottomButtons(false));
     Keyboard.addListener('keyboardDidHide', () => setShowBottomButtons(true));
 
+    // Function to create user object for updating user
     const createUserObject = () => {
         let userObject: {
             email?: string,
@@ -92,11 +104,14 @@ export default function Settings() {
                 <AuthButton
                     text="Save Changes"
                     onPress={() => {
+                        // Create user object
                         const newUserData = createUserObject();
+                        // Check if any changes were made
                         if (Object.keys(newUserData).length === 0) {
                             Alert.alert("No changes made");
                             return;
                         }
+                        // Update user
                         updateUser(newUserData);
                     }}
                     style={{ backgroundColor: COLOURS.green }}

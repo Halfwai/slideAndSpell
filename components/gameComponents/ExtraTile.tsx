@@ -1,5 +1,5 @@
 import React, { useRef, useMemo, useContext } from 'react';
-import { View, StyleSheet, Animated, PanResponder } from 'react-native';
+import { View, StyleSheet, Animated, PanResponder, Platform } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import { UserContext } from '@/utils/context';
 import Tile from '@/components/common/Tile';
@@ -33,7 +33,7 @@ export default function ExtraTile(props: ExtraTileProps) {
             // Haptic feedback when the user touches the tile
             onPanResponderGrant: () => {
                 if (vibrate) (async () => {
-                    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                    Platform.OS !== "web" && await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                 })();
             },
             onPanResponderMove: (e, gestureState) => {

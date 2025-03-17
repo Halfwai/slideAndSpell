@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext, useMemo } from 'react';
-import { StyleSheet, Animated, PanResponder } from 'react-native';
+import { StyleSheet, Animated, PanResponder, Platform } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import Tile from '@/components/common/Tile';
 import { COLOURS } from '@/constants/colours';
@@ -50,7 +50,7 @@ export default function GameBoardTile(props: GameBoardTileProps) {
             // Haptic feedback when the user touches the tile
             onPanResponderGrant: () => {
                 if (vibrate) (async () => {
-                    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                    Platform.OS !== "web" && await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                 })();
             },
             onPanResponderMove: (e, gestureState) => {

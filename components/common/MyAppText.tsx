@@ -3,7 +3,7 @@ import{Text, TextStyle, StyleSheet} from 'react-native';
 
 interface MyAppTextProps {
     children: React.ReactNode;
-    style?: TextStyle;
+    style?: TextStyle | TextStyle[];
 }
 
 export default function MyAppText(props: MyAppTextProps) {

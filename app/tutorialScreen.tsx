@@ -1,9 +1,11 @@
 import React from "react";
-import Tutorial from "@/components/submenuComponents/Tutorial";
 import { useRouter, RelativePathString } from "expo-router";
 
-export default function TutorialScreen() {
+// Import components
+import Tutorial from "@/components/submenuComponents/Tutorial";
 
+
+export default function TutorialScreen() {
     const router = useRouter();
     return (
         <Tutorial 

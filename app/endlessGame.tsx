@@ -4,7 +4,7 @@ import React, { useState, useContext } from "react";
 import MenuButton from "@/components/buttons/MenuButton";
 import { updateUserStats } from "@/utils/supabaseFunctions";
 import { UserContext } from "@/utils/context";
-import { GameBoardFunctions } from "@/utils/gameBoardFunctions";
+import { generateGameBoard } from "@/utils/gameBoardFunctions";
 import InGameBottomMenu from "@/components/submenuComponents/InGameBottomMenu";
 
 export default function Index() {
@@ -52,7 +52,7 @@ export default function Index() {
                                 setTimeout(() => {
                                     const level = i + 3;
                                     setLevelPicked(level);
-                                    const {extraLetter, gameBoard, hints} = GameBoardFunctions.generateGameBoard(level);
+                                    const {extraLetter, gameBoard, hints} = generateGameBoard(level);
                                     setExtraLetter(extraLetter);
                                     setGameBoard(gameBoard);
                                     setHints(hints);
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 
 // text="Puzzle of the Day"
 // onPress={() => (
-//     gameBoard = GameBoardFunctions.generateGameBoard(4),
+//     gameBoard = generateGameBoard(4),
 //     setExitMenu(true),
 //     setTimeout(() => {
 //         setLevelPicked(true);
