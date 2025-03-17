@@ -65,13 +65,10 @@ export const checkWords = (gameBoard: string[][]): {correctWords: {word: string,
     let correctWords = [];
     for (let i = 0; i < size; i++) {
         const word = gameBoard[i].join('');
-        const definition = checkWord(word);
-    
+        const definition = checkWord(word);   
         if (definition && word.length === size) {
-            // console.log(definition);
             correctWords.push({word: word, definition: definition});
-            newValidArray[i] = true;
-            
+            newValidArray[i] = true;            
         } else {
             newValidArray[i] = false;
         }        }
