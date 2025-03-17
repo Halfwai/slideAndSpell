@@ -2,7 +2,7 @@ import { StyleSheet, Dimensions, Animated, View } from "react-native";
 import GameBoardTile from "./GameBoardTile";
 import React, { useState, useEffect, useRef } from "react";
 import EmptySquare from "@/components/gameComponents/EmptySquare";
-import { GameBoardFunctions } from "@/utils/gameBoardFunctions";
+import { checkSlidable, checkWords, checkWord, findZero, getFinalWord, removeZero, returnZeroPos, switchZero } from "@/utils/gameBoardFunctions";
 import ExtraTile from "@/components/gameComponents/ExtraTile";
 import ScoreComponent from "@/components/submenuComponents/ScoreComponent";
 import Definitions from "@/components/submenuComponents/Definitions";
@@ -51,7 +51,7 @@ export default function GameBoard(props: GameBoardProps) {
     const [board, setBoard] = useState(props.gameBoard);
     const [validArray, setValidArray] = useState(Array(size).fill(false));
 
-    const [zeroPos, setZeroPos] = useState(GameBoardFunctions.returnZeroPos(board, spaceSize));
+    const [zeroPos, setZeroPos] = useState(returnZeroPos(board, spaceSize));
     const [canInsertLetter, setCanInsertLetter] = useState(false);
     const [gameOver, setGameOver] = useState(false);
 
@@ -59,15 +59,15 @@ export default function GameBoard(props: GameBoardProps) {
     const [hintsSlideIn, setHintsSlideIn] = useState(false);
 
     useEffect(() => {
-        setZeroPos(GameBoardFunctions.returnZeroPos(board, spaceSize));
-        const { correctWords, newValidArray } = GameBoardFunctions.checkWords(board);
+        setZeroPos(returnZeroPos(board, spaceSize));
+        const { correctWords, newValidArray } = checkWords(board);
         props.returnCompleteWords && props.returnCompleteWords(correctWords.length);
         if (validArray !== newValidArray) {
             setValidArray(newValidArray);
         }
         if (correctWords.length === size - 1 && !gameOver) {
-            const { word, zeroY } = GameBoardFunctions.getFinalWord(board, props.extraLetter);
-            const definition = GameBoardFunctions.checkWord(word);
+            const { word, zeroY } = getFinalWord(board, props.extraLetter);
+            const definition = checkWord(word);
             if (definition) {
                 correctWords.splice(zeroY, 0, { word: word, definition: definition });
                 setValidWords(correctWords);
@@ -103,7 +103,7 @@ export default function GameBoard(props: GameBoardProps) {
                         <React.Fragment
                             key={`${i}:${j}`}
                         >
-                            {GameBoardFunctions.findZero(board).x === j && GameBoardFunctions.findZero(board).y === i ?
+                            {findZero(board).x === j && findZero(board).y === i ?
                                 <EmptySquare
                                     tileSize={tileSize}
                                     position={{ x: j * spaceSize, y: i * spaceSize }}
@@ -114,10 +114,10 @@ export default function GameBoard(props: GameBoardProps) {
                                     position={{ x: j * spaceSize, y: i * spaceSize }}
                                     spaceSize={spaceSize}
                                     tileSize={tileSize}
-                                    slidable={GameBoardFunctions.checkSlidable(i, j, board)}
+                                    slidable={checkSlidable(i, j, board)}
                                     switch={() => {
                                         setSlides((slides) => slides + 1);
-                                        return GameBoardFunctions.switchZero(i, j, board);
+                                        return switchZero(i, j, board);
                                     }}
                                     resetBoard={(newBoard: string[][]) => {
                                         setBoard(newBoard);
@@ -142,7 +142,7 @@ export default function GameBoard(props: GameBoardProps) {
                     setSquareColour(colour)
                 }}
                 removeZero={() => {
-                    setBoard(GameBoardFunctions.removeZero(board, props.extraLetter));
+                    setBoard(removeZero(board, props.extraLetter));
                     setGameOver(true);
                     setIncrementTime(false);
                     setTimeout(() => {

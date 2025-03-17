@@ -41,8 +41,10 @@ export default function SignIn(props: SignInProps) {
 
             <AuthButton
                 text="Sign In"
-                onPress={() => {
-                    signInWithEmail(email, password, setLoading)
+                onPress={async() => {
+                    setLoading(true);
+                    signInWithEmail(email, password);
+                    setLoading(false);
                 }}
                 style={{ backgroundColor: COLOURS.green }}
             />

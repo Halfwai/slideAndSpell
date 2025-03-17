@@ -1,8 +1,8 @@
 import { supabase } from '@/lib/supabase'
-import { GameBoardFunctions } from '@/utils/gameBoardFunctions'
+import { generateGameBoard } from '@/utils/gameBoardFunctions'
 import { Alert } from 'react-native'
 
-export const signUpWithEmail = async (email: string, password: string, passwordConfirm: string, displayName: string, setLoading : Function) => {
+export const signUpWithEmail = async (email: string, password: string, passwordConfirm: string, displayName: string) => {
     if(email === ''){ 
         Alert.alert('Please enter an email'); 
         return; 
@@ -19,7 +19,6 @@ export const signUpWithEmail = async (email: string, password: string, passwordC
         Alert.alert('Please enter a display name');
         return;
     }
-    setLoading(true)
     const {
         data: { session },
         error,
@@ -34,10 +33,9 @@ export const signUpWithEmail = async (email: string, password: string, passwordC
     })
 
     if (error) Alert.alert(error.message)
-    setLoading(false)
 }
 
-export const signInWithEmail = async (email: string, password: string, setLoading: Function) => {
+export const signInWithEmail = async (email: string, password: string) => {
     if (email === '') {
         Alert.alert('Please enter an email');
         return;
@@ -46,14 +44,12 @@ export const signInWithEmail = async (email: string, password: string, setLoadin
         Alert.alert('Please enter a password');
         return;
     }
-    setLoading(true)
     const { error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
     })
 
     if (error) Alert.alert(error.message)
-    setLoading(false)
 }
 
 export const getGameboard = async() => {
@@ -75,7 +71,7 @@ export const getGameboard = async() => {
             hints: data[0].hints
         }
     }
-    const { gameBoard, extraLetter, hints } = GameBoardFunctions.generateGameBoard(4);
+    const { gameBoard, extraLetter, hints } = generateGameBoard(4);
     const insertData = insertGameBoard(sqlDate, gameBoard, extraLetter, hints);
     if (!insertData) {
         console.error("Error inserting data");
@@ -169,4 +165,3 @@ export const insertGameBoard = async(date: string, gameBoard: string[][], extraL
     }
     return data;
 }
-

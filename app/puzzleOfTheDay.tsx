@@ -20,20 +20,22 @@ export default function Index() {
     }
 
     useEffect(() => {
-        (async() => {
-            const gameboardData = await getGameboard();
-            if (!gameboardData) {
-                Alert.alert("Error getting gameboard data");
-                router.push("/menu" as RelativePathString);
-                return;
-            };
-            const { date, gameBoard, extraLetter, hints } = gameboardData;
-            setDate(date);
-            setGameBoard(gameBoard);
-            setExtraLetter(extraLetter);
-            setHints(hints);
-        })();
+        getGameBoardData()
     }, []);
+
+    const getGameBoardData = async() => {
+        const gameBoardData = await getGameboard();
+        if (!gameBoardData) {
+            Alert.alert("Error getting gameboard data");
+            router.push("/menu" as RelativePathString);
+            return;
+        };
+        const { date, gameBoard, extraLetter, hints } = gameBoardData;
+        setDate(date);
+        setGameBoard(gameBoard);
+        setExtraLetter(extraLetter);
+        setHints(hints);
+    }
 
     return (
         <View
@@ -74,15 +76,3 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
     },
 });
-
-
-// text="Puzzle of the Day"
-// onPress={() => (
-//     gameBoard = GameBoardFunctions.generateGameBoard(4),
-//     setExitMenu(true),
-//     setTimeout(() => {
-//         setLevelPicked(true);
-//     }, 700)
-// )}
-// delay={0}
-// exitMenu={exitMenu}

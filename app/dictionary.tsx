@@ -4,7 +4,7 @@ import { useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { COLOURS } from '@/constants/colours';
 import Definition from '@/components/submenuComponents/Definition';
-import { GameBoardFunctions } from '@/utils/gameBoardFunctions';
+import { checkWord } from '@/utils/gameBoardFunctions';
 
 import InGameBottomMenu from '@/components/submenuComponents/InGameBottomMenu';
 import { getDefinition } from '@/utils/helperFunctions';
@@ -16,7 +16,7 @@ export default function Dictionary() {
     const [definitions, setDefinitions] = useState<{ definition: string, example?: string }[]>([]);
 
     useEffect(() => {
-        const currentDefinition = GameBoardFunctions.checkWord(word);
+        const currentDefinition = checkWord(word);
         getDefinition(word, currentDefinition).then((data) => {
             setDefinitions(data);
         });     

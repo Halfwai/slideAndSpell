@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import { render, waitFor } from '@testing-library/react-native';
 import PuzzleOfTheDay from '@/app/puzzleOfTheDay';
 
 beforeEach(() => {
@@ -17,9 +17,11 @@ jest.mock('expo-router', () => ({
     })),
   }));
 
-it(`PuzzleOfTheDay Component renders correctly`, () => {
+it(`PuzzleOfTheDay Component renders correctly`, async() => {
     const { toJSON } = render(
         <PuzzleOfTheDay/>
     );
-    expect(toJSON()).toMatchSnapshot();
+    await waitFor(() => {
+        expect(toJSON()).toMatchSnapshot();
+    });
 });

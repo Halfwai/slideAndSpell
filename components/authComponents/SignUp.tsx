@@ -69,8 +69,10 @@ export default function SignUp(props: SignUpProps) {
             </TouchableOpacity>
             <AuthButton
                 text="Sign Up"
-                onPress={() => {
-                    signUpWithEmail(email, password, passwordConfirm, displayName, setLoading)
+                onPress={async() => {
+                    setLoading(true);
+                    await signUpWithEmail(email, password, passwordConfirm, displayName);
+                    setLoading(false);
                 }}
                 style={{ backgroundColor: COLOURS.green }}
             />
