@@ -1,9 +1,14 @@
 import React, { useRef, useEffect } from 'react';
 import { StyleSheet, Animated, Dimensions, ScrollView } from 'react-native';
-import Definition from '@/components/submenuComponents/Definition';
+
+// Import COLOURS
 import { COLOURS } from '@/constants/colours';
+
+// Import components
+import Definition from '@/components/submenuComponents/Definition';
 import AuthButton from '@/components/buttons/AuthButton';
 
+// Setup props
 interface DefinitionsProps {
     slideIn: boolean,
     validWords: {
@@ -14,13 +19,17 @@ interface DefinitionsProps {
 }
 
 export default function Definitions(props: DefinitionsProps) {
+    // Setup animation position
     const definitionsPositionY = useRef(new Animated.Value(Dimensions.get('window').height)).current;
+    // Setup word list
     const wordList = useRef(props.validWords);
     
+    // Update word list
     useEffect(() => {
         wordList.current = props.validWords;
     }, [props.validWords]);
 
+    // Slide in definitions
     useEffect(() => {
         if (props.slideIn) {
             Animated.timing(definitionsPositionY, {
@@ -31,6 +40,7 @@ export default function Definitions(props: DefinitionsProps) {
         }
     }, [props.slideIn]);
 
+    // Slide out definitions
     function slideOut() {
         Animated.timing(definitionsPositionY, {
             toValue: Dimensions.get('window').height,

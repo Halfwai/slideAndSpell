@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
+
+// Import COLOURS
 import { COLOURS } from '@/constants/colours';
 
+// Setup props
 interface ScoreComponentProps {
     slides: number;
     incrementTime: boolean;
@@ -11,34 +14,42 @@ interface ScoreComponentProps {
 }
 
 export default function ScoreComponents(props: ScoreComponentProps) {
+    // Setup animation values
     const timeXPos = useRef(new Animated.Value(-Dimensions.get('window').width)).current;
     const slidesXPos = useRef(new Animated.Value(Dimensions.get('window').width)).current;
     const slideYPos = useRef(new Animated.Value(200)).current;
+    // Setup ref for incrementTime
     const incrementTimeRef = useRef(props.incrementTime);
 
+    // Update incrementTimeRef when props.incrementTime changes
     useEffect(() => {
         incrementTimeRef.current = props.incrementTime;
     }, [props.incrementTime]);
 
+    // Slide up animation
     useEffect(() => {
         if (props.slideUp) {
             animateSlideUp();
         }
     }, [props.slideUp]);
 
+    // Return time when game is over
     useEffect(() => {
-        if(props.gameOver) {
+        if (props.gameOver) {
             props.returnTime(time);
         }
     }, [props.gameOver]);
 
+    // Setup time state
     const [time, setTime] = useState(0);
 
+    // Increment time function
     function increment() {
         if (!incrementTimeRef.current) return;
         setTime((time) => time + 1);
     }
 
+    // Formats the time into a readable string
     function returnTimeString() {
         const seconds = time % 60;
         const minutes = Math.floor(time / 60) % 60;
@@ -54,6 +65,7 @@ export default function ScoreComponents(props: ScoreComponentProps) {
         return () => clearInterval(interval);
     }, []);
 
+    // Slide score components in each side
     useEffect(() => {
         Animated.timing(timeXPos, {
             toValue: 0,
@@ -67,6 +79,7 @@ export default function ScoreComponents(props: ScoreComponentProps) {
         }).start();
     }, []);
 
+    // Slide up animation
     function animateSlideUp() {
         Animated.timing(slideYPos, {
             toValue: -Dimensions.get('window').height * 0.44,
@@ -79,19 +92,14 @@ export default function ScoreComponents(props: ScoreComponentProps) {
     return (
         <View style={styles.container}>
             <Animated.View style={[styles.itemBox, { transform: [{ translateX: timeXPos }, { translateY: slideYPos }] }]}>
-
-                    <Text style={styles.itemText}>Time</Text>
-                    <Text style={styles.itemText}>{returnTimeString()}</Text>
-
+                <Text style={styles.itemText}>Time</Text>
+                <Text style={styles.itemText}>{returnTimeString()}</Text>
             </Animated.View>
             <Animated.View style={[styles.itemBox, { transform: [{ translateX: slidesXPos }, { translateY: slideYPos }] }]}>
-
-                    <Text style={styles.itemText}>Slides</Text>
-                    <Text style={styles.itemText}>{props.slides}</Text>
+                <Text style={styles.itemText}>Slides</Text>
+                <Text style={styles.itemText}>{props.slides}</Text>
             </Animated.View>
         </View>
-
-
     )
 };
 
@@ -103,8 +111,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
     },
     itemBox: {
-        flexDirection: 'column', 
-        justifyContent: 'center', 
+        flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center',
         width: Dimensions.get('window').width / 2,
         backgroundColor: COLOURS.green,
@@ -117,5 +125,5 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: 'black',
         textAlign: 'center'
-    }   
+    }
 });

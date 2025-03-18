@@ -1,16 +1,23 @@
-import { View, StyleSheet } from 'react-native';
 import React, { useContext } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { useRouter} from 'expo-router';
-import { UserContext } from '@/utils/context';
-import RoundButton from '@/components/buttons/RoundButton';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+// Import context
+import { UserContext } from '@/utils/context';
+
+// Import components
+import RoundButton from '@/components/buttons/RoundButton';
+
 export default function InGameBottomMenu() {
+    // Get context and router
     const router = useRouter();
     const context = useContext(UserContext);
+    // If context is null, return null while it loads
     if(context === null) {
         return null;
     }
+    // Get vibrate and sound from context
     const { vibrate, sound, setSound, setVibrate } = context;
     return (
         <View style={styles.buttonContainer}>

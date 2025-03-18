@@ -1,9 +1,14 @@
 import React, { useRef, useEffect } from 'react';
 import { StyleSheet, Animated, Dimensions, BackHandler } from 'react-native';
-import MyAppText from '@/components/common/MyAppText';
-import { COLOURS } from '@/constants/colours';
 import { RFPercentage } from "react-native-responsive-fontsize";
 
+// Import COLOURS
+import { COLOURS } from '@/constants/colours';
+
+// Import components
+import MyAppText from '@/components/common/MyAppText';
+
+// Setup props
 interface StatBoxProps {
     stat: string;
     value: number | string;
@@ -11,26 +16,28 @@ interface StatBoxProps {
 }
 
 export default function StatBox(props: StatBoxProps) {
-    // if(props.position === 'left') {
-    let startPosition = {x: 0, y: 0};
+    // Set the starting position of the stat box
+    let startPosition = { x: 0, y: 0 };
     if (props.position === 'left') {
-        startPosition = {x: -Dimensions.get('window').width, y: 0};
+        startPosition = { x: -Dimensions.get('window').width, y: 0 };
     } else if (props.position === 'right') {
-        startPosition = {x: Dimensions.get('window').width, y: 0};
+        startPosition = { x: Dimensions.get('window').width, y: 0 };
     } else if (props.position === 'bottom') {
-        startPosition = {x: 0, y: Dimensions.get('window').height};
+        startPosition = { x: 0, y: Dimensions.get('window').height };
     }
     let position = useRef(new Animated.ValueXY(startPosition)).current;
 
+    // Slide in the stat box
     useEffect(() => {
         Animated.timing(position, {
-            toValue: {x: 0, y: 0},
+            toValue: { x: 0, y: 0 },
             duration: 1000,
             useNativeDriver: true,
         }).start();
     }, []);
 
-    useEffect(() => {}, [
+    // Slide out the stat box when the back button is pressed
+    useEffect(() => { }, [
         BackHandler.addEventListener('hardwareBackPress', () => {
             Animated.timing(position, {
                 toValue: startPosition,
@@ -41,13 +48,11 @@ export default function StatBox(props: StatBoxProps) {
         })
     ]);
 
-
-
     return (
-        <Animated.View style={[styles.statBox, {transform: [{translateX: position.x}, {translateY: position.y}]}]}>
+        <Animated.View style={[styles.statBox, { transform: [{ translateX: position.x }, { translateY: position.y }] }]}>
             <MyAppText style={styles.title}>{props.stat}</MyAppText>
             <MyAppText style={styles.value}>{props.value === null || props.value === undefined ? "-" : props.value}</MyAppText>
-        </Animated.View> 
+        </Animated.View>
     );
 }
 

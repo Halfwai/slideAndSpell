@@ -225,25 +225,21 @@ exports[`TutorialScreen Component renders correctly 1`] = `
       </View>
       <View
         style={
-          [
-            {
-              "backgroundColor": "#FFFFFF",
-              "borderRadius": 10,
-              "height": 207.83333333333334,
-              "width": 207.83333333333334,
-              "zIndex": -1,
-            },
-            {
-              "transform": [
-                {
-                  "translateX": 423.6666666666667,
-                },
-                {
-                  "translateY": 0,
-                },
-              ],
-            },
-          ]
+          {
+            "backgroundColor": "#FFFFFF",
+            "borderRadius": 10,
+            "height": 207.83333333333334,
+            "transform": [
+              {
+                "translateX": 423.6666666666667,
+              },
+              {
+                "translateY": 0,
+              },
+            ],
+            "width": 207.83333333333334,
+            "zIndex": -1,
+          }
         }
       />
       <View

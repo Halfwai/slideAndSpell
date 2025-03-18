@@ -1,12 +1,18 @@
 import React, { useEffect, useRef, useState, useContext, useMemo } from 'react';
 import { StyleSheet, Animated, PanResponder, Platform } from 'react-native';
 import * as Haptics from 'expo-haptics';
-import Tile from '@/components/common/Tile';
+
+// Import the COLOURS and Direction constants
 import { COLOURS } from '@/constants/colours';
-import { UserContext } from '@/utils/context';
-// Import the Direction enum
 import { Direction } from '@/constants/enums';
 
+// Import the UserContext
+import { UserContext } from '@/utils/context';
+
+// Import the Tile component
+import Tile from '@/components/common/Tile';
+
+// Setup props
 interface GameBoardTileProps {
     value: string,
     position: { y: number, x: number },
@@ -30,6 +36,7 @@ export default function GameBoardTile(props: GameBoardTileProps) {
     const vibrate = userContext ? userContext.vibrate : false; 
     const [resetColour, setResetColour] = useState(0);
 
+    // Update the colour of the tile when props.valid changes
     useEffect(() => {
         changeColour(props.valid ? 3 : 0);
     }, [props.valid]);
@@ -39,6 +46,7 @@ export default function GameBoardTile(props: GameBoardTileProps) {
         slidableRef.current = props.slidable;
     }, [props.slidable]);
 
+    // Update the colour of the tile when resetColour changes
     useEffect(() => {
         changeColour(props.valid ? 3 : 0);
     }, [resetColour]);
@@ -49,6 +57,7 @@ export default function GameBoardTile(props: GameBoardTileProps) {
             onMoveShouldSetPanResponder: () => true,
             // Haptic feedback when the user touches the tile
             onPanResponderGrant: () => {
+                // Vibrate the device when the user touches the tile if the vibrate setting is enabled
                 if (vibrate) (async () => {
                     Platform.OS !== "web" && await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                 })();

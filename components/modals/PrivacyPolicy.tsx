@@ -1,9 +1,14 @@
 import React from 'react';
 import { View, ScrollView, Linking, TouchableOpacity, StyleSheet } from 'react-native';
-import MyAppText from '@/components/common/MyAppText';
-import AuthButton from '@/components/buttons/AuthButton';
+
+// Import COLOURS
 import { COLOURS } from '@/constants/colours';
 
+// Import components
+import MyAppText from '@/components/common/MyAppText';
+import AuthButton from '@/components/buttons/AuthButton';
+
+// Setup props
 interface PrivacyPolicyProps {
     hidePrivacyPolicy: Function
 }
@@ -13,8 +18,7 @@ export default function PrivacyPolicy(props: PrivacyPolicyProps) {
         <View style={styles.privacyPolicyOuterContainer}>
             <View style={styles.privacyPolicyContainer}>
                 <MyAppText style={styles.title}>Privacy Policy</MyAppText>
-                <ScrollView style={styles.scrollView}>
-                    
+                <ScrollView style={styles.scrollView}>                    
                     <MyAppText
                         style={styles.policyHeader}
                     >
@@ -63,7 +67,6 @@ export default function PrivacyPolicy(props: PrivacyPolicyProps) {
                     <MyAppText>
                         Since we only collect your email address for authentication, you have the right to request its deletion. If you wish to delete your account and associated email address, please contact us at 
                         <TouchableOpacity 
-                            style={{height: "100%"}}
                             onPress={() => Linking.openURL('mailto:slideandspell@gmail.com')}
                         >
                                 <MyAppText
@@ -88,7 +91,6 @@ export default function PrivacyPolicy(props: PrivacyPolicyProps) {
                     <MyAppText>
                         If you have any questions about this Privacy Policy, please contact us at 
                         <TouchableOpacity 
-                            style={{height: "100%"}}
                             onPress={() => Linking.openURL('mailto:slideandspell@gmail.com')}
                         >
                                 <MyAppText

@@ -1,9 +1,11 @@
 import React from 'react';
 import { Pressable, TouchableWithoutFeedback, View } from 'react-native';
-import DateTimePicker from 'react-native-ui-datepicker';
-import { COLOURS } from '@/constants/colours';
-import { DateType } from 'react-native-ui-datepicker';
+import DateTimePicker, { DateType } from 'react-native-ui-datepicker';
 
+// Import COLOURS
+import { COLOURS } from '@/constants/colours';
+
+// Setup props
 interface WordsDefinitionsModelProps {
     selectedDate: string;
     setSelectedDate: (date: string) => void;
@@ -11,6 +13,7 @@ interface WordsDefinitionsModelProps {
 }
 
 export default function WordsDefinitionsModel(props: WordsDefinitionsModelProps) {
+    // Function to handle date picker
     const useDateTimePicker = (params: { date: DateType }) => {
         if (!params.date) return;
         let date = new Date(params.date as Date);

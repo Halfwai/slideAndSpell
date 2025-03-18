@@ -1,6 +1,7 @@
 import React from 'react';
 import{Text, TextStyle, StyleSheet} from 'react-native';
 
+// Setup props
 interface MyAppTextProps {
     children: React.ReactNode;
     style?: TextStyle | TextStyle[];

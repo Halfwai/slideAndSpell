@@ -1,16 +1,19 @@
 import React from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
-import { COLOURS } from '@/constants/colours';
-import MyAppText from '@/components/common/MyAppText';
 import { Link } from 'expo-router';
 
+// Import COULOURS
+import { COLOURS } from '@/constants/colours';
+
+// Import components
+import MyAppText from '@/components/common/MyAppText';
+
+// Setup props
 interface DefinitionProps {
     word?: string;
     definition: string;
     example?: string;
 }
-
-
 
 export default function Definition(props: DefinitionProps) {
     return (

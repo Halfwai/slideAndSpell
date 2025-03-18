@@ -241,7 +241,6 @@ exports[`PrivacyPolicy Component renders correctly 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               {
-                "height": "100%",
                 "opacity": 1,
               }
             }
@@ -346,7 +345,6 @@ exports[`PrivacyPolicy Component renders correctly 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               {
-                "height": "100%",
                 "opacity": 1,
               }
             }

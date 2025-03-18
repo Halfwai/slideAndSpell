@@ -911,25 +911,21 @@ exports[`GameBoard Component renders correctly 1`] = `
     </View>
     <View
       style={
-        [
-          {
-            "backgroundColor": "#FFFFFF",
-            "borderRadius": 10,
-            "height": 154.875,
-            "width": 154.875,
-            "zIndex": -1,
-          },
-          {
-            "transform": [
-              {
-                "translateX": 476.625,
-              },
-              {
-                "translateY": 476.625,
-              },
-            ],
-          },
-        ]
+        {
+          "backgroundColor": "#FFFFFF",
+          "borderRadius": 10,
+          "height": 154.875,
+          "transform": [
+            {
+              "translateX": 476.625,
+            },
+            {
+              "translateY": 476.625,
+            },
+          ],
+          "width": 154.875,
+          "zIndex": -1,
+        }
       }
     />
   </View>,

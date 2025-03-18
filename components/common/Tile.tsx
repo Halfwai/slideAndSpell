@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+// Setup props
 interface TileProps {
     letter: string,
 }
-
 
 export default function Tile(props: TileProps) {
     return (
