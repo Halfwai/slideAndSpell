@@ -1,15 +1,21 @@
-import { View, StyleSheet } from 'react-native'
-import { COLOURS } from '@/constants/colours'
-import MyAppText from '@/components/common/MyAppText'
-import AuthButton from '@/components/buttons/AuthButton'
 import React from 'react'
+import { View, StyleSheet } from 'react-native'
 import { useRouter } from 'expo-router';
 
+// Import COLOURS
+import { COLOURS } from '@/constants/colours'
+
+// Import Components
+import MyAppText from '@/components/common/MyAppText'
+import AuthButton from '@/components/buttons/AuthButton'
+
+// Setup props
 interface WelcomeProps {
     setMenu: Function
 }
 
 export default function Welcome(props: WelcomeProps) {
+    // get router
     const router = useRouter();
     return (
         <>

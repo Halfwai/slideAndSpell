@@ -1,11 +1,15 @@
+import React, { useContext } from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialCommunityIcons, Entypo } from "@expo/vector-icons";
-import { COLOURS } from "@/constants/colours";
 import * as Haptics from 'expo-haptics';
-import React, { useContext } from "react";
+
+// Import COLOURS
+import { COLOURS } from "@/constants/colours";
+
+// Import context
 import { UserContext } from "@/utils/context";
 
-
+// Setup props
 interface RoundButtonProps {
   icon: string;
   onPress: () => void;

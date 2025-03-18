@@ -1,21 +1,31 @@
-import { TouchableOpacity, StyleSheet, View, TextInput, Modal } from "react-native"
-import MyAppText from "@/components/common/MyAppText"
 import React, { useState } from "react"
-import AuthButton from "@/components/buttons/AuthButton"
-import { signUpWithEmail } from '@/utils/supabaseFunctions'
-import { COLOURS } from '@/constants/colours'
-import PrivacyPolicy from "@/components/modals/PrivacyPolicy"
+import { TouchableOpacity, StyleSheet, View, TextInput, Modal } from "react-native"
 
+// Import COLOURS
+import { COLOURS } from '@/constants/colours'
+
+// Import functions
+import { signUpWithEmail } from '@/utils/supabaseFunctions'
+
+// Import components
+import PrivacyPolicy from "@/components/modals/PrivacyPolicy"
+import MyAppText from "@/components/common/MyAppText"
+import AuthButton from "@/components/buttons/AuthButton"
+
+// Setup props
 interface SignUpProps {
     setMenu: Function,
 }
 
 export default function SignUp(props: SignUpProps) {
+    // Setup sign up states
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordConfirm, setPasswordConfirm] = useState('')
     const [displayName, setDisplayName] = useState('')
     const [loading, setLoading] = useState(false)
+
+    // State to show privacy policy
     const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false)
 
     return (

@@ -1,9 +1,14 @@
-import { TouchableOpacity, StyleSheet } from 'react-native';
 import React, { useContext } from 'react';
-import MyAppText from '@/components/common/MyAppText';
-import { UserContext } from '@/utils/context';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import * as Haptics from 'expo-haptics';
 
+// Import context
+import { UserContext } from '@/utils/context';
+
+// Import components
+import MyAppText from '@/components/common/MyAppText';
+
+// Setup props
 interface AuthButtonProps {
     text: string;
     onPress: Function;
@@ -12,12 +17,14 @@ interface AuthButtonProps {
 }
 
 export default function AuthButton(props: AuthButtonProps) {
+    // Get userContext
     const userContext = useContext(UserContext);
     return (
         <TouchableOpacity
             style={[styles.button, props.style]}
             onPress={async () => {
                 if (props.disabled) return;
+                // If vibrate settings are enabled vibrate on touch
                 if (userContext && userContext.vibrate) {
                     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                 }

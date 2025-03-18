@@ -1,4 +1,5 @@
-import { render } from '@testing-library/react-native';
+import React from 'react';
+import { render, waitFor } from '@testing-library/react-native';
 
 import Index from '@/app/index';
 
@@ -15,5 +16,7 @@ it(`Index Component renders correctly`, () => {
     const { toJSON } = render(
         <Index/>
     );
-    expect(toJSON()).toMatchSnapshot();
+    waitFor(() => {
+        expect(toJSON()).toMatchSnapshot();
+    })
 });

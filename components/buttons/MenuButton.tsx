@@ -1,11 +1,18 @@
 import React, { useRef, useEffect, useContext } from 'react';
 import { View, Dimensions, Animated, TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
 import { RFPercentage } from "react-native-responsive-fontsize";
-import MyAppText from '@/components/common/MyAppText';
-import { COLOURS } from '@/constants/colours';
-import { UserContext } from '@/utils/context';
 import * as Haptics from 'expo-haptics';
 
+// Import COLOURS
+import { COLOURS } from '@/constants/colours';
+
+// Import context
+import { UserContext } from '@/utils/context';
+
+// Import components
+import MyAppText from '@/components/common/MyAppText';
+
+// Setup props
 interface MenuButtonProps {
     text: string,
     onPress: Function,
@@ -16,10 +23,14 @@ interface MenuButtonProps {
 }
 
 export default function MenuButton(props: MenuButtonProps) {
+    // Set button colour
     const [colour, setColour] = React.useState("white");
     const userContext = useContext(UserContext);
+
+    // Set button position
     const buttonPosition = useRef(new Animated.Value(Dimensions.get('window').width)).current;
 
+    // Function to slide the button in
     function slideIn() {
         Animated.timing(buttonPosition, {
             toValue: 0,
@@ -28,6 +39,7 @@ export default function MenuButton(props: MenuButtonProps) {
         }).start();
     }
 
+    // Function to slide the button out. Uses the delay props to trigger staggered slide out with other buttons
     function slideOut() {
         setTimeout(() => {
             Animated.timing(buttonPosition, {
@@ -41,6 +53,7 @@ export default function MenuButton(props: MenuButtonProps) {
         }, props.delay);
     }
 
+    // Slides the button out when one is pressed
     useEffect(() => {
         if (props.exitMenu) {
             slideOut();
@@ -55,8 +68,6 @@ export default function MenuButton(props: MenuButtonProps) {
         }
     }, [props.exitMenu]);
 
-
-
     return (
         <View style={styles(colour).container}>
             <Animated.View
@@ -67,6 +78,7 @@ export default function MenuButton(props: MenuButtonProps) {
                 <TouchableOpacity
                     style={[styles(colour).touchable, props.style as ViewStyle]}
                     onPress={async () => {
+                        // If vibrate is enabled, triggers haptics
                         if (userContext && userContext.vibrate) {
                             await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                         }

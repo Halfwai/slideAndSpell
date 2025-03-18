@@ -1,16 +1,23 @@
-import React from "react"
+import React, { useState } from "react"
 import { StyleSheet, TextInput, View } from "react-native"
-import MyAppText from "@/components/common/MyAppText"
-import { useState } from "react"
-import { signInWithEmail } from '@/utils/supabaseFunctions'
-import AuthButton from "@/components/buttons/AuthButton"
+
+// Import COLOURS
 import { COLOURS } from '@/constants/colours'
 
+// Import functions
+import { signInWithEmail } from '@/utils/supabaseFunctions'
+
+// Import components
+import AuthButton from "@/components/buttons/AuthButton"
+import MyAppText from "@/components/common/MyAppText"
+
+// Setup props
 interface SignInProps {
     setMenu: Function,
 }
 
 export default function SignIn(props: SignInProps) {
+    // Setup sign in states
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
@@ -38,7 +45,6 @@ export default function SignIn(props: SignInProps) {
                     secureTextEntry={true}
                 />
             </View>
-
             <AuthButton
                 text="Sign In"
                 onPress={async() => {
@@ -48,7 +54,14 @@ export default function SignIn(props: SignInProps) {
                 }}
                 style={{ backgroundColor: COLOURS.green }}
             />
-            <AuthButton text="Back" onPress={() => { props.setMenu("welcome") }} style={{ backgroundColor: "white", borderColor: COLOURS.green }} disabled={loading} />
+            <AuthButton 
+                text="Back" 
+                onPress={() => { 
+                    props.setMenu("welcome") }
+                } 
+                style={{ backgroundColor: "white", borderColor: COLOURS.green }} 
+                disabled={loading} 
+            />
         </View>
     )
 }
