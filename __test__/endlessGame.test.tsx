@@ -12,6 +12,14 @@ afterEach(() => {
     jest.useRealTimers();
 });
 
+jest.mock('@/lib/supabase', () => ({
+    supabase: {
+        auth: {
+            signOut: jest.fn(),
+        },
+    },
+}));
+
 it(`EndlessGame Component renders correctly`, () => {
     const { toJSON } = render(
         <EndlessGame/>

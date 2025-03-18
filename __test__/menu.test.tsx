@@ -13,6 +13,14 @@ afterEach(() => {
     jest.useRealTimers();
 });
 
+jest.mock('@/lib/supabase', () => ({
+    supabase: {
+        auth: {
+            signOut: jest.fn(),
+        },
+    },
+}));
+
 it(`Menu Component renders correctly`, () => {
     const { toJSON } = render(
         <NavigationContainer>

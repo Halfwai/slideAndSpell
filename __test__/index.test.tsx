@@ -12,6 +12,14 @@ afterEach(() => {
     jest.useRealTimers();
 });
 
+jest.mock('@/lib/supabase', () => ({
+    supabase: {
+        auth: {
+            signOut: jest.fn(),
+        },
+    },
+}));
+
 it(`Index Component renders correctly`, () => {
     const { toJSON } = render(
         <Index/>

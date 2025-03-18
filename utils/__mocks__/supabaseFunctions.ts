@@ -1,3 +1,4 @@
+// Supabase function mocks
 export const signUpWithEmail = jest.fn();
 export const signInWithEmail = jest.fn();
 export const getGameboard = jest.fn();

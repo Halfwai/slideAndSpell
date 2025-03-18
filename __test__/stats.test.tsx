@@ -8,6 +8,14 @@ jest.mock('expo-router', () => ({
     })),
 }));
 
+jest.mock('@/lib/supabase', () => ({
+    supabase: {
+        auth: {
+            signOut: jest.fn(),
+        },
+    },
+}));
+
 it(`Stats Component renders correctly`, () => {
     const { toJSON } = render(
         <Stats/>

@@ -7,7 +7,7 @@ import { COLOURS } from '@/constants/colours';
 
 // Import functions
 import { getLeaderboard } from '@/utils/supabaseFunctions';
-import { GameBoardFunctions } from '@/utils/gameBoardFunctions';
+import { checkWords } from '@/utils/gameBoardFunctions';
 
 // Import components
 import Definitions from '@/components/submenuComponents/Definitions';
@@ -37,7 +37,7 @@ export default function LeaderBoard() {
 
     // Get definitions for the words in the solution
     function getDefinitions(gameBoard: string[][]) {
-        const { correctWords } = GameBoardFunctions.checkWords(gameBoard);
+        const { correctWords } = checkWords(gameBoard);
         setValidWords(correctWords);
     }
 

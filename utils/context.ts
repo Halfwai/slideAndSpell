@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 import { Session } from '@supabase/supabase-js'
 
+// UserContextType
 interface UserContextType {
     session: Session | null,
     vibrate: boolean,
@@ -9,6 +10,5 @@ interface UserContextType {
     setSound: Function,
 }
 
+// UserContext
 export const UserContext = createContext<UserContextType | null>(null);
-
-export const InGameOptionsContext = createContext<{ vibrate: boolean, sound: boolean } | null>(null);

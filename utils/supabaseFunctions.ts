@@ -2,20 +2,21 @@ import { supabase } from '@/lib/supabase'
 import { generateGameBoard } from '@/utils/gameBoardFunctions'
 import { Alert } from 'react-native'
 
+// signUpWithEmail signs up a user with email and password
 export const signUpWithEmail = async (email: string, password: string, passwordConfirm: string, displayName: string) => {
-    if(email === ''){ 
-        Alert.alert('Please enter an email'); 
-        return; 
+    if (email === '') {
+        Alert.alert('Please enter an email');
+        return;
     };
-    if(password === ''){
+    if (password === '') {
         Alert.alert('Please enter a password');
         return;
     }
-    if(password !== passwordConfirm){
+    if (password !== passwordConfirm) {
         Alert.alert('Passwords do not match');
         return;
     }
-    if(displayName === ''){
+    if (displayName === '') {
         Alert.alert('Please enter a display name');
         return;
     }
@@ -31,10 +32,10 @@ export const signUpWithEmail = async (email: string, password: string, passwordC
             }
         }
     })
-
     if (error) Alert.alert(error.message)
 }
 
+// signInWithEmail signs in a user with email and password
 export const signInWithEmail = async (email: string, password: string) => {
     if (email === '') {
         Alert.alert('Please enter an email');
@@ -48,11 +49,11 @@ export const signInWithEmail = async (email: string, password: string) => {
         email: email,
         password: password,
     })
-
     if (error) Alert.alert(error.message)
 }
 
-export const getGameboard = async() => {
+// getGameboard fetches the gameboard for the current date, or generates a new one if it doesn't exist
+export const getGameboard = async () => {
     const date = new Date();
     const sqlDate = date.toISOString().split('T')[0];
     let { data, error } = await supabase
@@ -85,7 +86,8 @@ export const getGameboard = async() => {
     }
 }
 
-export const getStats = async (userId : string) => {
+// getStats fetches the stats for the current user
+export const getStats = async (userId: string) => {
     let { data, error } = await supabase
         .from('stats')
         .select('*')
@@ -97,6 +99,7 @@ export const getStats = async (userId : string) => {
     }
 };
 
+// getLeaderboard fetches the leaderboard for the date passed in
 export const getLeaderboard = async (date: string) => {
     let { data, error } = await supabase
         .rpc('get_leaderboard', {
@@ -109,35 +112,38 @@ export const getLeaderboard = async (date: string) => {
     return data;
 };
 
-export const updateUserStats = async(time: number, slides: number, session: any, levelPicked: number | null) => {
+// updateUserStats updates the user stats with the time and slides passed in
+export const updateUserStats = async (time: number, slides: number, session: any, levelPicked: number | null) => {
     if (!session) return;
     let { data, error } = await supabase
-    .rpc('update_user_stats', {
-        input_user_id: session.user.id,
-        input_game_type: levelPicked,             
-        input_swipes: slides,
-        input_time: time
-    })
+        .rpc('update_user_stats', {
+            input_user_id: session.user.id,
+            input_game_type: levelPicked,
+            input_swipes: slides,
+            input_time: time
+        })
     if (error) console.error(error)
 }
 
+// updateUserSolution updates the user's solution to the puzzle of the day
 export const updateUserSolution = async (time: number, slides: number, gameBoard: string[][], session: any, date: string | null) => {
     if (!session) return;
     let { data, error } = await supabase
-    .from('solutions')
-    .insert([{
-        user_id: session.user.id,
-        puzzle_date: date,
-        solution: gameBoard,
-        slides: slides,
-        time_seconds: time
-    }])
-    .select();
+        .from('solutions')
+        .insert([{
+            user_id: session.user.id,
+            puzzle_date: date,
+            solution: gameBoard,
+            slides: slides,
+            time_seconds: time
+        }])
+        .select();
     if (error) console.error(error)
 }
 
-export const updateUser = async(userObject : any) => {
-    if(Object.keys(userObject).length === 0){
+// updateUser updates the user's email, password, and display name
+export const updateUser = async (userObject: any) => {
+    if (Object.keys(userObject).length === 0) {
         Alert.alert("No changes made");
     }
     const { data, error } = await supabase.auth.updateUser({
@@ -149,16 +155,17 @@ export const updateUser = async(userObject : any) => {
         Alert.alert(error.message)
     } else {
         Alert.alert("Changes saved")
-    };   
+    };
 }
 
-export const insertGameBoard = async(date: string, gameBoard: string[][], extraLetter: string, hints: string[][]) => {
+// insertGameBoard inserts a new game board into the database
+export const insertGameBoard = async (date: string, gameBoard: string[][], extraLetter: string, hints: string[][]) => {
     const { data, error } = await supabase
         .from('puzzles')
         .insert([
             { date: date, game_board: gameBoard, extra_letter: extraLetter, hints: hints },
         ])
-    .select()
+        .select()
     if (error) {
         console.error(error)
         return

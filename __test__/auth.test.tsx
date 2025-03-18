@@ -8,6 +8,14 @@ afterEach(() => {
     jest.useRealTimers();  // Resets timers
 });
 
+jest.mock('@/lib/supabase', () => ({
+    supabase: {
+        auth: {
+            signOut: jest.fn(),
+        },
+    },
+}));
+
 it(`Auth Component renders correctly`, () => {
     const { toJSON } = render(
         <Auth/>

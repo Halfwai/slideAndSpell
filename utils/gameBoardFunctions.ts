@@ -6,17 +6,22 @@ type Definitions = {
     [key: string]: string;
 };
 
+// generateGameBoard function generates a game board with a given size, it returns an object with the game board, the extra letter, and the hints board which is a solved board
 export const generateGameBoard = (size: number): { extraLetter: string, gameBoard: string[][], hints: string[][]} => {
     const words = returnValidWords(size);
     let gameBoard = [];
+    // Create a 2D array of the words
     for (let i = 0; i < size; i++) {
         gameBoard.push(words[i].split(''));
     }
+    // Create a copy of the game board to use as hints
     const solution = JSON.parse(JSON.stringify(gameBoard));
+    // Picks a random letter from the board and replaces it with a zero
     const randomIndexX = Math.floor(Math.random() * wordList.length);
     const randomIndexY = Math.floor(Math.random() * wordList.length);
     let extraLetter = gameBoard[randomIndexY][randomIndexX];
     gameBoard[randomIndexX][randomIndexY] = "0";
+    // Convolve the board to muddle the letters
     gameBoard = convolveBoard(gameBoard);
     return {extraLetter, gameBoard, hints: solution};
 }
@@ -31,6 +36,7 @@ export const checkSlidable = (x: number, y: number, gameBoard: string[][]) : Dir
     return Direction.FALSE;
 }
 
+// switchZero function switches the zero tile with the tile at the given position
 export const switchZero = (x: number, y: number, gameBoard: string[][]) : string[][] => {
     const zero = findZero(gameBoard);
     if (zero === undefined) return gameBoard;
@@ -54,11 +60,13 @@ export const findZero = (gameBoard : string[][]) : {x: number, y: number} => {
     return {x: -1, y: -1};
 }
 
+// returnZeroPos function returns the position of the zero tile in pixels
 export const returnZeroPos = (gameBoard: string[][], spaceSize: number) => {
     const currentZeroPos = findZero(gameBoard);
     return { x: currentZeroPos.x * spaceSize, y: currentZeroPos.y * spaceSize };
 }
 
+// checkWords function checks the words on the board and returns an array of correct words and a boolean array of the valid words
 export const checkWords = (gameBoard: string[][]): {correctWords: {word: string, definition: string}[], newValidArray: boolean[]} => {
     const size = gameBoard.length;
     let newValidArray = [];
@@ -75,10 +83,12 @@ export const checkWords = (gameBoard: string[][]): {correctWords: {word: string,
     return {correctWords, newValidArray};
 }
     
+// checkWord function checks if a word is valid and returns the definition
 export const checkWord = (word: string): string => {
     return (definitions as Definitions)[word];
 }
 
+// getFinalWord function returns the final word and the position of the zero tile
 export const getFinalWord = (gameBoard: string[][], extraLetter : string): {word: string, zeroY: number} => {
     const zeroPos = findZero(gameBoard);
     const wordArray = [...gameBoard[zeroPos.y]];
@@ -92,6 +102,7 @@ export const getFinalWord = (gameBoard: string[][], extraLetter : string): {word
     return {word, zeroY: zeroPos.y};
 }
 
+// removeZero function removes the zero tile and replaces it with the extra letter
 export const removeZero = (gameBoard: string[][], extraLetter: string): string[][] => {
     const zeroPos = findZero(gameBoard);
     const tempBoard = [...gameBoard];
@@ -99,6 +110,7 @@ export const removeZero = (gameBoard: string[][], extraLetter: string): string[]
     return tempBoard;
 }
 
+// convolveBoard function convolves the board to muddle the letters
 const convolveBoard = (gameBoard: string[][]): string[][] => {
     const size = gameBoard.length;
     for (let i = 0; i < 100; i++) {
@@ -116,6 +128,7 @@ const convolveBoard = (gameBoard: string[][]): string[][] => {
     return gameBoard;
 }
 
+// returnValidWords function returns an array of valid words of a given length
 export const returnValidWords = (wordLength : number) => {
     const keys : string[] = Object.keys(definitions) as string[];
     let validWords : string[] = [];

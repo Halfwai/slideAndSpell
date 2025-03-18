@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import { render, waitFor } from '@testing-library/react-native';
 
 import LeaderBoard from '@/app/leaderboard';
 
@@ -12,9 +12,24 @@ afterEach(() => {
     jest.useRealTimers();
 });
 
-it(`LeaderBoard Component renders correctly`, () => {
+jest.mock('@/utils/supabaseFunctions', () => ({
+    getLeaderboard: jest.fn(() =>
+        Promise.resolve([
+            {
+                slides: 1,
+                time_seconds: 1,
+                display_name: 'test1',
+                solution: [["a", "b", "c"], ["d", "e", "f"], ["g", "h", "i"]],
+            },
+        ])
+    ),
+}));
+
+it(`LeaderBoard Component renders correctly`, async() => {
     const { toJSON } = render(
         <LeaderBoard/>
     );
-    expect(toJSON()).toMatchSnapshot();
+    await waitFor(() => {
+        expect(toJSON()).toMatchSnapshot();
+    });
 });
