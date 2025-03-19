@@ -23,7 +23,7 @@ There are two ways for you to run this project
    ```
 ### Run using Expo Application Services
 
-Install the Expo application on your mobile device and then navigate to this link: https://expo.dev/preview/update?message=Submission%20update&updateRuntimeVersion=1.0.0&createdAt=2025-03-18T13%3A39%3A32.742Z&slug=exp&projectId=ad617efa-d78f-4b05-8cf9-4c8cd4e9ead8&group=e53196a2-de1d-4b50-94ce-9ec2ad40a57a
+Install the Expo Go application on your mobile device and then navigate to this link: https://expo.dev/preview/update?message=Submission%20update&updateRuntimeVersion=1.0.0&createdAt=2025-03-18T13%3A39%3A32.742Z&slug=exp&projectId=ad617efa-d78f-4b05-8cf9-4c8cd4e9ead8&group=e53196a2-de1d-4b50-94ce-9ec2ad40a57a
 
 
 
