@@ -16,11 +16,9 @@ export const generateGameBoard = (size: number): { extraLetter: string, gameBoar
     // Create a copy of the game board to use as hints
     const solution = JSON.parse(JSON.stringify(gameBoard));
     // Picks a random letter from the board and replaces it with a zero
-    console.log(size);
     const randomIndexX = Math.floor(Math.random() * size);
     const randomIndexY = Math.floor(Math.random() * size);
-    console.log(randomIndexX, randomIndexY);
-    let extraLetter = gameBoard[randomIndexY][randomIndexX];
+    let extraLetter = gameBoard[randomIndexX][randomIndexY];
     gameBoard[randomIndexX][randomIndexY] = "0";
     // Convolve the board to muddle the letters
     gameBoard = convolveBoard(gameBoard);

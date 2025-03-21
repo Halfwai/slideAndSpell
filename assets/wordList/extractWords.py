@@ -1,4 +1,3 @@
-# This script extracts and formats words from two English dictionaries in JSON format. The output is a JSON file with words as keys and definitions as values. 
 import json
 import time
 
@@ -35,16 +34,29 @@ def extract_words_from_json(json_file):
                         newKey = newKey.replace(",", "")
                         definition = data[newKey]
                     except:
-                        definition = get_online_definition(key)
+                        # definition = get_online_definition(key)
+                        definition = False
                 if definition:          
                     words[key.lower()] = definition
                     continue
     return words
 
+def extract_words_from_wordNet(json_file):
+    with open(json_file, 'r') as f:
+        data = json.load(f)
+    words = {}
+    for key in data['synset']:
+        for word in data['synset'][key]['word']:
+            if len(word) > 2 and len(word) < 7:
+                if "a" not in word and "e" not in word and "i" not in word and "o" not in word and "u" not in word and "y" not in word:
+                    continue
+                
+                words[word.lower()] = data['synset'][key]['gloss'].capitalize()
+    return words
+
 def get_online_definition(word):
     try:
         data = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
-        # sleep to avoid rate limiting
         time.sleep(0.5)
         json_data = data.json()
         print(json_data)
@@ -70,10 +82,15 @@ def save_dict_to_file(d, filename):
     with open (filename, 'w') as f:
         f.write(json.dumps(d))
 
-# The source of this word list is https://github.com/nightblade9/simple-english-dictionary 
-wordsOne = extract_keys_from_merged_words('merged.json')
-# The source of this word list is https://gitlab.com/infinitysearch/english-dictionary-json
-wordsTwo = extract_words_from_json('simple_and_online.json')
+# https://github.com/fluhus/wordnet-to-json?tab=readme-ov-file
+wordsOne = extract_words_from_wordNet('wordnet.json')
+# https://github.com/nightblade9/simple-english-dictionary 
+wordsTwo = extract_keys_from_merged_words('merged.json')
+# https://gitlab.com/infinitysearch/english-dictionary-json
+wordsThree = extract_words_from_json('simple_and_online.json')
+
+
 combined = combine_dicts(wordsOne, wordsTwo)
+combined = combine_dicts(combined, wordsThree)
 
 save_dict_to_file(combined, 'combined.json')
