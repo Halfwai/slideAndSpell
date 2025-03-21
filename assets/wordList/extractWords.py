@@ -44,6 +44,7 @@ def extract_words_from_json(json_file):
 def get_online_definition(word):
     try:
         data = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
+        # sleep to avoid rate limiting
         time.sleep(0.5)
         json_data = data.json()
         print(json_data)
