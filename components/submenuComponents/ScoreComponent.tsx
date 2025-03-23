@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
 
 // Import COLOURS
 import { COLOURS } from '@/constants/colours';
+import { SIZES } from '@/constants/sizes';
 
 // Setup props
 interface ScoreComponentProps {
@@ -17,7 +18,7 @@ export default function ScoreComponents(props: ScoreComponentProps) {
     // Setup animation values
     const timeXPos = useRef(new Animated.Value(-Dimensions.get('window').width)).current;
     const slidesXPos = useRef(new Animated.Value(Dimensions.get('window').width)).current;
-    const slideYPos = useRef(new Animated.Value(200)).current;
+    const slideYPos = useRef(new Animated.Value(SIZES.GAMEBOARD / 1.5)).current;
     // Setup ref for incrementTime
     const incrementTimeRef = useRef(props.incrementTime);
 

@@ -97,6 +97,7 @@ export default function Hints(props: HintsProps) {
                         icon="lightbulb-on-outline"
                         onPress={() => {
                             slideHintBoard()
+                            console.log("showHints", showHints)
                         }}
                         iconType="material"
                         colour={showHints ? COLOURS.green : undefined}

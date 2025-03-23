@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { TouchableOpacity, StyleSheet, View, TextInput, Modal } from "react-native"
+import { RFPercentage } from "react-native-responsive-fontsize"
 
 // Import COLOURS
 import { COLOURS } from '@/constants/colours'
@@ -71,7 +72,7 @@ export default function SignUp(props: SignUpProps) {
                     setShowPrivacyPolicy(true)
                 }
                 }>
-                <MyAppText>
+                <MyAppText style={styles.text}>
                     By Signing up you agree to our <MyAppText
                         style={styles.privacyPolicyText}
                     >Privacy Policy</MyAppText>
@@ -120,12 +121,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     title: {
-        fontSize: 30,
+        fontSize: RFPercentage(4),
     },
     privacyPolicy: {
         height: 40,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    text: {
+        fontSize: RFPercentage(2),
     },
     privacyPolicyText: {
         textDecorationLine: 'underline',
@@ -137,7 +141,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: 'white',
         padding: 10,
-        fontSize: 20,
-        height: 50,
+        fontSize: RFPercentage(2.5),
     },
 })

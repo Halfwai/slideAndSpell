@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, Dimensions, Animated, View } from "react-native";
 
+import { SIZES } from "@/constants/sizes";
+
 // Import gameBoardFunctions
 import { checkSlidable, checkWords, checkWord, findZero, getFinalWord, removeZero, returnZeroPos, switchZero } from "@/utils/gameBoardFunctions";
 
@@ -25,7 +27,9 @@ interface GameBoardProps {
 export default function GameBoard(props: GameBoardProps) {
     // Calculate the size of the board and tiles
     const size = props.gameBoard.length;
-    const spaceSize = ((Dimensions.get("window").width * 0.85) - 2) / size;
+    const spaceSize = (SIZES.GAMEBOARD - 2) / size;
+
+
     const tileSize = spaceSize - 4;
 
     // Setup the state variables
@@ -191,8 +195,8 @@ export default function GameBoard(props: GameBoardProps) {
 // Define the styles
 const styles = () => StyleSheet.create({
     mainBoard: {
-        width: (Dimensions.get("screen").width * 0.85),
-        height: (Dimensions.get("screen").width * 0.85),
+        width: SIZES.GAMEBOARD,
+        height: SIZES.GAMEBOARD,
         flexDirection: 'row',
         borderWidth: 2,
         borderRadius: 10,

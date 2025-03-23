@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import * as Haptics from 'expo-haptics';
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 // Import context
 import { UserContext } from '@/utils/context';
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
         width: '90%',
     },
     buttonText: {
-        fontSize: 20,
+        fontSize: RFPercentage(3),
         color: 'black',
         fontWeight: 'bold',
     },

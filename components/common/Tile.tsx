@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 // Setup props
 interface TileProps {
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: 'center',
-        fontSize: 24,
+        fontSize: RFPercentage(3.8),
         fontFamily: 'Postino_std',
     }
 });

@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { useRouter } from 'expo-router';
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 // Import COLOURS
 import { COLOURS } from '@/constants/colours'
@@ -42,12 +43,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     title: {
-        fontSize: 30,
+        fontSize: RFPercentage(4),
         color: 'black',
         fontWeight: 'bold',
     },
     welcomeText: {
-        fontSize: 15,
+        fontSize: RFPercentage(2.2),
         color: 'black',
         marginBottom: 20,
         fontWeight: 'bold',
@@ -67,13 +68,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         width: '90%',
     },
-    buttonText: {
-        fontSize: 20,
-        color: 'black',
-        fontWeight: 'bold',
-    },
+
     endlessContainer: {
-        height: "60%",
+        height: "50%",
         width: "100%",
         alignItems: 'center',
         justifyContent: 'flex-end',

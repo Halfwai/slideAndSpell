@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { StyleSheet, TextInput, View } from "react-native"
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 // Import COLOURS
 import { COLOURS } from '@/constants/colours'
@@ -78,7 +79,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     title: {
-        fontSize: 30,
+        fontSize: RFPercentage(4),
+        fontWeight: 'bold',
+        marginBottom: 20,
     },
     input: {
         width: '90%',
@@ -87,7 +90,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: 'white',
         padding: 10,
-        fontSize: 20,
-        height: 50,
+        fontSize: RFPercentage(2.5),
     }
 })
