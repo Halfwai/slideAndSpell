@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Animated, Dimensions } from 'react-native';
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 // Import COLOURS
 import { COLOURS } from '@/constants/colours';
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
         borderColor: 'white',
     },
     itemText: {
-        fontSize: 20,
+        fontSize: RFPercentage(2.5),
         color: 'black',
         textAlign: 'center'
     }
