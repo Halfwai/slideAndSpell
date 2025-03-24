@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Stack } from "expo-router";
-import { Alert, StatusBar, View } from "react-native";
+import { Alert, StatusBar, View, SafeAreaView } from "react-native";
 import { supabase } from "@/lib/supabase";
 import { Session } from '@supabase/supabase-js'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -146,7 +146,7 @@ export default function RootLayout() {
                 backgroundColor={COLOURS.blue}
             />
             <UserContext.Provider value={contextInput}>
-                <View style={{ flex: 1, backgroundColor: COLOURS.blue }}>
+                <SafeAreaView style={{ flex: 1, backgroundColor: COLOURS.blue }}>
                     <Stack
                         screenOptions={{
                             // Hide the header for all other routes.
@@ -154,7 +154,7 @@ export default function RootLayout() {
                             animation: 'slide_from_right',
                         }}
                     />
-                </View>
+                </SafeAreaView>
             </UserContext.Provider>
         </>
     );

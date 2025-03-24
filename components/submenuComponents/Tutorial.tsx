@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Import COLOURS
 import { COLOURS } from "@/constants/colours";
+import { SIZES } from '@/constants/sizes';
 
 // Import Components
 import GameBoard from "@/components/gameComponents/GameBoard";
@@ -19,8 +20,8 @@ export default function Tutorial(props: TutorialProps) {
     // Calculate the width of the screen
     const width = Dimensions.get("window").width;
     // Setup state for the pointer
-    const [pointerStartPos, setPointerStartPos] = useState({ x: (width * 0.85) / 3, y: 0 });
-    const [pointerEndPos, setPointerEndPos] = useState({ x: (width * 0.85) / 3, y: -((width * 0.85) / 3) });
+    const [pointerStartPos, setPointerStartPos] = useState({ x: SIZES.GAMEBOARD / 3, y: 0 });
+    const [pointerEndPos, setPointerEndPos] = useState({ x: SIZES.GAMEBOARD / 3, y: -(SIZES.GAMEBOARD / 3) });
     const [instructions, setInstructions] = useState<string>("Slide the tiles to form words");
     const [showPointer, setShowPointer] = useState(true);
     const pointerPosition = useRef(new Animated.ValueXY({ x: pointerStartPos.x, y: pointerStartPos.y })).current;
@@ -139,7 +140,7 @@ export default function Tutorial(props: TutorialProps) {
             }
             <View style={styles.pointerContainer}>
                 {showPointer &&
-                    <Animated.View style={[styles.pointer, { transform: [{ translateX: pointerPosition.x }, { translateY: pointerPosition.y }], opacity: pointerOpacity }]}>
+                    <Animated.View style={[styles.pointer, { transform: [{ translateX: pointerPosition.x }, { translateY: pointerPosition.y }], opacity: pointerOpacity }]} pointerEvents="none">
                         <MaterialCommunityIcons name="cursor-pointer" size={40} color="#555" />
                     </Animated.View>
                 }

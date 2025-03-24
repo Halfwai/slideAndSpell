@@ -1,5 +1,5 @@
-import React, { useRef, useMemo, useContext } from 'react';
-import { View, StyleSheet, Animated, PanResponder, Platform } from 'react-native';
+import React, { useRef, useMemo, useContext, useEffect } from 'react';
+import { View, StyleSheet, Animated, PanResponder, Platform, Dimensions } from 'react-native';
 import * as Haptics from 'expo-haptics';
 
 // Import context
@@ -22,7 +22,7 @@ interface ExtraTileProps {
 
 export default function ExtraTile(props: ExtraTileProps) {
     // Define the tile position
-    const tilePosition = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
+    const tilePosition = useRef(new Animated.ValueXY({ x: 0, y: -Dimensions.get("screen").height })).current;
     // Calculate the offset for the tile
     const yOffset = props.spaceSize * ((props.boardSize / 2) + 1);
     const xOffset = props.spaceSize * ((props.boardSize - 1) / 2);
@@ -35,6 +35,10 @@ export default function ExtraTile(props: ExtraTileProps) {
     function returnDistanceToZero(x: number, y: number) {
         return Math.sqrt(Math.pow(x - props.zeroPos.x, 2) + Math.pow(y - props.zeroPos.y, 2));
     }
+
+    useEffect(() => {
+        moveTile(0, 0);
+    });
 
     // Define the panResponder
     const panResponder = useMemo(
@@ -62,8 +66,6 @@ export default function ExtraTile(props: ExtraTileProps) {
                 } else {
                     props.setEmptySquareColour(0);
                 }
-
-
             },
             // Move the tile to the empty space when the user releases it and it completes the last word
             onPanResponderRelease: (e, gestureState) => {
