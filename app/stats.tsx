@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     },
     heading: {
         fontSize: 40,
+        textAlign: 'center',
     },
     statBoxContainer: {
         flex: 1,

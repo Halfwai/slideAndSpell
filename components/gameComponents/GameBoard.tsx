@@ -28,8 +28,6 @@ export default function GameBoard(props: GameBoardProps) {
     // Calculate the size of the board and tiles
     const size = props.gameBoard.length;
     const spaceSize = (SIZES.GAMEBOARD - 2) / size;
-
-
     const tileSize = spaceSize - 4;
 
     // Setup the state variables

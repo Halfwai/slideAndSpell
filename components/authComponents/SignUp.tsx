@@ -41,6 +41,7 @@ export default function SignUp(props: SignUpProps) {
                     autoComplete="email"
                     autoCorrect={false}
                     inputMode="email"
+                    placeholderTextColor={"black"}
                 />
                 <TextInput
                     placeholder="Display Name"
@@ -48,6 +49,7 @@ export default function SignUp(props: SignUpProps) {
                     value={displayName}
                     onChangeText={setDisplayName}
                     autoCorrect={false}
+                    placeholderTextColor={"black"}
                 />
                 <TextInput
                     placeholder="Password"
@@ -56,6 +58,7 @@ export default function SignUp(props: SignUpProps) {
                     onChangeText={setPassword}
                     autoCorrect={false}
                     secureTextEntry={true}
+                    placeholderTextColor={"black"}
                 />
                 <TextInput
                     placeholder="Confirm Password"
@@ -64,6 +67,7 @@ export default function SignUp(props: SignUpProps) {
                     onChangeText={setPasswordConfirm}
                     autoCorrect={false}
                     secureTextEntry={true}
+                    placeholderTextColor={"black"}
                 />
             </View>
             <TouchableOpacity
@@ -142,5 +146,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         padding: 10,
         fontSize: RFPercentage(2.5),
+        color: 'black',
     },
 })

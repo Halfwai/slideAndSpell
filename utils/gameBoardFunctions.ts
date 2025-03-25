@@ -113,7 +113,8 @@ export const removeZero = (gameBoard: string[][], extraLetter: string): string[]
 // convolveBoard function convolves the board to muddle the letters
 const convolveBoard = (gameBoard: string[][]): string[][] => {
     const size = gameBoard.length;
-    for (let i = 0; i < 100; i++) {
+    const convolveNumber = size * size * size;
+    for (let i = 0; i < convolveNumber; i++) {
         let x = Math.floor(Math.random() * size);
         let y = Math.floor(Math.random() * size);
         while (checkSlidable(x, y, gameBoard) === Direction.FALSE) {

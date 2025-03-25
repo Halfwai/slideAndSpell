@@ -28,7 +28,7 @@ exports[`ScoreComponent Component renders correctly 1`] = `
             "translateX": -750,
           },
           {
-            "translateY": 200,
+            "translateY": 400.20000000000005,
           },
         ],
         "width": 375,
@@ -39,7 +39,7 @@ exports[`ScoreComponent Component renders correctly 1`] = `
       style={
         {
           "color": "black",
-          "fontSize": 20,
+          "fontSize": 33,
           "textAlign": "center",
         }
       }
@@ -50,7 +50,7 @@ exports[`ScoreComponent Component renders correctly 1`] = `
       style={
         {
           "color": "black",
-          "fontSize": 20,
+          "fontSize": 33,
           "textAlign": "center",
         }
       }
@@ -75,7 +75,7 @@ exports[`ScoreComponent Component renders correctly 1`] = `
             "translateX": 750,
           },
           {
-            "translateY": 200,
+            "translateY": 400.20000000000005,
           },
         ],
         "width": 375,
@@ -86,7 +86,7 @@ exports[`ScoreComponent Component renders correctly 1`] = `
       style={
         {
           "color": "black",
-          "fontSize": 20,
+          "fontSize": 33,
           "textAlign": "center",
         }
       }
@@ -97,7 +97,7 @@ exports[`ScoreComponent Component renders correctly 1`] = `
       style={
         {
           "color": "black",
-          "fontSize": 20,
+          "fontSize": 33,
           "textAlign": "center",
         }
       }

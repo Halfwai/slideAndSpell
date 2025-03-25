@@ -17,7 +17,7 @@ exports[`SignUp Component renders correctly 1`] = `
           "fontFamily": "Quicksand",
         },
         {
-          "fontSize": 30,
+          "fontSize": 53,
         },
       ]
     }
@@ -38,13 +38,14 @@ exports[`SignUp Component renders correctly 1`] = `
       inputMode="email"
       onChangeText={[Function]}
       placeholder="Email"
+      placeholderTextColor="black"
       style={
         {
           "backgroundColor": "white",
           "borderRadius": 10,
           "borderWidth": 1,
-          "fontSize": 20,
-          "height": 50,
+          "color": "black",
+          "fontSize": 33,
           "marginTop": 10,
           "padding": 10,
           "width": "90%",
@@ -56,13 +57,14 @@ exports[`SignUp Component renders correctly 1`] = `
       autoCorrect={false}
       onChangeText={[Function]}
       placeholder="Display Name"
+      placeholderTextColor="black"
       style={
         {
           "backgroundColor": "white",
           "borderRadius": 10,
           "borderWidth": 1,
-          "fontSize": 20,
-          "height": 50,
+          "color": "black",
+          "fontSize": 33,
           "marginTop": 10,
           "padding": 10,
           "width": "90%",
@@ -74,14 +76,15 @@ exports[`SignUp Component renders correctly 1`] = `
       autoCorrect={false}
       onChangeText={[Function]}
       placeholder="Password"
+      placeholderTextColor="black"
       secureTextEntry={true}
       style={
         {
           "backgroundColor": "white",
           "borderRadius": 10,
           "borderWidth": 1,
-          "fontSize": 20,
-          "height": 50,
+          "color": "black",
+          "fontSize": 33,
           "marginTop": 10,
           "padding": 10,
           "width": "90%",
@@ -93,14 +96,15 @@ exports[`SignUp Component renders correctly 1`] = `
       autoCorrect={false}
       onChangeText={[Function]}
       placeholder="Confirm Password"
+      placeholderTextColor="black"
       secureTextEntry={true}
       style={
         {
           "backgroundColor": "white",
           "borderRadius": 10,
           "borderWidth": 1,
-          "fontSize": 20,
-          "height": 50,
+          "color": "black",
+          "fontSize": 33,
           "marginTop": 10,
           "padding": 10,
           "width": "90%",
@@ -152,7 +156,9 @@ exports[`SignUp Component renders correctly 1`] = `
           {
             "fontFamily": "Quicksand",
           },
-          undefined,
+          {
+            "fontSize": 27,
+          },
         ]
       }
     >
@@ -223,7 +229,7 @@ exports[`SignUp Component renders correctly 1`] = `
           },
           {
             "color": "black",
-            "fontSize": 20,
+            "fontSize": 40,
             "fontWeight": "bold",
           },
         ]
@@ -283,7 +289,7 @@ exports[`SignUp Component renders correctly 1`] = `
           },
           {
             "color": "black",
-            "fontSize": 20,
+            "fontSize": 40,
             "fontWeight": "bold",
           },
         ]

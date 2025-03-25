@@ -50,7 +50,7 @@ exports[`GameBoardTile Component renders correctly 1`] = `
       style={
         {
           "fontFamily": "Postino_std",
-          "fontSize": 24,
+          "fontSize": 51,
           "textAlign": "center",
         }
       }

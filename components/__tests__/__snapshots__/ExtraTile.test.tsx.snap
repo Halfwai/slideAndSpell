@@ -39,7 +39,7 @@ exports[`ExtraTile Component renders correctly 1`] = `
             "translateX": 0,
           },
           {
-            "translateY": 0,
+            "translateY": -1334,
           },
         ],
         "width": 50,
@@ -62,7 +62,7 @@ exports[`ExtraTile Component renders correctly 1`] = `
         style={
           {
             "fontFamily": "Postino_std",
-            "fontSize": 24,
+            "fontSize": 51,
             "textAlign": "center",
           }
         }

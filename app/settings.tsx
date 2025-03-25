@@ -71,6 +71,7 @@ export default function Settings() {
                     autoComplete="email"
                     autoCorrect={false}
                     inputMode="email"
+                    placeholderTextColor={"black"}
                 />
                 <MyAppText>Change Display Name</MyAppText>
                 <TextInput
@@ -81,6 +82,7 @@ export default function Settings() {
                     autoComplete="email"
                     autoCorrect={false}
                     inputMode="email"
+                    placeholderTextColor={"black"}
                 />
                 <MyAppText>Change Password</MyAppText>
                 <TextInput
@@ -91,6 +93,7 @@ export default function Settings() {
                     autoComplete="email"
                     autoCorrect={false}
                     inputMode="email"
+                    placeholderTextColor={"black"}
                 />
                 <TextInput
                     placeholder="Confirm Password"
@@ -100,6 +103,7 @@ export default function Settings() {
                     autoComplete="email"
                     autoCorrect={false}
                     inputMode="email"
+                    placeholderTextColor={"black"}
                 />
                 <AuthButton
                     text="Save Changes"

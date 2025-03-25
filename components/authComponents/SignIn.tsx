@@ -36,6 +36,7 @@ export default function SignIn(props: SignInProps) {
                     autoComplete="email"
                     autoCorrect={false}
                     inputMode="email"
+                    placeholderTextColor={"black"}
                 />
                 <TextInput
                     placeholder="Password"
@@ -44,6 +45,7 @@ export default function SignIn(props: SignInProps) {
                     onChangeText={setPassword}
                     autoCorrect={false}
                     secureTextEntry={true}
+                    placeholderTextColor={"black"}
                 />
             </View>
             <AuthButton
@@ -91,5 +93,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         padding: 10,
         fontSize: RFPercentage(2.5),
+        color: 'black',
     }
 })

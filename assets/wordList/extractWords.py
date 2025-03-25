@@ -53,7 +53,7 @@ def extract_words_from_wordNet(json_file):
                 # filter our words that are not words
                 if "a" not in word and "e" not in word and "i" not in word and "o" not in word and "u" not in word and "y" not in word:
                     continue
-                if "." in word or "-" in word:
+                if "." in word or "-" or "_" or " " in word:
                     continue   
                 # filter out names
                 if "(born )" in word:
