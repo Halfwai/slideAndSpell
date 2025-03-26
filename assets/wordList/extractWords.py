@@ -25,6 +25,8 @@ def extract_words_from_json(json_file):
         data = json.load(f)
     words = {}
     for key in data:
+        if "." in key or "-" in key or "_" in key or " " in key:
+            continue  
         if len(key) > 2 and len(key) < 7:
             # Filter out words that are not words or are archaic words
             if "[Obs.]" not in data[key] and "-" not in key and "." not in key and "suffix" not in data[key] and "prefix" not in data[key]:
@@ -37,7 +39,8 @@ def extract_words_from_json(json_file):
                         definition = data[newKey]
                     except:
                         # If the word is not in the dictionary, try to get the definition online
-                        definition = get_online_definition(key)
+                        # definition = get_online_definition(key)
+                        definition = False
                 if definition:          
                     words[key.lower()] = definition
                     continue
@@ -53,7 +56,8 @@ def extract_words_from_wordNet(json_file):
                 # filter our words that are not words
                 if "a" not in word and "e" not in word and "i" not in word and "o" not in word and "u" not in word and "y" not in word:
                     continue
-                if "." in word or "-" or "_" or " " in word:
+                # filter out words with punctuation or spaces
+                if "." in word or "-" in word or "_" in word or " " in word:
                     continue   
                 # filter out names
                 if "(born )" in word:
@@ -103,3 +107,4 @@ wordsThree = extract_words_from_json('simple_and_online.json')
 combined = combine_dicts(wordsOne, wordsTwo, wordsThree)
 
 save_dict_to_file(combined, 'combined.json')
+print("Word Extraction Complete")

@@ -10,7 +10,7 @@ import { Audio, AVPlaybackSource } from 'expo-av';
 
 import { COLOURS } from "@/constants/colours";
 
-// Sets paths for music files
+// Sets paths for music files. All tracks are royalty free from https://pixabay.com/music/
 const tracks = [
     require("@/assets/music/moonlight-sonata-classical-piano-241539.mp3"),
     require("@/assets/music/romantic-classical-loop-love-story-277144.mp3"),
